@@ -11,7 +11,7 @@ function AppHeaderLink({children, current, className, icon}) {
   }
   return (
     <button className={styles.link + ' ' + classes}>
-      <Icon type={type}/> {children}
+      <Icon type={type}/><span className='ml-2'>{children}</span>
     </button>
   );
 }
