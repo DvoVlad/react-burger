@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './app-main.module.css';
+import styles from './burger-ingredients.module.css';
 
-function BurgerIngredients(props) {
+function BurgerIngredients({ data }) {
   return (
     <section>
       <h1 className='text text_type_main-large'>Соберите бургер</h1>
