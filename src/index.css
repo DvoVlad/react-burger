@@ -33,7 +33,7 @@ code {
   font-display: swap;
   src: url("./fonts/JetBrainsMono-Regular.woff") format("woff");
 }
-
+/*
 .p-1 {
   padding: 4px;
 }
@@ -233,4 +233,4 @@ code {
 
 .mt-5 {
   margin-top: 20px;
-}
+}*/
