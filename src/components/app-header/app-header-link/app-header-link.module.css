@@ -1,12 +1,8 @@
 .link {
   border-radius: 40px;
-  color: #8585AD;
+  color: #F2F2F3;
   background-color: transparent;
   border: none;
   display: flex;
   align-items: center;
-}
-
-.active {
-  color: #F2F2F3;
 }

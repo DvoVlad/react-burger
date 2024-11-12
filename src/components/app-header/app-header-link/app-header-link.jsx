@@ -3,17 +3,17 @@ import styles from './app-header-link.module.css';
 import PropTypes from 'prop-types';
 
 function AppHeaderLink({children, current, className, icon}) {
-  let classes = className;
+  let textClass = 'ml-2';
   let type = current ? 'primary' : 'secondary';
   let Icon = icon;
 
-  if(current) {
-    classes = classes + ' ' + styles.active
+  if(!current) {
+    textClass = textClass + ' text_color_inactive';
   }
   
   return (
-    <button className={styles.link + ' ' + classes}>
-      <Icon type={type}/><span className='ml-2'>{children}</span>
+    <button className={styles.link + ' ' + className}>
+      <Icon type={type}/><span className={textClass}>{children}</span>
     </button>
   );
 }
