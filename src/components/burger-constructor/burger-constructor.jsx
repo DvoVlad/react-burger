@@ -1,11 +1,13 @@
 import React from 'react';
 import styles from './burger-constructor.module.css';
-import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
 
 function BurgerConstructor({ data }) {
   const firstBurger = data.find((item) => item.type === 'bun');
   const ingredients = data.filter((item) => item.type !== 'bun');
+  const ingredientsPrice = ingredients.reduce((acc, item) => acc + item.price, 0);
+  const total = ingredientsPrice + firstBurger.price * 2;
 
   return (
     <section className='mt-25'>
@@ -38,6 +40,12 @@ function BurgerConstructor({ data }) {
         thumbnail={firstBurger.image_mobile}
         extraClass="ml-8"
       />
+      <div className={styles.totalOrder + " mt-10"}>
+        <p className='text text_type_digits-medium mr-10'>{ total } <CurrencyIcon type="primary" /></p>
+        <Button htmlType="button" type="primary" size="large">
+          Оформить заказ
+        </Button>
+      </div>
     </section>
   );
 }
