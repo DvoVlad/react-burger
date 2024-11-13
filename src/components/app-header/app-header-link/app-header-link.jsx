@@ -19,10 +19,10 @@ function AppHeaderLink({children, current, className, icon}) {
 }
 
 AppHeaderLink.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.string.isRequired,
   current: PropTypes.bool,
   className: PropTypes.string,
-  icon: PropTypes.elementType
+  icon: PropTypes.elementType.isRequired
 }; 
 
 export default AppHeaderLink;

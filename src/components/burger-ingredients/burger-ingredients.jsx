@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
@@ -8,6 +8,20 @@ import MainItem from './main-item/main-item';
 
 function BurgerIngredients({ data }) {
   const [current, setCurrent] = useState('Булки')
+  const bunRef = useRef(null);
+  const sauceRef = useRef(null);
+  const mainRef = useRef(null);
+  useEffect(() => {
+    if(current === 'Булки'){
+      bunRef.current.scrollIntoView(true);
+    }
+    if(current === 'Соусы'){
+      sauceRef.current.scrollIntoView(true);
+    }
+    if(current === 'Начинки'){
+      mainRef.current.scrollIntoView(true);
+    }
+  }, [current]);
   const buns = data.filter((item) => item.type === 'bun');
   const sauce = data.filter((item) => item.type === 'sauce');
   const main = data.filter((item) => item.type === 'main');
@@ -27,7 +41,7 @@ function BurgerIngredients({ data }) {
         </Tab>
       </div>
       <div className={styles.ingredients}>
-        <h2 className='text text_type_main-medium'>Булки</h2>
+        <h2 ref={bunRef} className='text text_type_main-medium'>Булки</h2>
         <ul className={styles.itemList + ' pl-4 pr-2 mt-6 mb-10'}>
           {buns.map((item => (
             <li key={item._id}>
@@ -35,7 +49,7 @@ function BurgerIngredients({ data }) {
             </li>
           )))}
         </ul>
-        <h2 className='text text_type_main-medium'>Соусы</h2>
+        <h2 ref={sauceRef} className='text text_type_main-medium'>Соусы</h2>
         <ul className={styles.itemList + ' pl-4 pr-2 mt-6 mb-10'}>
           {sauce.map((item => (
             <li key={item._id}>
@@ -43,7 +57,7 @@ function BurgerIngredients({ data }) {
             </li>
           )))}
         </ul>
-        <h2 className='text text_type_main-medium'>Начинки</h2>
+        <h2 ref={mainRef} className='text text_type_main-medium'>Начинки</h2>
         <ul className={styles.itemList + ' pl-4 pr-2 mt-6'}>
           {main.map((item => (
             <li key={item._id}>
