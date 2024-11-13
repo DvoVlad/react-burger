@@ -1,0 +1,15 @@
+.ingredientsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  height: 464px;
+  overflow-y: scroll;
+}
+
+.ingredient {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
