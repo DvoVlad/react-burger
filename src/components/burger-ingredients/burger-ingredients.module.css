@@ -1,0 +1,11 @@
+.itemList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 272px 272px;
+  gap: 24px;
+}
+
+.ingredients {
+  height: 60vh;
+  overflow-y: scroll;
+}
