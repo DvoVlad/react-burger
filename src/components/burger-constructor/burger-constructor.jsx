@@ -21,7 +21,7 @@ function BurgerConstructor({ data }) {
       />
       <ul className={styles.ingredientsList + " mt-4 mb-4"}>
         {ingredients.map((item) => (
-          <li className={styles.ingredient}>
+          <li key={item._id} className={styles.ingredient}>
             <DragIcon type="primary" />
             <ConstructorElement
               text={item.name}
