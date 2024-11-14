@@ -25,21 +25,33 @@ function BurgerIngredients({ data }) {
   const buns = data.filter((item) => item.type === 'bun');
   const sauce = data.filter((item) => item.type === 'sauce');
   const main = data.filter((item) => item.type === 'main');
+  const tabs = [
+    {
+      id: 1,
+      name: 'Булки'
+    },
+    {
+      id: 2,
+      name: 'Соусы'
+    },
+    {
+      id: 3,
+      name: 'Начинки'
+    }
+  ];
 
   return (
     <section>
       <h1 className='text text_type_main-large mb-5 mt-10'>Соберите бургер</h1>
-      <div className={styles.tabs + " mb-10"}>
-        <Tab value="Булки" active={current === 'Булки'} onClick={setCurrent}>
-          Булки
-        </Tab>
-        <Tab value="Соусы" active={current === 'Соусы'} onClick={setCurrent}>
-          Соусы
-        </Tab>
-        <Tab value="Начинки" active={current === 'Начинки'} onClick={setCurrent}>
-          Начинки
-        </Tab>
-      </div>
+      <ul className={styles.tabs + " mb-10"}>
+        {tabs.map((item) => (
+          <li key={item.id}>
+            <Tab value={item.name} active={current === item.name} onClick={setCurrent}>
+              {item.name}
+            </Tab>
+          </li>
+        ))}
+      </ul>
       <div className={styles.ingredients}>
         <h2 ref={bunRef} className='text text_type_main-medium'>Булки</h2>
         <ul className={styles.itemList + ' pl-4 pr-2 mt-6 mb-10'}>
