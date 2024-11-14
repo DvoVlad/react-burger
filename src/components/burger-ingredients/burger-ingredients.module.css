@@ -6,7 +6,8 @@
 }
 
 .ingredients {
-  height: 60vh;
+  height: 716px;
+  max-height: 60vh;
   overflow-y: scroll;
 }
 

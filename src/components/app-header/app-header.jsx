@@ -5,7 +5,7 @@ import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-dev
 
 function AppHeader() {
   return (
-    <header className={styles.header}>
+    <header className={styles.header + " mt-10"}>
       <div className={styles.container + ' pt-4 pb-4'}>
         <AppHeaderLink className="pt-4 pb-4 pl-5 pr-5 text text_type_main-default" current icon={BurgerIcon}>Конструктор</AppHeaderLink>
         <AppHeaderLink className="ml-2 pt-4 pb-4 pl-5 pr-5 text text_type_main-default" icon={ListIcon}>Лента заказов</AppHeaderLink>
