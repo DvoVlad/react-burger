@@ -9,3 +9,7 @@
   height: 60vh;
   overflow-y: scroll;
 }
+
+.tabs {
+  display: flex;
+}
