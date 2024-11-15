@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import BunItem from './bun-item/bun-item';
 import SauceItem from './sauce-item/sauce-item';
 import MainItem from './main-item/main-item';
-import ingredientType from '../../utils/types';
+import { ingredientType } from '../../utils/types';
 
 function BurgerIngredients({ data }) {
   const [current, setCurrent] = useState('Булки')

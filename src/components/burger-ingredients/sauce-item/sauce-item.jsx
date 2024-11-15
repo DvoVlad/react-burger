@@ -1,7 +1,7 @@
 import React from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './sauce-item.module.css';
-import ingredientType from '../../../utils/types';
+import { ingredientType } from '../../../utils/types';
 
 function SauceItem({ item }) {
   return (
