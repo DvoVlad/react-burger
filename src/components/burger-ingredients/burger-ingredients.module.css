@@ -1,0 +1,19 @@
+.itemList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 272px 272px;
+  gap: 24px;
+}
+
+.ingredients {
+  height: 716px;
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+
+.tabs {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+}
