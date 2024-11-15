@@ -84,7 +84,7 @@ function BurgerIngredients({ data }) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
+  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired
 }
 
 export default BurgerIngredients;
