@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import BunItem from './bun-item/bun-item';
 import SauceItem from './sauce-item/sauce-item';
 import MainItem from './main-item/main-item';
+import ingredientType from '../../utils/types';
 
 function BurgerIngredients({ data }) {
   const [current, setCurrent] = useState('Булки')
@@ -82,23 +83,8 @@ function BurgerIngredients({ data }) {
   );
 }
 
-const itemsShape = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  image_large: PropTypes.string.isRequired,
-  __v: PropTypes.number.isRequired
-});
-
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(itemsShape)
+  data: PropTypes.arrayOf(ingredientType).isRequired
 }
 
 export default BurgerIngredients;
