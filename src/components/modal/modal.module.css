@@ -1,0 +1,29 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal {
+  position: fixed;
+  top: 180px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: 720px;
+  min-height: 500px;
+  background-color: rgba(28, 28, 33, 1);
+  border-radius: 40px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+  border: none;
+  background-color: transparent;
+}
