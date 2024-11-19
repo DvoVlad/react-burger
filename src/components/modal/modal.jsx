@@ -37,7 +37,7 @@ function Modal({children, onClose}) {
 }
 
 Modal.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired,
   onClose: PropTypes.func.isRequired
 }
 
