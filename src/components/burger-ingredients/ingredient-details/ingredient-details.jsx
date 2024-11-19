@@ -4,7 +4,6 @@ import styles from "./ingredient-details.module.css";
 function IngredientDetails({item}) {
   return (
     <>
-      <p className={styles.mainTitle + " text text_type_main-large mt-10 pl-10 pr-10"}>Детали ингредиента</p>
       <div className={styles.imageWrapper}>
         <img width="480" height="240" src={item.image_large} alt={item.name} />
       </div>

@@ -24,7 +24,7 @@ function SauceItem({ item }) {
       </article>
       {
         isIngredientModalOpen && 
-        <Modal onClose={closeModal}>
+        <Modal title="Детали ингредиента" onClose={closeModal}>
           <IngredientDetails item={item} />
         </Modal>
       }
