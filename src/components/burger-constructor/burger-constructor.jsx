@@ -14,7 +14,7 @@ function BurgerConstructor({ data }) {
 
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
-  const opOpenOrder = () => {
+  const onOpenOrder = () => {
     setIsOrderModalOpen(true);
   }
 
@@ -55,7 +55,7 @@ function BurgerConstructor({ data }) {
       />
       <div className={styles.totalOrder + " mt-10"}>
         <p className='text text_type_digits-medium mr-10'>{ total } <CurrencyIcon type="primary" /></p>
-        <Button htmlType="button" type="primary" size="large" onClick={opOpenOrder}>
+        <Button htmlType="button" type="primary" size="large" onClick={onOpenOrder}>
           Оформить заказ
         </Button>
       </div>
