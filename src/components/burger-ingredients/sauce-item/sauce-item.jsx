@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './sauce-item.module.css';
 import { ingredientType } from '../../../utils/types';
@@ -10,9 +10,9 @@ function SauceItem({ item }) {
     setIsIngredientModalOpen(true);
   }
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setIsIngredientModalOpen(false);
-  }
+  }, []);
   
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
@@ -18,9 +18,9 @@ function BurgerConstructor({ data }) {
     setIsOrderModalOpen(true);
   }
 
-  const onClose = () => {
+  const closeModal = useCallback(() => {
     setIsOrderModalOpen(false);
-  }
+  }, [])
 
   return (
     <section className='mt-25'>
@@ -61,7 +61,7 @@ function BurgerConstructor({ data }) {
       </div>
       {
         isOrderModalOpen && 
-        <Modal onClose={onClose}>
+        <Modal onClose={closeModal}>
           <OrderDetails orderId="034536"/>
         </Modal>
       }
