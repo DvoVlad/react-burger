@@ -20,7 +20,7 @@ function Modal({children, onClose, title}) {
     return () => {
       document.removeEventListener('keydown', onEscClose);
     }
-  });
+  }, []);
 
   return(
     createPortal(

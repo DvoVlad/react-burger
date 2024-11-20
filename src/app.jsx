@@ -13,7 +13,12 @@ function App() {
   useEffect(() => {
     fetch(ingredientsEndpoint)
     .then(
-     (res) => res.json() 
+     (res) => {
+        if(res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      } 
     )
     .then((ingredients) => {
       setData(ingredients.data)
