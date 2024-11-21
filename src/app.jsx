@@ -23,7 +23,6 @@ function App() {
       } 
     )
     .then((ingredients) => {
-      console.log("TEST");
       setData(ingredients.data)
     })
     .catch((e) => {
