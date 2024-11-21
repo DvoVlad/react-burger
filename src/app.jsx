@@ -11,7 +11,9 @@ function App() {
   const [isError, setError] = useState(false);
 
   useEffect(() => {
-    fetch(ingredientsEndpoint)
+    const controller = new AbortController();
+    const signal = controller.signal;
+    fetch(ingredientsEndpoint, { signal })
     .then(
      (res) => {
         if(res.ok) {
@@ -21,11 +23,19 @@ function App() {
       } 
     )
     .then((ingredients) => {
+      console.log("TEST");
       setData(ingredients.data)
     })
     .catch((e) => {
-      setError(true)
+      if (e.name !== 'AbortError') {
+        setError(true)
+        console.log(e);
+      }
     });
+
+    return () => {
+      controller.abort();
+    }
   }, [])
 
   return (
