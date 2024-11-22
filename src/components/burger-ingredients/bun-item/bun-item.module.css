@@ -1,0 +1,14 @@
+.item {
+  position: relative;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.name {
+  text-align: center;
+  min-height: 48px;
+}
