@@ -1,41 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import AppHeader from './components/app-header/app-header';
 import AppMain from './components/app-main/app-main';
 import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
-import { ingredientsEndpoint } from './utils/endpoints';
 import styles from './app.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchIngredients } from './services/ingredients';
 
 function App() {
-  const [data, setData] = useState([]);
-  const [isError, setError] = useState(false);
-
+  const data = useSelector((store) => store.ingredients.items);
+  const isError = useSelector((store) => store.ingredients.error);
+  const dispatch = useDispatch();
+  let isDispatched = useRef(false);
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    fetch(ingredientsEndpoint, { signal })
-    .then(
-     (res) => {
-        if(res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      } 
-    )
-    .then((ingredients) => {
-      setData(ingredients.data)
-    })
-    .catch((e) => {
-      if (e.name !== 'AbortError') {
-        setError(true)
-        console.log(e);
-      }
-    });
-
-    return () => {
-      controller.abort();
+    if(isDispatched.current) {
+      return
     }
-  }, [])
+    dispatch(fetchIngredients());
+    return () => {
+      isDispatched.current = true;
+    }
+  }, [dispatch]);
 
   return (
     <>

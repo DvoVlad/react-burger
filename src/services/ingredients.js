@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ingredientsEndpoint } from '../utils/endpoints';
 
 const initialState = {
-  items: []
+  items: [],
+  error: null
 };
 
 export const fetchIngredients = createAsyncThunk(
@@ -10,15 +11,12 @@ export const fetchIngredients = createAsyncThunk(
   async () => {
     // Здесь только логика запроса и возврата данных
     // Никакой обработки ошибок
-    const controller = new AbortController();
-    const signal = controller.signal;
     try {
-      const response = await fetch(ingredientsEndpoint, { signal });
+      const response = await fetch(ingredientsEndpoint);
       if (!response.ok) {
         throw new Error(`Ошибка: ${response.status}`);
       }
       const result = await response.json();
-      controller.abort();
       return result;
     } catch (err) {
       if (err.name !== 'AbortError') {
@@ -42,7 +40,7 @@ const ingredientsSlice = createSlice({
       })
       // Вызывается, если запрос успешно выполнился
       .addCase(fetchIngredients.fulfilled, (state, action) => {
-        state.items = action.data;
+        state.items = action.payload.data;
         state.loadingStatus = 'idle';
         state.error = null;
       })
