@@ -4,16 +4,21 @@ import styles from './main-item.module.css';
 import { ingredientType } from '../../../utils/types';
 import Modal from '../../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { useDispatch } from 'react-redux';
+import { showInModal, deleteFromModal } from '../../../services/showedIngredient';
 
 function MainItem({ item }) {
   const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
+  const dispatch = useDispatch();
   const openModal = () => {
+    dispatch(showInModal(item));
     setIsIngredientModalOpen(true);
   }
 
   const closeModal = useCallback(() => {
+    dispatch(deleteFromModal());
     setIsIngredientModalOpen(false);
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
