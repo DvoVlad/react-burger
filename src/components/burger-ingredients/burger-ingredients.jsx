@@ -12,15 +12,24 @@ function BurgerIngredients({ data }) {
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
   const mainRef = useRef(null);
+  let isScroll = useRef(false);
+  const tabRef = useRef(null)
+  const tabClick = (value) => {
+    setCurrent(value);
+    isScroll.current = true;
+  }
   useEffect(() => {
-    if(current === 'Булки'){
-      bunRef.current.scrollIntoView(true);
-    }
-    if(current === 'Соусы'){
-      sauceRef.current.scrollIntoView(true);
-    }
-    if(current === 'Начинки'){
-      mainRef.current.scrollIntoView(true);
+    if(isScroll.current) {
+      if(current === 'Булки'){
+        bunRef.current.scrollIntoView(true);
+      }
+      if(current === 'Соусы'){
+        sauceRef.current.scrollIntoView(true);
+      }
+      if(current === 'Начинки'){
+        mainRef.current.scrollIntoView(true);
+      }
+      isScroll.current = false;
     }
   }, [current]);
   const buns = data.filter((item) => item.type === 'bun');
@@ -41,19 +50,35 @@ function BurgerIngredients({ data }) {
     }
   ];
 
+  const onScroll = () => {
+    const bunY = Math.abs(bunRef.current.getBoundingClientRect().y - tabRef.current.getBoundingClientRect().y);
+    const sauceY = Math.abs(sauceRef.current.getBoundingClientRect().y - tabRef.current.getBoundingClientRect().y);
+    const mainY = Math.abs(mainRef.current.getBoundingClientRect().y - tabRef.current.getBoundingClientRect().y);
+    console.log(bunY, sauceY, mainY);
+    if(bunY < sauceY && bunY < mainY) {
+      setCurrent('Булки');
+    } 
+    if(sauceY < bunY && sauceY < mainY) {
+      setCurrent('Соусы');
+    }
+    if(mainY < bunY && mainY < sauceY) {
+      setCurrent('Начинки');
+    }
+  }
+
   return (
     <section>
       <h1 className='text text_type_main-large mb-5 mt-10'>Соберите бургер</h1>
-      <ul className={styles.tabs + " mb-10"}>
+      <ul className={styles.tabs + " mb-10"} ref={tabRef}>
         {tabs.map((item) => (
           <li key={item.id}>
-            <Tab value={item.name} active={current === item.name} onClick={setCurrent}>
+            <Tab value={item.name} active={current === item.name} onClick={tabClick}>
               {item.name}
             </Tab>
           </li>
         ))}
       </ul>
-      <div className={styles.ingredients}>
+      <div className={styles.ingredients} onScroll={onScroll}>
         <h2 ref={bunRef} className='text text_type_main-medium'>Булки</h2>
         <ul className={styles.itemList + ' pl-4 pr-2 mt-6 mb-10'}>
           {buns.map((item => (
