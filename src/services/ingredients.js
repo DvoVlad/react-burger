@@ -7,22 +7,16 @@ const initialState = {
 };
 
 export const fetchIngredients = createAsyncThunk(
-  'ingredients/getIngedients', // Id отображается в dev tools и должен быть уникальный у каждого thunk
+  'ingredients/getIngedients',
   async () => {
     // Здесь только логика запроса и возврата данных
     // Никакой обработки ошибок
-    try {
-      const response = await fetch(ingredientsEndpoint);
-      if (!response.ok) {
-        throw new Error(`Ошибка: ${response.status}`);
-      }
-      const result = await response.json();
-      return result;
-    } catch (err) {
-      if (err.name !== 'AbortError') {
-        console.log(err)
-      }
+    const response = await fetch(ingredientsEndpoint);
+    if (!response.ok) {
+      throw new Error(`Ошибка: ${response.status}`);
     }
+    const result = await response.json();
+    return result;
   }
 );
 
