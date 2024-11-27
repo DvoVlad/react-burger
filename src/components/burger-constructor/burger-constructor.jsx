@@ -3,9 +3,35 @@ import styles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from './order-details/order-details';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import { addBun } from '../../services/ingredients-constructor';
 
 function BurgerConstructor() {
+  const dispatch = useDispatch();
+  const [{ isOverTop }, dropBunTop] = useDrop(
+    () => ({
+      accept: 'bun',
+      drop: (item) => {
+        dispatch(addBun(item));
+      },
+      collect: (monitor) => ({
+        isOverTop: monitor.isOver(),
+      })
+    })
+  )
+  const [{ isOverBottom }, dropBunBottom] = useDrop(
+    () => ({
+      accept: 'bun',
+      drop: (item) => {
+        dispatch(addBun(item));
+      },
+      collect: (monitor) => ({
+        isOverBottom: monitor.isOver(),
+      })
+    })
+  )
+
   const burger = useSelector((store) => store.ingredientsConstructor.bun);
   const ingredients = useSelector((store) => store.ingredientsConstructor.items);
   const ingredientsPrice = ingredients.reduce((acc, item) => acc + item.price, 0);
@@ -23,15 +49,18 @@ function BurgerConstructor() {
 
   return (
     <section className='mt-25'>
-      {burger ? <ConstructorElement
-        type="top"
-        isLocked={true}
-        text={burger.name + " (верх)"}
-        price={burger.price}
-        thumbnail={burger.image_mobile}
-        extraClass="ml-8"
-      /> :
-      <div className={`${styles.burgerDragField} constructor-element constructor-element_pos_top`}>
+      {burger ? 
+      <div ref={dropBunTop}>
+        <ConstructorElement
+          type="top"
+          isLocked={true}
+          text={burger.name + " (верх)"}
+          price={burger.price}
+          thumbnail={burger.image_mobile}
+          extraClass={`ml-8 ${isOverTop ? styles.burgerDragFieldOver : ''}`}
+        />
+      </div> :
+      <div className={`${styles.burgerDragField} constructor-element constructor-element_pos_top ${isOverTop ? styles.burgerDragFieldOver : ''}`} ref={dropBunTop}>
         Перетащите бургер сюда
       </div>
       }
@@ -48,15 +77,18 @@ function BurgerConstructor() {
           </li>
         ))}
       </ul>
-      {burger ? <ConstructorElement
-        type="bottom"
-        isLocked={true}
-        text={burger.name + " (низ)"}
-        price={burger.price}
-        thumbnail={burger.image_mobile}
-        extraClass="ml-8"
-      /> :
-      <div className={`${styles.burgerDragField} constructor-element constructor-element_pos_bottom`}>
+      {burger ? 
+      <div ref={dropBunBottom}>
+        <ConstructorElement
+          type="bottom"
+          isLocked={true}
+          text={burger.name + " (низ)"}
+          price={burger.price}
+          thumbnail={burger.image_mobile}
+          extraClass={`ml-8 ${isOverBottom ? styles.burgerDragFieldOver : ''}`}
+        />
+      </div> :
+      <div className={`${styles.burgerDragField} constructor-element constructor-element_pos_bottom ${isOverBottom ? styles.burgerDragFieldOver : ''}`} ref={dropBunBottom}>
         Перетащите бургер сюда
       </div> 
       }

@@ -6,6 +6,8 @@ import BurgerConstructor from './components/burger-constructor/burger-constructo
 import styles from './app.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchIngredients } from './services/ingredients';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App() {
   const data = useSelector((store) => store.ingredients.items);
@@ -26,10 +28,10 @@ function App() {
     <>
       <AppHeader />
       <AppMain>
-        {data.length > 0 && !isError && <>
+        {data.length > 0 && !isError && <DndProvider backend={HTML5Backend}>
           <BurgerIngredients data={data}/>
           <BurgerConstructor/>
-        </>}
+        </DndProvider>}
         {
           isError && <div className={styles.error + " text text_type_main-default mt-5"}>Случилась ошибка получения данных! Перезагрузите сайт!</div>
         }

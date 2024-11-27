@@ -9,7 +9,13 @@ const ingredientsConstructorSlice = createSlice({
   name: 'ingredientsConstructor',
   initialState,
   // Редьюсеры в слайсах меняют состояние и ничего не возвращают
-  reducers: {}
+  reducers: {
+    addBun: (state, action) => {
+      state.bun = action.payload;
+    }
+  }
 });
+
+export const { addBun } = ingredientsConstructorSlice.actions;
 
 export default ingredientsConstructorSlice.reducer;
