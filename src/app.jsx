@@ -28,7 +28,7 @@ function App() {
       <AppMain>
         {data.length > 0 && !isError && <>
           <BurgerIngredients data={data}/>
-          <BurgerConstructor data={data}/>
+          <BurgerConstructor/>
         </>}
         {
           isError && <div className={styles.error + " text text_type_main-default mt-5"}>Случилась ошибка получения данных! Перезагрузите сайт!</div>

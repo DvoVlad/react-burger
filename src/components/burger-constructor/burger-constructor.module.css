@@ -21,3 +21,13 @@
   align-items: center;
   justify-content: end;
 }
+
+.burgerDragField {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.burgerDragFieldOver {
+  border: 1px solid green;
+}

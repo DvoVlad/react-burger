@@ -54,7 +54,6 @@ function BurgerIngredients({ data }) {
     const bunY = Math.abs(bunRef.current.getBoundingClientRect().y - tabRef.current.getBoundingClientRect().y);
     const sauceY = Math.abs(sauceRef.current.getBoundingClientRect().y - tabRef.current.getBoundingClientRect().y);
     const mainY = Math.abs(mainRef.current.getBoundingClientRect().y - tabRef.current.getBoundingClientRect().y);
-    console.log(bunY, sauceY, mainY);
     if(bunY < sauceY && bunY < mainY) {
       setCurrent('Булки');
     } 

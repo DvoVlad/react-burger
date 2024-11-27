@@ -1,16 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import styles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types';
-import { ingredientType } from '../../utils/types';
 import Modal from '../modal/modal';
 import OrderDetails from './order-details/order-details';
+import { useSelector } from 'react-redux';
 
-function BurgerConstructor({ data }) {
-  const firstBurger = data.find((item) => item.type === 'bun');
-  const ingredients = data.filter((item) => item.type !== 'bun');
+function BurgerConstructor() {
+  const burger = useSelector((store) => store.ingredientsConstructor.bun);
+  const ingredients = useSelector((store) => store.ingredientsConstructor.items);
   const ingredientsPrice = ingredients.reduce((acc, item) => acc + item.price, 0);
-  const total = ingredientsPrice + firstBurger.price * 2;
+  const total = ingredientsPrice + (burger === null ? 0 : burger.price) * 2;
 
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
@@ -24,14 +23,18 @@ function BurgerConstructor({ data }) {
 
   return (
     <section className='mt-25'>
-      <ConstructorElement
+      {burger ? <ConstructorElement
         type="top"
         isLocked={true}
-        text={firstBurger.name + " (верх)"}
-        price={firstBurger.price}
-        thumbnail={firstBurger.image_mobile}
+        text={burger.name + " (верх)"}
+        price={burger.price}
+        thumbnail={burger.image_mobile}
         extraClass="ml-8"
-      />
+      /> :
+      <div className={`${styles.burgerDragField} constructor-element constructor-element_pos_top`}>
+        Перетащите бургер сюда
+      </div>
+      }
       <ul className={styles.ingredientsList + " mt-4 mb-4"}>
         {ingredients.map((item) => (
           <li key={item._id} className={styles.ingredient}>
@@ -45,14 +48,18 @@ function BurgerConstructor({ data }) {
           </li>
         ))}
       </ul>
-      <ConstructorElement
+      {burger ? <ConstructorElement
         type="bottom"
         isLocked={true}
-        text={firstBurger.name + " (низ)"}
-        price={firstBurger.price}
-        thumbnail={firstBurger.image_mobile}
+        text={burger.name + " (низ)"}
+        price={burger.price}
+        thumbnail={burger.image_mobile}
         extraClass="ml-8"
-      />
+      /> :
+      <div className={`${styles.burgerDragField} constructor-element constructor-element_pos_bottom`}>
+        Перетащите бургер сюда
+      </div> 
+      }
       <div className={styles.totalOrder + " mt-10"}>
         <p className='text text_type_digits-medium mr-10'>{ total } <CurrencyIcon type="primary" /></p>
         <Button htmlType="button" type="primary" size="large" onClick={onOpenOrder}>
@@ -67,10 +74,6 @@ function BurgerConstructor({ data }) {
       }
     </section>
   );
-}
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired
 }
 
 export default BurgerConstructor;
