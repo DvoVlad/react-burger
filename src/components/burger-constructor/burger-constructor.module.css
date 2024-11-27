@@ -9,12 +9,6 @@
   overflow-y: scroll;
 }
 
-.ingredient {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
 .totalOrder {
   display: flex;
   flex-wrap: wrap;
