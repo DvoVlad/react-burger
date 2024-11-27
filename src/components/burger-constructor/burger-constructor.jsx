@@ -60,11 +60,18 @@ function BurgerConstructor() {
           extraClass={`ml-8 ${isOverTop ? styles.burgerDragFieldOver : ''}`}
         />
       </div> :
-      <div className={`${styles.burgerDragField} constructor-element constructor-element_pos_top ${isOverTop ? styles.burgerDragFieldOver : ''}`} ref={dropBunTop}>
+      <div className={`${styles.burgerDragField} ml-8 constructor-element constructor-element_pos_top ${isOverTop ? styles.burgerDragFieldOver : ''}`} ref={dropBunTop}>
         Перетащите бургер сюда
       </div>
       }
       <ul className={styles.ingredientsList + " mt-4 mb-4"}>
+        {
+          ingredients.length === 0 && <li key="empty">
+            <div className={`${styles.burgerDragField} ml-8 constructor-element`}>
+              Перетащите ингредиенты сюда
+            </div>
+          </li>
+        }
         {ingredients.map((item) => (
           <li key={item._id} className={styles.ingredient}>
             <DragIcon type="primary" />
@@ -88,7 +95,7 @@ function BurgerConstructor() {
           extraClass={`ml-8 ${isOverBottom ? styles.burgerDragFieldOver : ''}`}
         />
       </div> :
-      <div className={`${styles.burgerDragField} constructor-element constructor-element_pos_bottom ${isOverBottom ? styles.burgerDragFieldOver : ''}`} ref={dropBunBottom}>
+      <div className={`${styles.burgerDragField} ml-8 constructor-element constructor-element_pos_bottom ${isOverBottom ? styles.burgerDragFieldOver : ''}`} ref={dropBunBottom}>
         Перетащите бургер сюда
       </div> 
       }
