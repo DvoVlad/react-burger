@@ -1,20 +1,53 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { sendOrderEndpoint } from '../utils/endpoints';
 
 const initialState = {
-  number: null
+  number: null,
+  error: null,
+  loadingStatus: null
 };
+
+export const sendOrder = createAsyncThunk(
+  'order/sendOrder',
+  async (ingredientsList) => {
+    const response = await fetch(sendOrderEndpoint, {
+      method: "POST",
+      body: JSON.stringify({ ingredients: ingredientsList }),
+      headers: { "Content-Type": "application/json;charset=utf-8" }
+    });
+    if (!response.ok) {
+      throw new Error(`Ошибка: ${response.status}`);
+    }
+    const result = await response.json();
+    return result;
+  }
+);
 
 const orderSlice = createSlice({
   name: 'orderSlice',
   initialState,
   // Редьюсеры в слайсах меняют состояние и ничего не возвращают
   reducers: {
-    updateNumber: (state, payload) => {
-      state.number = payload;
-    }
-  }
+  },
+  extraReducers: (builder) => {
+    builder
+      // Вызывается прямо перед выполнением запроса
+      .addCase(sendOrder.pending, (state) => {
+        state.loadingStatus = 'loading';
+        state.error = null;
+      })
+      // Вызывается, если запрос успешно выполнился
+      .addCase(sendOrder.fulfilled, (state, action) => {
+        state.number = action.payload.order.number;
+        state.loadingStatus = 'idle';
+        state.error = null;
+      })
+      // Вызывается в случае ошибки
+      .addCase(sendOrder.rejected, (state, action) => {
+        state.loadingStatus = 'failed';
+        state.error = action.error;
+      });
+  },
 });
-
-export const { updateNumber } = orderSlice.actions;
 
 export default orderSlice.reducer;

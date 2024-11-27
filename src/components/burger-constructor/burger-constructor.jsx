@@ -5,14 +5,21 @@ import Modal from '../modal/modal';
 import OrderDetails from './order-details/order-details';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { addBun, addMain, deleteMain } from '../../services/ingredients-constructor';
+import { addBun, addMain, deleteMain, resetIgredients } from '../../services/ingredients-constructor';
 import ConstructorItem from './constructor-item/constructor-item';
+import { sendOrder } from '../../services/order';
 
 function BurgerConstructor() {
+  const [isError, setIsError] = useState(false);
+  const sendError = useSelector((store) => store.order.error);
+  const loadingStatus = useSelector((store) => store.order.loadingStatus);
+
   const dispatch = useDispatch();
+
   const deleteMainItem = (uuid) => {
     dispatch(deleteMain(uuid));
   }
+
   const [{ isOverMain }, dropMain] = useDrop(
     () => ({
       accept: 'main',
@@ -57,6 +64,19 @@ function BurgerConstructor() {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
   const onOpenOrder = () => {
+    if(!burger) {
+      setIsError(true);
+      return;
+    } else {
+      setIsError(false);
+    }
+    let result = [];
+    ingredients.forEach((item) => {
+      result.push(item._id);
+    })
+    result = [burger._id, ...result, burger._id];
+    dispatch(sendOrder(result));
+    dispatch(resetIgredients());
     setIsOrderModalOpen(true);
   }
 
@@ -66,6 +86,8 @@ function BurgerConstructor() {
 
   return (
     <section className='mt-25'>
+      {isError && <p className='text text_type_main-default mb-1 ml-10'>Вы не выбрали бургер!</p>}
+      {sendError && <p className='text text_type_main-default mb-1 ml-10'>Ваш заказ не отправился! Попробуйте ещё раз!</p>}
       {burger ? 
       <div ref={dropBunTop}>
         <ConstructorElement
@@ -117,9 +139,9 @@ function BurgerConstructor() {
         </Button>
       </div>
       {
-        isOrderModalOpen && 
+        isOrderModalOpen && !isError && !sendError && loadingStatus === "idle" &&
         <Modal onClose={closeModal}>
-          <OrderDetails orderId="034536"/>
+          <OrderDetails />
         </Modal>
       }
     </section>

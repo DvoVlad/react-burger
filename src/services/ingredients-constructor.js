@@ -27,10 +27,14 @@ const ingredientsConstructorSlice = createSlice({
       const fromIndex = action.payload.hoverIndex;
       ingredients.splice(toIndex, 0, ingredients.splice(fromIndex, 1)[0]);
       state.items = ingredients;
+    },
+    resetIgredients: (state) => {
+      state.items = [];
+      state.bun = null;
     }
   }
 });
 
-export const { addBun, addMain, deleteMain, moveIngredient } = ingredientsConstructorSlice.actions;
+export const { addBun, addMain, deleteMain, moveIngredient, resetIgredients } = ingredientsConstructorSlice.actions;
 
 export default ingredientsConstructorSlice.reducer;

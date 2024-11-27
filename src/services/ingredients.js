@@ -3,14 +3,13 @@ import { ingredientsEndpoint } from '../utils/endpoints';
 
 const initialState = {
   items: [],
-  error: null
+  error: null,
+  loadingStatus: null
 };
 
 export const fetchIngredients = createAsyncThunk(
   'ingredients/getIngedients',
   async () => {
-    // Здесь только логика запроса и возврата данных
-    // Никакой обработки ошибок
     const response = await fetch(ingredientsEndpoint);
     if (!response.ok) {
       throw new Error(`Ошибка: ${response.status}`);
