@@ -5,10 +5,21 @@ import Modal from '../modal/modal';
 import OrderDetails from './order-details/order-details';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { addBun } from '../../services/ingredients-constructor';
+import { addBun, addMain } from '../../services/ingredients-constructor';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
+  const [{ isOverMain }, dropMain] = useDrop(
+    () => ({
+      accept: 'main',
+      drop: (item) => {
+        dispatch(addMain(item));
+      },
+      collect: (monitor) => ({
+        isOverMain: monitor.isOver(),
+      })
+    })
+  )
   const [{ isOverTop }, dropBunTop] = useDrop(
     () => ({
       accept: 'bun',
@@ -64,7 +75,7 @@ function BurgerConstructor() {
         Перетащите бургер сюда
       </div>
       }
-      <ul className={styles.ingredientsList + " mt-4 mb-4"}>
+      <ul className={`${styles.ingredientsList} ${isOverMain ? styles.burgerDragFieldOver : ''} mt-4 mb-4`} ref={dropMain}>
         {
           ingredients.length === 0 && <li key="empty">
             <div className={`${styles.burgerDragField} ml-8 constructor-element`}>
@@ -73,7 +84,7 @@ function BurgerConstructor() {
           </li>
         }
         {ingredients.map((item) => (
-          <li key={item._id} className={styles.ingredient}>
+          <li key={item.uuid} className={styles.ingredient}>
             <DragIcon type="primary" />
             <ConstructorElement
               text={item.name}

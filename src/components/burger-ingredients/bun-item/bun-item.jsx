@@ -12,7 +12,7 @@ function BunItem({ item }) {
     type: 'bun',
     item: item,
     collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
+      isDragging: monitor.isDragging(),
     }),
   }))
   const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);

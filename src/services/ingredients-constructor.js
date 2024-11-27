@@ -12,10 +12,13 @@ const ingredientsConstructorSlice = createSlice({
   reducers: {
     addBun: (state, action) => {
       state.bun = action.payload;
+    },
+    addMain: (state, action) => {
+      state.items = [...state.items, action.payload];
     }
   }
 });
 
-export const { addBun } = ingredientsConstructorSlice.actions;
+export const { addBun, addMain } = ingredientsConstructorSlice.actions;
 
 export default ingredientsConstructorSlice.reducer;
