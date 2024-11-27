@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
   bun: null,
@@ -14,11 +15,15 @@ const ingredientsConstructorSlice = createSlice({
       state.bun = action.payload;
     },
     addMain: (state, action) => {
-      state.items = [...state.items, action.payload];
+      const item = {...action.payload, uuid: uuidv4()}
+      state.items = [...state.items, item];
+    },
+    deleteMain: (state, action) => {
+      state.items = [...state.items].filter(item => item.uuid !== action.payload);
     }
   }
 });
 
-export const { addBun, addMain } = ingredientsConstructorSlice.actions;
+export const { addBun, addMain, deleteMain } = ingredientsConstructorSlice.actions;
 
 export default ingredientsConstructorSlice.reducer;

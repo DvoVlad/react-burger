@@ -1,14 +1,17 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from './order-details/order-details';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { addBun, addMain } from '../../services/ingredients-constructor';
+import { addBun, addMain, deleteMain } from '../../services/ingredients-constructor';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
+  const deleteMainItem = (uuid) => {
+    dispatch(deleteMain(uuid));
+  }
   const [{ isOverMain }, dropMain] = useDrop(
     () => ({
       accept: 'main',
@@ -46,7 +49,9 @@ function BurgerConstructor() {
   const burger = useSelector((store) => store.ingredientsConstructor.bun);
   const ingredients = useSelector((store) => store.ingredientsConstructor.items);
   const ingredientsPrice = ingredients.reduce((acc, item) => acc + item.price, 0);
-  const total = ingredientsPrice + (burger === null ? 0 : burger.price) * 2;
+  const total = useMemo(() => {
+    return ingredientsPrice + (burger === null ? 0 : burger.price) * 2;
+  }, [ingredientsPrice, burger]);
 
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
@@ -91,6 +96,7 @@ function BurgerConstructor() {
               price={item.price}
               thumbnail={item.image_mobile}
               extraClass="ml-2"
+              handleClose={() => deleteMainItem(item.uuid)}
             />
           </li>
         ))}

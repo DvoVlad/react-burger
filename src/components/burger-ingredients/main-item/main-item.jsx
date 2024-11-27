@@ -7,11 +7,10 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch } from 'react-redux';
 import { showInModal, deleteFromModal } from '../../../services/showedIngredient';
 import { useDrag } from 'react-dnd';
-import { v4 as uuidv4 } from 'uuid';
 function MainItem({ item }) {
   const [{isDragging}, dragMain] = useDrag(() => ({
     type: 'main',
-    item: {...item, uuid: uuidv4()},
+    item: {...item},
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
