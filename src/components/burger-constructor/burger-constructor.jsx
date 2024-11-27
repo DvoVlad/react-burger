@@ -89,9 +89,9 @@ function BurgerConstructor() {
             </div>
           </li>
         }
-        {ingredients.map((item) => (
+        {ingredients.map((item, index) => (
           <li key={item.uuid}>
-            <ConstructorItem item={item} handleClose={() => deleteMainItem(item.uuid)}/>
+            <ConstructorItem item={item} handleClose={() => deleteMainItem(item.uuid)} index={index}/>
           </li>
         ))}
       </ul>

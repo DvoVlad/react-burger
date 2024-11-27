@@ -20,10 +20,17 @@ const ingredientsConstructorSlice = createSlice({
     },
     deleteMain: (state, action) => {
       state.items = [...state.items].filter(item => item.uuid !== action.payload);
+    },
+    moveIngredient: (state, action) => {
+      const ingredients = [...state.items];
+      const toIndex = action.payload.dragIndex;
+      const fromIndex = action.payload.hoverIndex;
+      ingredients.splice(toIndex, 0, ingredients.splice(fromIndex, 1)[0]);
+      state.items = ingredients;
     }
   }
 });
 
-export const { addBun, addMain, deleteMain } = ingredientsConstructorSlice.actions;
+export const { addBun, addMain, deleteMain, moveIngredient } = ingredientsConstructorSlice.actions;
 
 export default ingredientsConstructorSlice.reducer;

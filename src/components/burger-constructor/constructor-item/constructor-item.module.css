@@ -3,3 +3,8 @@
   flex-wrap: wrap;
   align-items: center;
 }
+
+.isDragging {
+  border: 1px solid green;
+  border-radius: 40px;
+}
