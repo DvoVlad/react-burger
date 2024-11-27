@@ -4,10 +4,12 @@ import styles from './sauce-item.module.css';
 import { ingredientType } from '../../../utils/types';
 import Modal from '../../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { showInModal, deleteFromModal } from '../../../services/showedIngredient';
 import { useDrag } from 'react-dnd';
 function SauceItem({ item }) {
+  const selectedMain = useSelector((store) => store.ingredientsConstructor.items);
+  const mainList = selectedMain.filter((element) => item._id === element._id);
   const [{isDragging}, dragSauce] = useDrag(() => ({
     type: 'main',
     item: {...item},
@@ -33,7 +35,7 @@ function SauceItem({ item }) {
         <img src={item.image} alt={item.name} className='ml-4 mr-4' />
         <p className={styles.price + ' text text_type_digits-default mt-1 mb-1'}><span className='mr-2'>{item.price}</span> <CurrencyIcon type="primary"/></p>
         <h3 className={styles.name + ' text text_type_main-default'}>{item.name}</h3>
-        <Counter count={1} size="default" />
+        {mainList.length > 0 && <Counter count={mainList.length} size="default" />}
       </article>
       {
         isIngredientModalOpen && 
