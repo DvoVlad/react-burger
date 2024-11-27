@@ -56,10 +56,10 @@ function BurgerConstructor() {
 
   const burger = useSelector((store) => store.ingredientsConstructor.bun);
   const ingredients = useSelector((store) => store.ingredientsConstructor.items);
-  const ingredientsPrice = ingredients.reduce((acc, item) => acc + item.price, 0);
   const total = useMemo(() => {
+    const ingredientsPrice = ingredients.reduce((acc, item) => acc + item.price, 0);
     return ingredientsPrice + (burger === null ? 0 : burger.price) * 2;
-  }, [ingredientsPrice, burger]);
+  }, [ingredients, burger]);
 
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
