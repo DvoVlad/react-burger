@@ -4,12 +4,11 @@ import styles from './main-item.module.css';
 import { ingredientType } from '../../../utils/types';
 import Modal from '../../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { showInModal, deleteFromModal } from '../../../services/showedIngredient';
 import { useDrag } from 'react-dnd';
-function MainItem({ item }) {
-  const selectedMain = useSelector((store) => store.ingredientsConstructor.items);
-  const mainList = selectedMain.filter((element) => item._id === element._id);
+import PropTypes from 'prop-types';
+function MainItem({ item, counter }) {
   const [{isDragging}, dragMain] = useDrag(() => ({
     type: 'main',
     item: {...item},
@@ -35,7 +34,7 @@ function MainItem({ item }) {
         <img src={item.image} alt={item.name} className='ml-4 mr-4' />
         <p className={styles.price + ' text text_type_digits-default mt-1 mb-1'}><span className='mr-2'>{item.price}</span> <CurrencyIcon type="primary"/></p>
         <h3 className={styles.name + ' text text_type_main-default'}>{item.name}</h3>
-        {mainList.length > 0 && <Counter count={mainList.length} size="default" />}
+        {counter > 0 && <Counter count={counter} size="default" />}
       </article>
       {
         isIngredientModalOpen && 
@@ -48,7 +47,8 @@ function MainItem({ item }) {
 }
 
 MainItem.propTypes = {
-  item: ingredientType.isRequired
+  item: ingredientType.isRequired,
+  counter: PropTypes.number.isRequired
 }
 
 export default MainItem;

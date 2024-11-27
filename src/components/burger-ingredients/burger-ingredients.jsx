@@ -1,13 +1,27 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types';
 import BunItem from './bun-item/bun-item';
 import SauceItem from './sauce-item/sauce-item';
 import MainItem from './main-item/main-item';
+import { useSelector } from 'react-redux';
 import { ingredientType } from '../../utils/types';
 
 function BurgerIngredients({ data }) {
+  const selectedItems = useSelector((store) => store.ingredientsConstructor.items);
+  const selectedBun = useSelector((store) => store.ingredientsConstructor.bun);
+  const ingredientsCounters = useMemo(()=> {
+    let result = {}
+    selectedItems.forEach(item => {
+      result[item._id] = result[item._id] ? result[item._id] + 1 : 1;
+    });
+    if(selectedBun) {
+      result[selectedBun._id] = 2;
+    }
+    return result;
+  }, [selectedItems, selectedBun]);
+
   const [current, setCurrent] = useState('Булки')
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
@@ -82,7 +96,7 @@ function BurgerIngredients({ data }) {
         <ul className={styles.itemList + ' pl-4 pr-2 mt-6 mb-10'}>
           {buns.map((item => (
             <li key={item._id}>
-              <BunItem item={item}/>
+              <BunItem item={item} counter={ingredientsCounters[item._id] ?? 0}/>
             </li>
           )))}
         </ul>
@@ -90,7 +104,7 @@ function BurgerIngredients({ data }) {
         <ul className={styles.itemList + ' pl-4 pr-2 mt-6 mb-10'}>
           {sauce.map((item => (
             <li key={item._id}>
-              <SauceItem item={item}/>
+              <SauceItem item={item} counter={ingredientsCounters[item._id] ?? 0}/>
             </li>
           )))}
         </ul>
@@ -98,7 +112,7 @@ function BurgerIngredients({ data }) {
         <ul className={styles.itemList + ' pl-4 pr-2 mt-6'}>
           {main.map((item => (
             <li key={item._id}>
-              <MainItem item={item}/>
+              <MainItem item={item} counter={ingredientsCounters[item._id] ?? 0}/>
             </li>
           )))}
         </ul>

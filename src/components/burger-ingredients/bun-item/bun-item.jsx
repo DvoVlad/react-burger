@@ -4,11 +4,11 @@ import styles from './bun-item.module.css';
 import { ingredientType } from '../../../utils/types';
 import Modal from '../../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { showInModal, deleteFromModal } from '../../../services/showedIngredient';
 import { useDrag } from 'react-dnd';
-function BunItem({ item }) {
-  const selectedBun = useSelector((store) => store.ingredientsConstructor.bun);
+import PropTypes from 'prop-types';
+function BunItem({ item, counter }) {
   const [{isDragging}, dragBun] = useDrag(() => ({
     type: 'bun',
     item: item,
@@ -34,7 +34,7 @@ function BunItem({ item }) {
         <img src={item.image} alt={item.name} className='ml-4 mr-4' />
         <p className={styles.price + ' text text_type_digits-default mt-1 mb-1'}><span className='mr-2'>{item.price}</span> <CurrencyIcon type="primary"/></p>
         <h3 className={styles.name + ' text text_type_main-default'}>{item.name}</h3>
-        {selectedBun && item._id === selectedBun._id && <Counter count={2} size="default" />}
+        {counter > 0 && <Counter count={counter} size="default" />}
       </article>
       {
         isIngredientModalOpen && 
@@ -47,7 +47,8 @@ function BunItem({ item }) {
 }
 
 BunItem.propTypes = {
-  item: ingredientType.isRequired
+  item: ingredientType.isRequired,
+  counter: PropTypes.number.isRequired
 }
 
 export default BunItem;
