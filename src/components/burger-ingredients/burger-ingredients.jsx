@@ -1,17 +1,24 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types';
 import BunItem from './bun-item/bun-item';
 import SauceItem from './sauce-item/sauce-item';
 import MainItem from './main-item/main-item';
 import { useSelector } from 'react-redux';
-import { ingredientType } from '../../utils/types';
-
+import { useDispatch } from 'react-redux';
+import { fetchIngredients } from '../../services/ingredients';
 function BurgerIngredients() {
   const data = useSelector((store) => store.ingredients.items);
+  const buns = data.filter((item) => item.type === 'bun');
+  const sauce = data.filter((item) => item.type === 'sauce');
+  const main = data.filter((item) => item.type === 'main');
+
   const selectedItems = useSelector((store) => store.ingredientsConstructor.items);
   const selectedBun = useSelector((store) => store.ingredientsConstructor.bun);
+
+  const loadingStatus = useSelector((store) => store.ingredients.loadingStatus);
+  const isError = useSelector((store) => store.ingredients.error);
+
   const ingredientsCounters = useMemo(()=> {
     let result = {}
     selectedItems.forEach(item => {
@@ -47,9 +54,19 @@ function BurgerIngredients() {
       isScroll.current = false;
     }
   }, [current]);
-  const buns = data.filter((item) => item.type === 'bun');
-  const sauce = data.filter((item) => item.type === 'sauce');
-  const main = data.filter((item) => item.type === 'main');
+
+  const dispatch = useDispatch();
+  let isDispatched = useRef(false);
+  useEffect(() => {
+    if(isDispatched.current) {
+      return
+    }
+    dispatch(fetchIngredients());
+    return () => {
+      isDispatched.current = true;
+    }
+  }, [dispatch]);
+
   const tabs = [
     {
       id: 1,
@@ -81,49 +98,53 @@ function BurgerIngredients() {
   }
 
   return (
-    <section>
-      <h1 className='text text_type_main-large mb-5 mt-10'>Соберите бургер</h1>
-      <ul className={styles.tabs + " mb-10"} ref={tabRef}>
-        {tabs.map((item) => (
-          <li key={item.id}>
-            <Tab value={item.name} active={current === item.name} onClick={tabClick}>
-              {item.name}
-            </Tab>
-          </li>
-        ))}
-      </ul>
-      <div className={styles.ingredients} onScroll={onScroll}>
-        <h2 ref={bunRef} className='text text_type_main-medium'>Булки</h2>
-        <ul className={styles.itemList + ' pl-4 pr-2 mt-6 mb-10'}>
-          {buns.map((item => (
-            <li key={item._id}>
-              <BunItem item={item} counter={ingredientsCounters[item._id] ?? 0}/>
+    <>
+      {loadingStatus ==='idle' && <section>
+        <h1 className='text text_type_main-large mb-5 mt-10'>Соберите бургер</h1>
+        <ul className={styles.tabs + " mb-10"} ref={tabRef}>
+          {tabs.map((item) => (
+            <li key={item.id}>
+              <Tab value={item.name} active={current === item.name} onClick={tabClick}>
+                {item.name}
+              </Tab>
             </li>
-          )))}
+          ))}
         </ul>
-        <h2 ref={sauceRef} className='text text_type_main-medium'>Соусы</h2>
-        <ul className={styles.itemList + ' pl-4 pr-2 mt-6 mb-10'}>
-          {sauce.map((item => (
-            <li key={item._id}>
-              <SauceItem item={item} counter={ingredientsCounters[item._id] ?? 0}/>
-            </li>
-          )))}
-        </ul>
-        <h2 ref={mainRef} className='text text_type_main-medium'>Начинки</h2>
-        <ul className={styles.itemList + ' pl-4 pr-2 mt-6'}>
-          {main.map((item => (
-            <li key={item._id}>
-              <MainItem item={item} counter={ingredientsCounters[item._id] ?? 0}/>
-            </li>
-          )))}
-        </ul>
-      </div>
-    </section>
+        <div className={styles.ingredients} onScroll={onScroll}>
+          <h2 ref={bunRef} className='text text_type_main-medium'>Булки</h2>
+          <ul className={styles.itemList + ' pl-4 pr-2 mt-6 mb-10'}>
+            {buns.map((item => (
+              <li key={item._id}>
+                <BunItem item={item} counter={ingredientsCounters[item._id] ?? 0}/>
+              </li>
+            )))}
+          </ul>
+          <h2 ref={sauceRef} className='text text_type_main-medium'>Соусы</h2>
+          <ul className={styles.itemList + ' pl-4 pr-2 mt-6 mb-10'}>
+            {sauce.map((item => (
+              <li key={item._id}>
+                <SauceItem item={item} counter={ingredientsCounters[item._id] ?? 0}/>
+              </li>
+            )))}
+          </ul>
+          <h2 ref={mainRef} className='text text_type_main-medium'>Начинки</h2>
+          <ul className={styles.itemList + ' pl-4 pr-2 mt-6'}>
+            {main.map((item => (
+              <li key={item._id}>
+                <MainItem item={item} counter={ingredientsCounters[item._id] ?? 0}/>
+              </li>
+            )))}
+          </ul>
+        </div>
+      </section>}
+      {
+        loadingStatus === 'loading' && <div className="text text_type_main-default mt-5">Загрузка</div>
+      }
+      {
+        loadingStatus === 'failed' && <div className="text text_type_main-default mt-5">Случилась ошибка получения данных! Перезагрузите сайт!{isError.message}</div>
+      }
+    </>
   );
-}
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired
 }
 
 export default BurgerIngredients;
