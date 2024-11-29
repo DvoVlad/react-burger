@@ -138,10 +138,10 @@ function BurgerIngredients() {
         </div>
       </section>}
       {
-        loadingStatus === 'loading' && <div className="text text_type_main-default mt-5">Загрузка</div>
+        loadingStatus === 'loading' && <div className={`${styles.loadingMessage} text text_type_main-default mt-10 mb-10 p-5`}>Загрузка</div>
       }
       {
-        loadingStatus === 'failed' && <div className="text text_type_main-default mt-5">Случилась ошибка получения данных! Перезагрузите сайт!{isError.message}</div>
+        loadingStatus === 'failed' && <div className={`${styles.errorMessage} text text_type_main-default mt-10 mb-10 p-5`}>Случилась ошибка получения данных! Перезагрузите сайт!{isError.message}</div>
       }
     </>
   );
