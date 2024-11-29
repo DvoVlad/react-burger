@@ -29,3 +29,8 @@
 .shortList {
   max-height: 80px;
 }
+
+.errorMessage {
+  border: 1px solid #ffffff;
+  border-radius: 20px;  
+}

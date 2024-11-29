@@ -86,8 +86,8 @@ function BurgerConstructor() {
 
   return (
     <section className='mt-25'>
-      {isError && <p className='text text_type_main-default mb-1 ml-10'>Вы не выбрали бургер или начинку!</p>}
-      {sendError && <p className='text text_type_main-default mb-1 ml-10'>Ваш заказ не отправился! Попробуйте ещё раз!</p>}
+      {isError && <p className={`${styles.errorMessage} text text_type_main-default mb-5 ml-10 p-5`}>Вы не выбрали бургер или начинку!</p>}
+      {sendError && <p className={`${styles.errorMessage} text text_type_main-default mb-5 ml-10 p-5`}>Ваш заказ не отправился! Попробуйте ещё раз!</p>}
       {burger ? 
       <div ref={dropBunTop}>
         <ConstructorElement
