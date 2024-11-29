@@ -64,7 +64,7 @@ function BurgerConstructor() {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
   const onOpenOrder = () => {
-    if(!burger) {
+    if(!burger || ingredients.length === 0) {
       setIsError(true);
       return;
     } else {
@@ -86,7 +86,7 @@ function BurgerConstructor() {
 
   return (
     <section className='mt-25'>
-      {isError && <p className='text text_type_main-default mb-1 ml-10'>Вы не выбрали бургер!</p>}
+      {isError && <p className='text text_type_main-default mb-1 ml-10'>Вы не выбрали бургер или начинку!</p>}
       {sendError && <p className='text text_type_main-default mb-1 ml-10'>Ваш заказ не отправился! Попробуйте ещё раз!</p>}
       {burger ? 
       <div ref={dropBunTop}>
