@@ -41,6 +41,7 @@ const ingredientsSlice = createSlice({
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.loadingStatus = 'failed';
         state.error = action.error;
+        state.items = [];
       });
   },
 });

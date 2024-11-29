@@ -25,3 +25,7 @@
 .burgerDragFieldOver {
   border: 1px solid green;
 }
+
+.shortList {
+  max-height: 80px;
+}

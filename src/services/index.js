@@ -6,11 +6,10 @@ import orderReducer from './order';
 
 const rootReducer = configureStore({
   reducer: {
-    // Свойство ingradients будет внутри объекта общего состояния: state.ingradients
     ingredients: ingredientsReducer,
     ingredientsConstructor: ingredientsConstructorReducer,
     showedIngredient: showedIngredientReducer,
-    order: orderReducer
+    myOrder: orderReducer
   },
   devTools: true
 });

@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { sendOrderEndpoint } from '../utils/endpoints';
 
 const initialState = {
-  number: null,
+  data: null,
   error: null,
   loadingStatus: null
 };
@@ -38,7 +38,7 @@ const orderSlice = createSlice({
       })
       // Вызывается, если запрос успешно выполнился
       .addCase(sendOrder.fulfilled, (state, action) => {
-        state.number = action.payload.order.number;
+        state.data = action.payload;
         state.loadingStatus = 'idle';
         state.error = null;
       })
@@ -46,6 +46,7 @@ const orderSlice = createSlice({
       .addCase(sendOrder.rejected, (state, action) => {
         state.loadingStatus = 'failed';
         state.error = action.error;
+        state.data = null;
       });
   },
 });

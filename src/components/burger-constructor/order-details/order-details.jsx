@@ -2,7 +2,7 @@ import styles from "./order-details.module.css"
 import markImage from "../../../images/order-done.png"
 import { useSelector } from "react-redux";
 function OrderDetails() {
-  const ordenNumber =  useSelector((store) => store.order.number);
+  const ordenNumber =  useSelector((store) => store.myOrder.data.order.number);
   return(
     <>
       <p className={styles.orderNumber + " mt-30 text text_type_digits-large"}>{ordenNumber}</p>

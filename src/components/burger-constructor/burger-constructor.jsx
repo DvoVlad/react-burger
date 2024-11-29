@@ -11,8 +11,8 @@ import { sendOrder } from '../../services/order';
 
 function BurgerConstructor() {
   const [isError, setIsError] = useState(false);
-  const sendError = useSelector((store) => store.order.error);
-  const loadingStatus = useSelector((store) => store.order.loadingStatus);
+  const sendError = useSelector((store) => store.myOrder.error);
+  const loadingStatus = useSelector((store) => store.myOrder.loadingStatus);
 
   const dispatch = useDispatch();
 
@@ -103,7 +103,7 @@ function BurgerConstructor() {
         Перетащите бургер сюда
       </div>
       }
-      <ul className={`${styles.ingredientsList} ${isOverMain ? styles.burgerDragFieldOver : ''} mt-4 mb-4`} ref={dropMain}>
+      <ul className={`${styles.ingredientsList} ${isOverMain ? styles.burgerDragFieldOver : ''} ${ingredients.length === 0 ? styles.shortList : ''} mt-4 mb-4`} ref={dropMain}>
         {
           ingredients.length === 0 && <li key="empty">
             <div className={`${styles.burgerDragField} ml-8 constructor-element`}>
