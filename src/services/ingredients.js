@@ -22,7 +22,6 @@ export const fetchIngredients = createAsyncThunk(
 const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
-  // Редьюсеры в слайсах меняют состояние и ничего не возвращают
   reducers: {},
   extraReducers: (builder) => {
     builder
