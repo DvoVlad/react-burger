@@ -8,7 +8,8 @@ import MainItem from './main-item/main-item';
 import { useSelector } from 'react-redux';
 import { ingredientType } from '../../utils/types';
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients() {
+  const data = useSelector((store) => store.ingredients.items);
   const selectedItems = useSelector((store) => store.ingredientsConstructor.items);
   const selectedBun = useSelector((store) => store.ingredientsConstructor.bun);
   const ingredientsCounters = useMemo(()=> {
