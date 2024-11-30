@@ -15,7 +15,7 @@ const ingredientsConstructorSlice = createSlice({
     },
     addMain: {
       reducer: (state, action) => {
-        const item = {...action.payload}
+        const item = action.payload;
         state.items = [...state.items, item];
       },
       prepare: (item) => {
