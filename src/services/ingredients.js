@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ingredientsEndpoint } from '../utils/endpoints';
-import { checkResponce } from '../utils/helper';
+import { request } from '../utils/helper';
 
 const initialState = {
   items: [],
@@ -11,8 +11,7 @@ const initialState = {
 export const fetchIngredients = createAsyncThunk(
   'ingredients/getIngredients',
   async () => {
-    const response = await fetch(ingredientsEndpoint);
-    checkResponce(response);
+    const response = await request(ingredientsEndpoint);
     const result = await response.json();
     return result;
   }

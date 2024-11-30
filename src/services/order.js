@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { sendOrderEndpoint } from '../utils/endpoints';
-import { checkResponce } from '../utils/helper';
+import { request } from '../utils/helper';
 
 const initialState = {
   data: null,
@@ -11,12 +11,11 @@ const initialState = {
 export const sendOrder = createAsyncThunk(
   'order/sendOrder',
   async (ingredientsList) => {
-    const response = await fetch(sendOrderEndpoint, {
+    const response = await request(sendOrderEndpoint, {
       method: "POST",
       body: JSON.stringify({ ingredients: ingredientsList }),
       headers: { "Content-Type": "application/json;charset=utf-8" }
     });
-    checkResponce(response);
     const result = await response.json();
     return result;
   }
