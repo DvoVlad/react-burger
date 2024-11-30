@@ -8,7 +8,6 @@ import { useDrop } from 'react-dnd';
 import { addBun, addMain, deleteMain, resetIgredients } from '../../services/ingredients-constructor';
 import ConstructorItem from './constructor-item/constructor-item';
 import { sendOrder } from '../../services/order';
-import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor() {
   const [isError, setIsError] = useState(false);
@@ -25,7 +24,7 @@ function BurgerConstructor() {
     () => ({
       accept: 'main',
       drop: (item) => {
-        dispatch(addMain({...item, uuid: uuidv4()}));
+        dispatch(addMain({...item}));
       },
       collect: (monitor) => ({
         isOverMain: monitor.isOver(),
