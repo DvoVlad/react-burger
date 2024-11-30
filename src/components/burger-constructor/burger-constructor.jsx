@@ -24,7 +24,7 @@ function BurgerConstructor() {
     () => ({
       accept: 'main',
       drop: (item) => {
-        dispatch(addMain({...item}));
+        dispatch(addMain(item));
       },
       collect: (monitor) => ({
         isOverMain: monitor.isOver(),
