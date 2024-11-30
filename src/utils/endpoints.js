@@ -1,3 +1,4 @@
-const ingredientsEndpoint = 'https://norma.nomoreparties.space/api/ingredients';
+const ingredientsEndpoint = `/ingredients`;
+const sendOrderEndpoint = `/orders`;
 
-export { ingredientsEndpoint };
+export { ingredientsEndpoint, sendOrderEndpoint };
