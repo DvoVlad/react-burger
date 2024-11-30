@@ -1,4 +1,6 @@
-const ingredientsEndpoint = 'https://norma.nomoreparties.space/api/ingredients';
-const sendOrderEndpoint = 'https://norma.nomoreparties.space/api/orders';
+import { BASE_URL } from "./base-url";
+
+const ingredientsEndpoint = `${BASE_URL}/ingredients`;
+const sendOrderEndpoint = `${BASE_URL}/orders`;
 
 export { ingredientsEndpoint, sendOrderEndpoint };

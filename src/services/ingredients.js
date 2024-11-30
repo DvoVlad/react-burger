@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ingredientsEndpoint } from '../utils/endpoints';
+import { checkResponce } from '../utils/helper';
 
 const initialState = {
   items: [],
@@ -8,12 +9,10 @@ const initialState = {
 };
 
 export const fetchIngredients = createAsyncThunk(
-  'ingredients/getIngedients',
+  'ingredients/getIngredients',
   async () => {
     const response = await fetch(ingredientsEndpoint);
-    if (!response.ok) {
-      throw new Error(`Ошибка: ${response.status}`);
-    }
+    checkResponce(response);
     const result = await response.json();
     return result;
   }

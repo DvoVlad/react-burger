@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
   bun: null,
@@ -14,7 +13,7 @@ const ingredientsConstructorSlice = createSlice({
       state.bun = action.payload;
     },
     addMain: (state, action) => {
-      const item = {...action.payload, uuid: uuidv4()}
+      const item = {...action.payload}
       state.items = [...state.items, item];
     },
     deleteMain: (state, action) => {

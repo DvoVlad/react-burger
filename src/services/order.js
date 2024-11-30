@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { sendOrderEndpoint } from '../utils/endpoints';
+import { checkResponce } from '../utils/helper';
 
 const initialState = {
   data: null,
@@ -15,9 +16,7 @@ export const sendOrder = createAsyncThunk(
       body: JSON.stringify({ ingredients: ingredientsList }),
       headers: { "Content-Type": "application/json;charset=utf-8" }
     });
-    if (!response.ok) {
-      throw new Error(`Ошибка: ${response.status}`);
-    }
+    checkResponce(response);
     const result = await response.json();
     return result;
   }
