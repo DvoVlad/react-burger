@@ -22,7 +22,9 @@ function ResetPassword() {
     .then((data) => {
       setMessage(data.message);
     })
-    .catch((err) => setMessage(err.message));
+    .catch((err) => {
+      setMessage("Incorrect token");
+    });
   }
 
   return(
