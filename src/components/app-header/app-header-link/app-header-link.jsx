@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './app-header-link.module.css';
 import PropTypes from 'prop-types';
-
-function AppHeaderLink({children, current, className, icon}) {
+import { Link } from 'react-router-dom';
+function AppHeaderLink({children, current, className, icon, link}) {
   let textClass = 'ml-2';
   let type = current ? 'primary' : 'secondary';
   let Icon = icon;
@@ -12,9 +12,9 @@ function AppHeaderLink({children, current, className, icon}) {
   }
   
   return (
-    <button className={styles.link + ' ' + className}>
+    <Link to={link} className={styles.link + ' ' + className}>
       <Icon type={type}/><span className={textClass}>{children}</span>
-    </button>
+    </Link>
   );
 }
 

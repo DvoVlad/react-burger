@@ -1,21 +1,17 @@
-import React from 'react';
 import AppHeader from './components/app-header/app-header';
-import AppMain from './components/app-main/app-main';
-import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
-import BurgerConstructor from './components/burger-constructor/burger-constructor';
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import MainPage from './pages/main-page';
+import NotFound from './pages/not-found';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <>
-      <AppHeader />
-      <AppMain>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients/>
-          <BurgerConstructor/>
-        </DndProvider>
-      </AppMain>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
