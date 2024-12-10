@@ -2,7 +2,7 @@ import { BASE_URL } from "./base-url";
 
 const checkResponse = (response) => {
   if (!response.ok) {
-    throw new Error(`Ошибка: ${response.status}`);
+    return Promise.reject(new Error(`Ошибка: ${response.status}`));
   }
   return response;
 }
