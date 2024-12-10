@@ -9,15 +9,28 @@
   overflow-y: scroll;
 }
 
-.ingredient {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
 .totalOrder {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: end;
+}
+
+.burgerDragField {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.burgerDragFieldOver {
+  border: 1px solid green;
+}
+
+.shortList {
+  max-height: 80px;
+}
+
+.errorMessage {
+  border: 1px solid #ffffff;
+  border-radius: 20px;  
 }

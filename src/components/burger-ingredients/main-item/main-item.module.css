@@ -12,3 +12,7 @@
   text-align: center;
   min-height: 48px;
 }
+
+.isDragging {
+  border: 1px solid green;
+}
