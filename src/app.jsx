@@ -1,18 +1,21 @@
-import AppHeader from './components/app-header/app-header';
 import MainPage from './pages/main-page';
 import NotFound from './pages/not-found';
+import LoginPage from './pages/login-page';
+import RegisterPage from './pages/register-page';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AppHeader from './components/app-header/app-header';
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <AppHeader />
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
