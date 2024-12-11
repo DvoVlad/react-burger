@@ -8,8 +8,19 @@ import ProfilePage from './pages/profile-page';
 import EditProfilePage from './pages/edit-profile-page/edit-profile-page';
 import { Routes, Route } from 'react-router-dom';
 import AppHeader from './components/app-header/app-header';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getUserData } from './services/user';
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if(localStorage.getItem('accessToken') !== null) {
+      console.log("AUTO and SAVE data");
+      dispatch(getUserData());
+    }
+  }, [dispatch]);
+
   return (
     <>
       <AppHeader />
