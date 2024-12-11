@@ -1,5 +1,5 @@
 import styles from './login.module.css';
-import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 
 function Login() {
@@ -16,9 +16,7 @@ function Login() {
         size={'default'}
         extraClass="mt-6"
       />
-      <Input
-        icon={'ShowIcon'}
-        type={'password'}
+      <PasswordInput
         placeholder={'Пароль'}
         value=""
         name={'password'}
