@@ -4,12 +4,12 @@ import LoginPage from './pages/login-page';
 import RegisterPage from './pages/register-page';
 import ForgotPasswordPage from './pages/forgot-password-page';
 import ResetPasswordPage from './pages/reset-password-page';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import AppHeader from './components/app-header/app-header';
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <AppHeader />
       <Routes>
         <Route path="/" element={<MainPage />} />
@@ -19,7 +19,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 
