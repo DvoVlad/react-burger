@@ -1,27 +1,57 @@
 import styles from './login.module.css';
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { authUser } from '../../services/user';
 
 function Login() {
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isErrorEmail, setIsErrorEmail] = useState(false);
+  const [isErrorPassword, setIsErrorPassword] = useState(false);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if(!email) {
+      setIsErrorEmail(true);
+      return
+    } else {
+      setIsErrorEmail(false);
+    }
+    if(!password) {
+      setIsErrorPassword(true);
+      return
+    } else {
+      setIsErrorPassword(false);
+    }
+
+    dispatch(authUser({
+      email,
+      password
+    }));
+  }
   return(
-    <form className={`${styles.loginForm}`}>
+    <form className={`${styles.loginForm}`} onSubmit={onSubmit}>
       <h1 className='text text_type_main-medium'>Вход</h1>
       <Input
         type={'email'}
         placeholder={'E-mail'}
-        value=""
+        onChange={e => setEmail(e.target.value)}
+        value={email}
         name={'email'}
-        error={false}
-        errorText={'Ошибка'}
+        error={isErrorEmail}
+        errorText={'Введите Email'}
         size={'default'}
         extraClass="mt-6"
       />
       <PasswordInput
         placeholder={'Пароль'}
-        value=""
+        onChange={e => setPassword(e.target.value)}
+        value={password}
         name={'password'}
-        error={false}
-        errorText={'Ошибка'}
+        error={isErrorPassword}
+        errorText={'Введите пароль'}
         size={'default'}
         extraClass="mt-6"
       />
