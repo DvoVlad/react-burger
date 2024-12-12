@@ -30,6 +30,13 @@ function EditProfile() {
     setIsEdit(true);
   }
 
+  const onReset = (e) => {
+    e.preventDefault();
+    setName(userData?.name || '');
+    setEmail(userData?.email || '');
+    setPassword(userData?.password || '');
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
     if(!name) {
@@ -58,7 +65,7 @@ function EditProfile() {
   }
 
   return(
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} onReset={onReset}>
       <Input
         icon={'EditIcon'}
         type={'text'}
