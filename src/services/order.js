@@ -14,7 +14,10 @@ export const sendOrder = createAsyncThunk(
     const response = await request(sendOrderEndpoint, {
       method: "POST",
       body: JSON.stringify({ ingredients: ingredientsList }),
-      headers: { "Content-Type": "application/json;charset=utf-8" }
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        "authorization" : localStorage.getItem("accessToken")
+      }
     });
     const result = await response.json();
     return result;

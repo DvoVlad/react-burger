@@ -8,11 +8,14 @@ import { useDrop } from 'react-dnd';
 import { addBun, addMain, deleteMain, resetIgredients } from '../../services/ingredients-constructor';
 import ConstructorItem from './constructor-item/constructor-item';
 import { sendOrder } from '../../services/order';
+import { Navigate } from 'react-router-dom';
 
 function BurgerConstructor() {
   const [isError, setIsError] = useState(false);
   const sendError = useSelector((store) => store.myOrder.error);
   const loadingStatus = useSelector((store) => store.myOrder.loadingStatus);
+  const userData = useSelector((store) => store.user.userData);
+  const [isRedirect , setIsRedirect] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -70,6 +73,10 @@ function BurgerConstructor() {
     } else {
       setIsError(false);
     }
+    if(userData === null) {
+      setIsRedirect(true);
+      return
+    }
     let result = [];
     ingredients.forEach((item) => {
       result.push(item._id);
@@ -86,6 +93,7 @@ function BurgerConstructor() {
 
   return (
     <section className='mt-25'>
+      {isRedirect && <Navigate to="/login" replace />}
       {isError && <p className={`${styles.errorMessage} text text_type_main-default mb-5 ml-10 p-5`}>Вы не выбрали бургер или начинку!</p>}
       {sendError && <p className={`${styles.errorMessage} text text_type_main-default mb-5 ml-10 p-5`}>Ваш заказ не отправился! Попробуйте ещё раз!</p>}
       {burger ? 
