@@ -16,7 +16,7 @@ function ProfilePage() {
             <span className={!isActive ? "text_color_inactive" : ""}>История заказов</span>
           )}
         </NavLink>
-        <NavLink to="/exit" className={`${styles.link} text text_type_main-medium`}>
+        <NavLink to="/logout" className={`${styles.link} text text_type_main-medium`}>
           {({ isActive }) => (
             <span className={!isActive ? "text_color_inactive" : ""}>Выход</span>
           )}

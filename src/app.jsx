@@ -6,6 +6,7 @@ import ForgotPasswordPage from './pages/forgot-password-page';
 import ResetPasswordPage from './pages/reset-password-page';
 import ProfilePage from './pages/profile-page';
 import HistoryPage from './pages/history-page';
+import LogoutPage from './pages/logout-page';
 import { Routes, Route } from 'react-router-dom';
 import AppHeader from './components/app-header/app-header';
 import { useEffect } from 'react';
@@ -32,6 +33,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile/orders" element={<HistoryPage />} />
+        <Route path="/logout" element={<LogoutPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

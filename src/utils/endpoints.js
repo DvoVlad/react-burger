@@ -6,5 +6,6 @@ const registerEndpoint = '/auth/register';
 const authEndpoint = '/auth/login';
 const userDataEndpoint = '/auth/user';
 const updateTokenEndpoint = '/auth/token'
+const logoutEndpoint = '/auth/logout';
 
-export { ingredientsEndpoint, sendOrderEndpoint, passwordResetEndpoint, passwordResetStep2Endpoint, registerEndpoint, authEndpoint, userDataEndpoint, updateTokenEndpoint };
+export { ingredientsEndpoint, sendOrderEndpoint, passwordResetEndpoint, passwordResetStep2Endpoint, registerEndpoint, authEndpoint, userDataEndpoint, updateTokenEndpoint, logoutEndpoint };
