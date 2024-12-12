@@ -1,12 +1,19 @@
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
 import styles from './edit-profile-page.module.css'
+import { updateUserData } from '../../services/user';
+import { useDispatch, useSelector } from 'react-redux';
 
 function EditProfilePage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const userData = useSelector((store) => store.user.userData);
+  const [name, setName] = useState(userData?.name || '');
+  const [email, setEmail] = useState(userData?.email || '');
+  const [password, setPassword] = useState(userData?.password || '');
   const [isEdit, setIsEdit] = useState(false);
+  const [isErrorName, setIsErrorName] = useState(false);
+  const [isErrorEmail, setIsErrorEmail] = useState(false);
+  const [isErrorPassword, setIsErrorPassword] = useState(false);
 
   const changeName = (e) => {
     setName(e.target.value);
@@ -23,8 +30,35 @@ function EditProfilePage() {
     setIsEdit(true);
   }
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if(!name) {
+      setIsErrorName(true);
+      return
+    } else {
+      setIsErrorName(false);
+    }
+    if(!email) {
+      setIsErrorEmail(true);
+      return
+    } else {
+      setIsErrorEmail(false);
+    }
+    if(!password) {
+      setIsErrorPassword(true);
+      return
+    } else {
+      setIsErrorPassword(false);
+    }
+    dispatch(updateUserData({
+      name,
+      email,
+      password
+    }));
+  }
+
   return(
-    <form>
+    <form onSubmit={onSubmit}>
       <Input
         icon={'EditIcon'}
         type={'text'}
@@ -32,8 +66,8 @@ function EditProfilePage() {
         onChange={changeName}
         value={name}
         name={'name'}
-        error={false}
-        errorText={'Ошибка'}
+        error={isErrorName}
+        errorText={'Поле не может быть пустым!'}
         size={'default'}
         extraClass="mt-6"
       />
@@ -44,8 +78,8 @@ function EditProfilePage() {
         onChange={changeEmail}
         value={email}
         name={'email'}
-        error={false}
-        errorText={'Ошибка'}
+        error={isErrorEmail}
+        errorText={'Поле не может быть пустым!'}
         size={'default'}
         extraClass="mt-6"
         />
@@ -55,8 +89,8 @@ function EditProfilePage() {
         onChange={changePassword}
         value={password}
         name={'password'}
-        error={false}
-        errorText={'Ошибка'}
+        error={isErrorPassword}
+        errorText={'Поле не может быть пустым!'}
         size={'default'}
         extraClass="mt-6"
       />
