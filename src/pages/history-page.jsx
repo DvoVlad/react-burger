@@ -1,7 +1,6 @@
-import styles from './profile-page.module.css'
-import AppMainProfile from "../components/app-main-profile/app-main-profile";
+import styles from './history-page.module.css'
+import AppMainProfile from '../components/app-main-profile/app-main-profile';
 import { NavLink } from 'react-router-dom';
-import EditProfile from '../components/edit-profile/edit-profile';
 function ProfilePage() {
   return(
     <AppMainProfile>
@@ -22,12 +21,11 @@ function ProfilePage() {
           )}
         </NavLink>
         <div id="desc" className={`${styles.text}`}>
-          <p className={`mt-20 text text_type_main-default`}>В этом разделе вы можете<br/>
-          изменить свои персональные данные</p>
+          <p className={`mt-20 text text_type_main-default`}>В этом разделе вы можете<br/> просмотреть свою историю заказов</p>
         </div>
       </div>
       <div>
-        <EditProfile />
+        Тут будет история заказов
       </div>
   </AppMainProfile>
   );

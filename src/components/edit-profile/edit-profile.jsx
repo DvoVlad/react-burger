@@ -1,10 +1,10 @@
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
-import styles from './edit-profile-page.module.css'
+import styles from './edit-profile.module.css'
 import { updateUserData } from '../../services/user';
 import { useDispatch, useSelector } from 'react-redux';
 
-function EditProfilePage() {
+function EditProfile() {
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.user.userData);
   const [name, setName] = useState(userData?.name || '');
@@ -106,4 +106,4 @@ function EditProfilePage() {
   );
 }
 
-export default EditProfilePage;
+export default EditProfile;
