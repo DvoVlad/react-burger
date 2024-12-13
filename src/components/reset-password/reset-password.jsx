@@ -4,14 +4,29 @@ import { Link } from 'react-router-dom';
 import { request } from '../../utils/helper';
 import { passwordResetStep2Endpoint } from '../../utils/endpoints';
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 function ResetPassword() {
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
   const [message, setMessage] = useState('');
+  const [isErrorPassword, setIsErrorPassword] = useState(false);
+  const [isErrorToken, setIsErrorToken] = useState(false);
   const onSubmit = (e) => {
     e.preventDefault();
 
+    if(!password) {
+      setIsErrorPassword(true);
+      return;
+    } else {
+      setIsErrorPassword(false);
+    }
+    if(!token) {
+      setIsErrorToken(true);
+      return;
+    } else {
+      setIsErrorToken(false);
+    }
     if(!password || !token) return;
     request(passwordResetStep2Endpoint, {
       method: "POST",
@@ -20,6 +35,7 @@ function ResetPassword() {
     })
     .then((res) => res.json())
     .then((data) => {
+      localStorage.setItem("forgot-password", null)
       setMessage(data.message);
     })
     .catch((err) => {
@@ -29,6 +45,7 @@ function ResetPassword() {
 
   return(
     <form className={`${styles.resetForm}`} onSubmit={onSubmit}>
+      {localStorage.getItem("forgot-password") !== 'Y' && <Navigate to="/forgot-password" replace />}
       {message && <p className='text text_type_main-default text_color_inactive mb-1'>{message}</p>}
       <h1 className='text text_type_main-medium'>Восстановление пароля</h1>
       <Input
@@ -38,7 +55,7 @@ function ResetPassword() {
         onChange={e => setPassword(e.target.value)}
         value={password}
         name={'password'}
-        error={false}
+        error={isErrorPassword}
         errorText={'Ошибка'}
         size={'default'}
         extraClass="mt-6"
@@ -48,8 +65,8 @@ function ResetPassword() {
         placeholder={'Введите код из письма'}
         onChange={e => setToken(e.target.value)}
         value={token}
-        name={'password'}
-        error={false}
+        name={'token'}
+        error={isErrorToken}
         errorText={'Ошибка'}
         size={'default'}
         extraClass="mt-6"

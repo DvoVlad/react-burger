@@ -4,22 +4,30 @@ import { Link } from 'react-router-dom';
 import { request } from '../../utils/helper';
 import { passwordResetEndpoint } from '../../utils/endpoints';
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 function ForgotPassword() {
-  const [value, setValue] = useState('');
+  const [email, setEmailValue] = useState('');
   const [message, setMessage] = useState('');
+  const [isErrorEmail, setIsErrorEmail] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if(!value) return;
+    if(isErrorEmail) {
+      setIsErrorEmail(true);
+      return;
+    } else {
+      setIsErrorEmail(false);
+    }
     request(passwordResetEndpoint, {
       method: "POST",
-      body: JSON.stringify({ email: value }),
+      body: JSON.stringify({ email: email }),
       headers: { "Content-Type": "application/json;charset=utf-8" }
     })
     .then((res) => res.json())
     .then((data) => {
+      localStorage.setItem("forgot-password", "Y");
       setMessage(data.message);
     })
     .catch((err) => console.log(err));
@@ -28,15 +36,16 @@ function ForgotPassword() {
   return(
     <form className={`${styles.forgotForm}`} onSubmit={onSubmit}>
       {message && <p className='text text_type_main-default text_color_inactive mb-1'>{message}</p>}
+      {localStorage.getItem("forgot-password") === 'Y' && <Navigate to="/reset-password" replace />}
       <h1 className='text text_type_main-medium'>Восстановление пароля</h1>
       <Input
         type={'email'}
         placeholder={'Укажите e-mail'}
-        onChange={e => setValue(e.target.value)}
-        value={value}
+        onChange={e => setEmailValue(e.target.value)}
+        value={email}
         name={'email'}
-        error={false}
-        errorText={'Ошибка'}
+        error={isErrorEmail}
+        errorText={'Поле не может быть пустым!'}
         size={'default'}
         extraClass="mt-6"
       />
