@@ -16,7 +16,7 @@ export const sendOrder = createAsyncThunk(
       body: JSON.stringify({ ingredients: ingredientsList }),
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        "authorization" : localStorage.getItem("accessToken")
+        "authorization" : "Bearer " + localStorage.getItem("accessToken")
       }
     });
     const result = await response.json();

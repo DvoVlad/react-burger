@@ -13,7 +13,6 @@ import { Navigate } from 'react-router-dom';
 function BurgerConstructor() {
   const [isError, setIsError] = useState(false);
   const sendError = useSelector((store) => store.myOrder.error);
-  const loadingStatus = useSelector((store) => store.myOrder.loadingStatus);
   const userData = useSelector((store) => store.user.userData);
   const [isRedirect , setIsRedirect] = useState(false);
 
@@ -147,7 +146,7 @@ function BurgerConstructor() {
         </Button>
       </div>
       {
-        isOrderModalOpen && !isError && !sendError && loadingStatus === "idle" &&
+        isOrderModalOpen && !isError && !sendError &&
         <Modal onClose={closeModal}>
           <OrderDetails />
         </Modal>

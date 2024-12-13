@@ -7,7 +7,7 @@ function OrderDetails() {
   const isError = useSelector((store) => store.myOrder.error);
   return(
     <>
-      {loadingStatus === 'loading' ? <p className="text_type_main-medium">Загрузка...</p> :
+      {loadingStatus === 'loading' ? <p className="text_type_main-medium m-5">Загрузка...</p> :
       <>
         <p className={styles.orderNumber + " mt-30 text text_type_digits-large"}>{ordenNumber}</p>
         <p className={styles.orderText + " mb-15 text text_type_main-medium"}>идентификатор заказа</p>
