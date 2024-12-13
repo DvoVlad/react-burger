@@ -11,15 +11,23 @@ import { Routes, Route } from 'react-router-dom';
 import AppHeader from './components/app-header/app-header';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getUserData } from './services/user';
+import { getUserData, updateToken } from './services/user';
 
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    if(localStorage.getItem('accessToken') !== null) {
-      console.log("AUTO and SAVE data");
-      dispatch(getUserData());
+    const handleAuth = async () => {
+      if(localStorage.getItem('accessToken') !== null) {
+        console.log("AUTO and SAVE data");
+        const result = await dispatch(getUserData());
+        if(getUserData.rejected.match(result)) {
+          await dispatch(updateToken());
+          dispatch(getUserData());
+        }
+      }
     }
+    handleAuth();
   }, [dispatch]);
 
   return (

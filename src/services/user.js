@@ -1,14 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { request } from "../utils/helper";
 import { registerEndpoint, authEndpoint, userDataEndpoint, updateTokenEndpoint } from "../utils/endpoints";
-import { useDispatch } from "react-redux";
 
 const initialState = {
   userData: null,
   errorRegister: null,
   errorAuth: null,
   getDataError: null, 
-  retry: false
+  //retry: false
 };
 
 export const registerUser = createAsyncThunk(
@@ -44,7 +43,7 @@ export const getUserData = createAsyncThunk(
       method: "GET",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        "authorization": localStorage.getItem('accessToken')
+        "authorization": "Bearer " + localStorage.getItem('accessToken')
       }
     });
     const result = await response.json();
@@ -60,7 +59,7 @@ export const updateUserData = createAsyncThunk(
       body: JSON.stringify(user),
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        "authorization": localStorage.getItem('accessToken')
+        "authorization": "Bearer " + localStorage.getItem('accessToken')
       }
     });
     const result = await response.json();
@@ -140,16 +139,15 @@ const userSlice = createSlice({
         state.getDataError = null;
       })
       // Вызывается в случае ошибки
-      .addCase(getUserData.rejected, async (state, action) => {
-        const dispatch = useDispatch()
+      .addCase(getUserData.rejected, (state, action) => {
         state.loadingStatus = 'failed';
         state.getDataError = action.error;
         state.userData = null;
-        if(!state.retry) {
+        /*if(!state.retry) {
           state.retry = true;
           await dispatch(updateToken());
           await dispatch(getUserData());
-        }
+        }*/
       })
       //Обновление токена
       // Вызывается, если запрос успешно выполнился

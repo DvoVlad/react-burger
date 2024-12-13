@@ -15,8 +15,8 @@ function LogoutPage() {
       body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
       headers: { "Content-Type": "application/json;charset=utf-8" }
     }).then(() => {
-      localStorage.getItem("accessToken", null);
-      localStorage.getItem("refreshToken", null);
+      localStorage.setItem("accessToken", null);
+      localStorage.setItem("refreshToken", null);
       dispatch(clearUserData());
       setLogout(true);
     }).catch(() => {

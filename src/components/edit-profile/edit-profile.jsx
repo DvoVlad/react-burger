@@ -1,5 +1,5 @@
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './edit-profile.module.css'
 import { updateUserData } from '../../services/user';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,13 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 function EditProfile() {
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.user.userData);
-  const [name, setName] = useState(userData?.name || '');
-  const [email, setEmail] = useState(userData?.email || '');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [isErrorName, setIsErrorName] = useState(false);
   const [isErrorEmail, setIsErrorEmail] = useState(false);
-  const [isErrorPassword, setIsErrorPassword] = useState(false);
+
+  useEffect(() => {
+    setName(userData?.name);
+    setEmail(userData?.email)
+  }, [userData])
 
   const changeName = (e) => {
     setName(e.target.value);
@@ -52,17 +56,18 @@ function EditProfile() {
     } else {
       setIsErrorEmail(false);
     }
-    if(!password) {
-      setIsErrorPassword(true);
-      return
+    if(password !== '') {
+      dispatch(updateUserData({
+        name,
+        email,
+        password
+      }));
     } else {
-      setIsErrorPassword(false);
+      dispatch(updateUserData({
+        name,
+        email
+      }));
     }
-    dispatch(updateUserData({
-      name,
-      email,
-      password
-    }));
     setPassword('');
     setIsEdit(false);
   }
@@ -95,12 +100,12 @@ function EditProfile() {
         />
       <PasswordInput
         icon={'EditIcon'}
-        placeholder={'Пароль'}
+        placeholder={'Новый пароль'}
         onChange={changePassword}
         value={password}
         name={'password'}
-        error={isErrorPassword}
-        errorText={'Поле не может быть пустым!'}
+        error={false}
+        errorText={''}
         size={'default'}
         extraClass="mt-6"
       />
