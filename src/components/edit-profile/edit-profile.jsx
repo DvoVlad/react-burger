@@ -9,7 +9,7 @@ function EditProfile() {
   const userData = useSelector((store) => store.user.userData);
   const [name, setName] = useState(userData?.name || '');
   const [email, setEmail] = useState(userData?.email || '');
-  const [password, setPassword] = useState(userData?.password || '');
+  const [password, setPassword] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [isErrorName, setIsErrorName] = useState(false);
   const [isErrorEmail, setIsErrorEmail] = useState(false);
@@ -34,7 +34,8 @@ function EditProfile() {
     e.preventDefault();
     setName(userData?.name || '');
     setEmail(userData?.email || '');
-    setPassword(userData?.password || '');
+    setPassword('');
+    setIsEdit(false);
   }
 
   const onSubmit = (e) => {
@@ -62,6 +63,8 @@ function EditProfile() {
       email,
       password
     }));
+    setPassword('');
+    setIsEdit(false);
   }
 
   return(
