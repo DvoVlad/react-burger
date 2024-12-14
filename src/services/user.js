@@ -91,6 +91,9 @@ const userSlice = createSlice({
     },
     clearUserData: (state) => {
       state.userData = null;
+    },
+    setStatusIdle: (state) => {
+      state.loadingStatus = 'idle';
     }
   },
   extraReducers: (builder) => {
@@ -110,6 +113,7 @@ const userSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.errorRegister = action.error;
         state.userData = null;
+        state.loadingStatus = 'idle';
       })
       // Вызывается прямо перед выполнением запроса
       .addCase(authUser.pending, (state) => {
@@ -121,6 +125,7 @@ const userSlice = createSlice({
         state.errorAuth = null;
         localStorage.setItem('accessToken', action.payload.accessToken.split('Bearer ')[1]);
         localStorage.setItem('refreshToken', action.payload.refreshToken);
+        state.loadingStatus = 'idle';
       })
       // Вызывается в случае ошибки
       .addCase(authUser.rejected, (state, action) => {
@@ -152,6 +157,7 @@ const userSlice = createSlice({
       })
       // Вызывается в случае ошибки
       .addCase(updateToken.rejected, (state, action) => {
+        state.loadingStatus = 'failed update';
         console.log("FAILED UPDATE TOKEN");
       })
       //UPDATE USER DATA
@@ -165,6 +171,6 @@ const userSlice = createSlice({
   }
 });
 
-export const { setUserData, clearUserData } = userSlice.actions;
+export const { setUserData, clearUserData, setStatusIdle } = userSlice.actions;
 
 export default userSlice.reducer;

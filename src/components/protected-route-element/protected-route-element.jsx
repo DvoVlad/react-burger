@@ -6,7 +6,7 @@ function ProtectedRouteElement({element, auth = false}) {
   const userData = useSelector((store) => store.user.userData);
   const loadingStatus = useSelector((store) => store.user.loadingStatus)
 
-  if(loadingStatus === 'idle' || loadingStatus === 'failed') {
+  if(loadingStatus === 'idle' || loadingStatus === 'failed update') {
     if(auth) {
       return(userData ? element : <Navigate to="/login" replace/>);
     } else {
