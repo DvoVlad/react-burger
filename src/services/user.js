@@ -6,8 +6,8 @@ const initialState = {
   userData: null,
   errorRegister: null,
   errorAuth: null,
-  getDataError: null, 
-  //retry: false
+  getDataError: null,
+  loadingStatus: null
 };
 
 export const registerUser = createAsyncThunk(
@@ -143,11 +143,6 @@ const userSlice = createSlice({
         state.loadingStatus = 'failed';
         state.getDataError = action.error;
         state.userData = null;
-        /*if(!state.retry) {
-          state.retry = true;
-          await dispatch(updateToken());
-          await dispatch(getUserData());
-        }*/
       })
       //Обновление токена
       // Вызывается, если запрос успешно выполнился

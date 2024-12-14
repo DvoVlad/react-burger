@@ -4,11 +4,16 @@ import PropTypes from "prop-types";
 
 function ProtectedRouteElement({element, auth = false}) {
   const userData = useSelector((store) => store.user.userData);
+  const loadingStatus = useSelector((store) => store.user.loadingStatus)
 
-  if(auth) {
-    return(userData ? element : <Navigate to="/login" replace/>);
+  if(loadingStatus === 'idle' || loadingStatus === 'failed') {
+    if(auth) {
+      return(userData ? element : <Navigate to="/login" replace/>);
+    } else {
+      return(!userData ? element : <Navigate to="/" replace/>);
+    }
   } else {
-    return(!userData ? element : <Navigate to="/" replace/>);
+    return null;
   }
 }
 
