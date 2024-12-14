@@ -12,6 +12,7 @@ import AppHeader from './components/app-header/app-header';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getUserData, updateToken } from './services/user';
+import ProtectedRouteElement from './components/protected-route-element/protected-route-element';
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function App() {
         const result = await dispatch(getUserData());
         if(getUserData.rejected.match(result)) {
           await dispatch(updateToken());
+          //TODO написать очищение токена если не удалось обновиться
           dispatch(getUserData());
         }
       }
@@ -35,13 +37,13 @@ function App() {
       <AppHeader />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/profile/orders" element={<HistoryPage />} />
-        <Route path="/logout" element={<LogoutPage />} />
+        <Route path="/login" element={<ProtectedRouteElement element={<LoginPage />} />} />
+        <Route path="/register" element={<ProtectedRouteElement element={<RegisterPage />} />} />
+        <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPasswordPage />} />} />
+        <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPasswordPage />} />} />
+        <Route path="/profile" element={<ProtectedRouteElement auth element={<ProfilePage />} />} />
+        <Route path="/profile/orders" element={<ProtectedRouteElement auth element={<HistoryPage />} />} />
+        <Route path="/logout" element={<ProtectedRouteElement auth element={<LogoutPage />} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
