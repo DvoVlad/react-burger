@@ -26,7 +26,7 @@ function LogoutPage() {
 
   return(
     <>
-      {logout && <p>Вы вышли из системы</p> && <Navigate to="/" replace/>}
+      {logout && <p>Вы вышли из системы</p> && <Navigate to="/login" replace/>}
       {isLogoutError && <p>Не удалось выйти из системы. Попробуйте ещё раз</p>}
     </>
   )
