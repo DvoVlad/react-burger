@@ -1,32 +1,17 @@
-import { useEffect, useState } from "react";
-import { request } from "../utils/helper";
-import { logoutEndpoint } from "../utils/endpoints";
-import { clearUserData } from "../services/user";
-import { useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { logout } from "../services/user";
+import { useDispatch, useSelector } from "react-redux";
 
 function LogoutPage() {
-  const [logout, setLogout] = useState(false);
-  const [isLogoutError, setIsLogoutError] = useState(false);
   const dispatch = useDispatch();
+  const isLogoutError = useSelector((store) => store.user.logoutError)
   useEffect(() => {
-    request(logoutEndpoint, {
-      method: "POST",
-      body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
-      headers: { "Content-Type": "application/json;charset=utf-8" }
-    }).then(() => {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      dispatch(clearUserData());
-      setLogout(true);
-    }).catch(() => {
-      setIsLogoutError(true);
-    });
+    dispatch(logout());
   }, [dispatch])
 
   return(
     <>
-      {logout && <p>Вы вышли из системы</p> && <Navigate to="/login" replace/>}
+      {!isLogoutError && <p>Вы вышли из системы</p>}
       {isLogoutError && <p>Не удалось выйти из системы. Попробуйте ещё раз</p>}
     </>
   )

@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { request } from "../utils/helper";
-import { registerEndpoint, authEndpoint, userDataEndpoint, updateTokenEndpoint } from "../utils/endpoints";
+import { registerEndpoint, authEndpoint, userDataEndpoint, updateTokenEndpoint, logoutEndpoint } from "../utils/endpoints";
 
 const initialState = {
   userData: null,
   errorRegister: null,
   errorAuth: null,
   getDataError: null,
-  loadingStatus: null
+  loadingStatus: null,
+  logoutError: null
 };
 
 export const registerUser = createAsyncThunk(
@@ -81,6 +82,19 @@ export const updateToken = createAsyncThunk(
     return result;
   }
 );
+
+export const logout = createAsyncThunk(
+  'user/logout',
+  async () => {
+    const response = await request(logoutEndpoint, {
+      method: "POST",
+      body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
+      headers: { "Content-Type": "application/json;charset=utf-8" }
+    });
+    const result = await response.json();
+    return result;
+  }
+)
 
 const userSlice = createSlice({
   name: 'user',
@@ -167,7 +181,18 @@ const userSlice = createSlice({
       // Вызывается в случае ошибки
       .addCase(updateUserData.rejected, (state, action) => {
         console.log("FAILED UPDATE USER");
+      })
+      //logout
+      .addCase(logout.fulfilled, (state, action) => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        state.userData = null;
+      })
+      // Вызывается в случае ошибки
+      .addCase(logout.rejected, (state, action) => {
+        state.logoutError = action.error;
       });
+
   }
 });
 
