@@ -16,3 +16,8 @@
 .isDragging {
   border: 1px solid green;
 }
+
+.link {
+  text-decoration: none;
+  color: #F2F2F3;
+}

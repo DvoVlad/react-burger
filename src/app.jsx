@@ -7,17 +7,24 @@ import ResetPasswordPage from './pages/reset-password-page';
 import ProfilePage from './pages/profile-page';
 import HistoryPage from './pages/history-page';
 import LogoutPage from './pages/logout-page';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import AppHeader from './components/app-header/app-header';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { getUserData, updateToken, setStatusIdle } from './services/user';
 import ProtectedRouteElement from './components/protected-route-element/protected-route-element';
+import { fetchIngredients } from './services/ingredients';
+import IngredientPage from './pages/ingredient-page';
+import Modal from './components/modal/modal';
+import IngredientDetails from './components/burger-ingredients/ingredient-details/ingredient-details';
 
 function App() {
   const dispatch = useDispatch();
-
+  let isDispatched = useRef(false);
   useEffect(() => {
+    if(isDispatched.current) {
+      return
+    }
     const handleAuth = async () => {
       if(localStorage.getItem('accessToken') !== null) {
         console.log("AUTO and SAVE data");
@@ -36,12 +43,19 @@ function App() {
       }
     }
     handleAuth();
+    dispatch(fetchIngredients());
+    return () => {
+      isDispatched.current = true;
+    }
   }, [dispatch]);
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <>
       <AppHeader />
-      <Routes>
+      <Routes location={location.state?.background ?? location}>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<ProtectedRouteElement element={<LoginPage />} />} />
         <Route path="/register" element={<ProtectedRouteElement element={<RegisterPage />} />} />
@@ -50,8 +64,21 @@ function App() {
         <Route path="/profile" element={<ProtectedRouteElement auth element={<ProfilePage />} />} />
         <Route path="/profile/orders" element={<ProtectedRouteElement auth element={<HistoryPage />} />} />
         <Route path="/logout" element={<ProtectedRouteElement auth element={<LogoutPage />} />} />
+        <Route path="/ingredients/:id" element={<IngredientPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      {location.state?.background ? (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal onClose={() => navigate(-1)} title="Детали ингредиента">
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      ) : null}
     </>
   );
 }
