@@ -46,16 +46,17 @@ function EditProfile() {
     e.preventDefault();
     if(!name) {
       setIsErrorName(true);
-      return
     } else {
       setIsErrorName(false);
     }
     if(!email) {
       setIsErrorEmail(true);
-      return
     } else {
       setIsErrorEmail(false);
     }
+
+    if(!name || !email) return;
+
     if(password !== '') {
       dispatch(updateUserData({
         name,

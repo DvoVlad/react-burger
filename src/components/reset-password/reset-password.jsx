@@ -17,13 +17,11 @@ function ResetPassword() {
 
     if(!password) {
       setIsErrorPassword(true);
-      return;
     } else {
       setIsErrorPassword(false);
     }
     if(!token) {
       setIsErrorToken(true);
-      return;
     } else {
       setIsErrorToken(false);
     }
