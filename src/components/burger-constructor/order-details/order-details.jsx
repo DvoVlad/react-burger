@@ -3,7 +3,7 @@ import markImage from "../../../images/order-done.png"
 import { useSelector } from "react-redux";
 function OrderDetails() {
   const loadingStatus = useSelector((store) => store.myOrder.loadingStatus)
-  const ordenNumber = useSelector((store) => store.myOrder.data.order.number);
+  const ordenNumber = useSelector((store) => store.myOrder.data?.order.number);
   const isError = useSelector((store) => store.myOrder.error);
   return(
     <>

@@ -5,7 +5,7 @@ import RegisterPage from './pages/register-page';
 import ForgotPasswordPage from './pages/forgot-password-page';
 import ResetPasswordPage from './pages/reset-password-page';
 import ProfilePage from './pages/profile-page';
-import HistoryPage from './pages/history-page';
+import History from './components/history/history';
 import LogoutPage from './pages/logout-page';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import AppHeader from './components/app-header/app-header';
@@ -17,6 +17,7 @@ import { fetchIngredients } from './services/ingredients';
 import IngredientPage from './pages/ingredient-page';
 import Modal from './components/modal/modal';
 import IngredientDetails from './components/burger-ingredients/ingredient-details/ingredient-details';
+import EditProfile from './components/edit-profile/edit-profile';
 
 function App() {
   const dispatch = useDispatch();
@@ -61,8 +62,10 @@ function App() {
         <Route path="/register" element={<ProtectedRouteElement element={<RegisterPage />} />} />
         <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPasswordPage />} />} />
         <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPasswordPage />} />} />
-        <Route path="/profile" element={<ProtectedRouteElement auth element={<ProfilePage />} />} />
-        <Route path="/profile/orders" element={<ProtectedRouteElement auth element={<HistoryPage />} />} />
+        <Route path="/profile" element={<ProtectedRouteElement auth element={<ProfilePage />} />}>
+           <Route index element={<EditProfile />} />
+           <Route path="orders" element={<History />} />
+        </Route>
         <Route path="/logout" element={<ProtectedRouteElement auth element={<LogoutPage />} />} />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
         <Route path="*" element={<NotFound />} />

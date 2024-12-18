@@ -1,8 +1,8 @@
 import styles from './profile-page.module.css'
 import AppMainProfile from "../components/app-main-profile/app-main-profile";
-import { NavLink } from 'react-router-dom';
-import EditProfile from '../components/edit-profile/edit-profile';
+import { NavLink, useHref, Outlet } from 'react-router-dom';
 function ProfilePage() {
+  const currentUrl = useHref();
   return(
     <AppMainProfile>
       <div>
@@ -21,13 +21,20 @@ function ProfilePage() {
             <span className={!isActive ? "text_color_inactive" : ""}>Выход</span>
           )}
         </NavLink>
-        <div id="desc" className={`${styles.text}`}>
+        {currentUrl === '/profile' && 
+        <div className={`${styles.text}`}>
           <p className={`mt-20 text text_type_main-default`}>В этом разделе вы можете<br/>
           изменить свои персональные данные</p>
         </div>
+        }
+        {currentUrl === '/profile/orders' &&
+        <div className={`${styles.text}`}>
+          <p className={`mt-20 text text_type_main-default`}>В этом разделе вы можете<br/> просмотреть свою историю заказов</p>
+        </div>
+        }
       </div>
       <div>
-        <EditProfile />
+        <Outlet />
       </div>
   </AppMainProfile>
   );
