@@ -1,7 +1,7 @@
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 import styles from './edit-profile.module.css'
-import { updateUserData } from '../../services/user';
+import { updateUserData, updateToken, clearUserData } from '../../services/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 function EditProfile() {
@@ -42,7 +42,7 @@ function EditProfile() {
     setIsEdit(false);
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if(!name) {
       setIsErrorName(true);
@@ -57,17 +57,29 @@ function EditProfile() {
 
     if(!name || !email) return;
 
+    let sendData;
     if(password !== '') {
-      dispatch(updateUserData({
+      sendData = {
         name,
         email,
         password
-      }));
+      };
     } else {
-      dispatch(updateUserData({
+      sendData = {
         name,
         email
-      }));
+      };
+    }
+    const result = await dispatch(updateUserData(sendData));
+    if(updateUserData.rejected.match(result)) {
+      const updateTokenResult = await dispatch(updateToken());
+      if(!updateToken.rejected.match(updateTokenResult)) {
+        dispatch(updateUserData(sendData));
+      } else {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        dispatch(clearUserData());
+      }
     }
     setPassword('');
     setIsEdit(false);
