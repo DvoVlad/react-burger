@@ -14,7 +14,7 @@ function ForgotPassword() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if(isErrorEmail) {
+    if(!email) {
       setIsErrorEmail(true);
       return;
     } else {
@@ -30,7 +30,9 @@ function ForgotPassword() {
       localStorage.setItem("forgot-password", "Y");
       setMessage(data.message);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      setMessage('Incorrect email');
+    });
   }
 
   return(

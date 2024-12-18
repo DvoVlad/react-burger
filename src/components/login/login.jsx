@@ -2,11 +2,12 @@ import styles from './login.module.css';
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authUser } from '../../services/user';
 
 function Login() {
   const dispatch = useDispatch();
+  const isErrorAuth = useSelector((store) => store.user.errorAuth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isErrorEmail, setIsErrorEmail] = useState(false);
@@ -15,16 +16,15 @@ function Login() {
     e.preventDefault();
     if(!email) {
       setIsErrorEmail(true);
-      return
     } else {
       setIsErrorEmail(false);
     }
     if(!password) {
       setIsErrorPassword(true);
-      return
     } else {
       setIsErrorPassword(false);
     }
+    if(!email && !password) return;
 
     dispatch(authUser({
       email,
@@ -34,6 +34,7 @@ function Login() {
   return(
     <form className={`${styles.loginForm}`} onSubmit={onSubmit}>
       <h1 className='text text_type_main-medium'>Вход</h1>
+      {isErrorAuth && <p>Неверный логин или пароль!</p>}
       <Input
         type={'email'}
         placeholder={'E-mail'}

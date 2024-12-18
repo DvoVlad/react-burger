@@ -2,11 +2,12 @@ import styles from './register.module.css';
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../services/user';
 
 function Register() {
   const dispatch = useDispatch();
+  const isErrorRegister = useSelector((store) => store.user.errorRegister);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,22 +19,21 @@ function Register() {
     e.preventDefault();
     if(!name) {
       setIsErrorName(true);
-      return
     } else {
       setIsErrorName(false);
     }
     if(!email) {
       setIsErrorEmail(true);
-      return
     } else {
       setIsErrorEmail(false);
     }
     if(!password) {
       setIsErrorPassword(true);
-      return
     } else {
       setIsErrorPassword(false);
     }
+
+    if(!name || !email || !password) return;
 
     dispatch(registerUser({
       email,
@@ -45,6 +45,7 @@ function Register() {
   return(
     <form className={`${styles.registerForm}`} onSubmit={onSubmit}>
       <h1 className='text text_type_main-medium'>Регистрация</h1>
+      {isErrorRegister && <p className='text text_type_main-default'>Ошибка регистрации!</p>}
       <Input
         type={'text'}
         placeholder={'Имя'}
