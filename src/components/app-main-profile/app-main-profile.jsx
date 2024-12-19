@@ -1,8 +1,7 @@
-import React from 'react';
-import styles from './app-main.module.css';
+import styles from './app-main-profile.module.css';
 import PropTypes from 'prop-types';
 
-function AppMain({children}) {
+function AppMainProfile({children}) {
   return (
     <main className={styles.main}>
       {children}
@@ -10,8 +9,8 @@ function AppMain({children}) {
   );
 }
 
-AppMain.propTypes = {
+AppMainProfile.propTypes = {
   children: PropTypes.node
 }
 
-export default AppMain;
+export default AppMainProfile;

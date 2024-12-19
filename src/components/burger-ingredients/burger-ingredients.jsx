@@ -5,8 +5,6 @@ import BunItem from './bun-item/bun-item';
 import SauceItem from './sauce-item/sauce-item';
 import MainItem from './main-item/main-item';
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { fetchIngredients } from '../../services/ingredients';
 function BurgerIngredients() {
   const data = useSelector((store) => store.ingredients.items);
   const buns = data.filter((item) => item.type === 'bun');
@@ -54,18 +52,6 @@ function BurgerIngredients() {
       isScroll.current = false;
     }
   }, [current]);
-
-  const dispatch = useDispatch();
-  let isDispatched = useRef(false);
-  useEffect(() => {
-    if(isDispatched.current) {
-      return
-    }
-    dispatch(fetchIngredients());
-    return () => {
-      isDispatched.current = true;
-    }
-  }, [dispatch]);
 
   const tabs = [
     {

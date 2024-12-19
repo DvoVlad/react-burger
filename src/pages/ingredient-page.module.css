@@ -1,0 +1,17 @@
+.ingredientWrapper {
+  width: 640px;
+  margin: 120px auto 0;
+  text-align: center;
+}
+
+.ingredientInfo {
+  display: grid;
+  gap: 20px;
+  width: 516px;
+  margin: 0 auto;
+  grid-template-columns: 120px 112px 112px 112px;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+}
