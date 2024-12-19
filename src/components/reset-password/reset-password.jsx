@@ -33,7 +33,7 @@ function ResetPassword() {
     })
     .then((res) => res.json())
     .then((data) => {
-      localStorage.setItem("forgot-password", null)
+      localStorage.removeItem("forgot-password");
       setMessage(data.message);
     })
     .catch((err) => {
