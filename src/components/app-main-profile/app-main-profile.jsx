@@ -1,4 +1,5 @@
 import styles from './app-main-profile.module.css';
+import PropTypes from 'prop-types';
 
 function AppMainProfile({children}) {
   return (
@@ -6,6 +7,10 @@ function AppMainProfile({children}) {
       {children}
     </main>
   );
+}
+
+AppMainProfile.propTypes = {
+  children: PropTypes.node
 }
 
 export default AppMainProfile;
