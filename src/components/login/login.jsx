@@ -24,8 +24,7 @@ function Login() {
     } else {
       setIsErrorPassword(false);
     }
-    if(!email && !password) return;
-
+    if(!email || !password) return;
     dispatch(authUser({
       email,
       password

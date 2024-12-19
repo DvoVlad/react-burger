@@ -22,6 +22,9 @@ import EditProfile from './components/edit-profile/edit-profile';
 function App() {
   const dispatch = useDispatch();
   let isDispatched = useRef(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
   useEffect(() => {
     if(isDispatched.current) {
       return
@@ -49,9 +52,6 @@ function App() {
       isDispatched.current = true;
     }
   }, [dispatch]);
-
-  const location = useLocation();
-  const navigate = useNavigate();
 
   return (
     <>
