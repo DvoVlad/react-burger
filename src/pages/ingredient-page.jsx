@@ -1,24 +1,27 @@
-import styles from "./ingredient-details.module.css";
-import { useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
-function IngredientDetails() {
+import { useSelector } from "react-redux";
+import styles from './ingredient-page.module.css'
+import NotFound from "./not-found";
+
+function IngredientPage() {
   const { id } = useParams();
   const ingredientsItems = useSelector((store) => store.ingredients.items);
   const item = ingredientsItems.find((item) => item._id === id) || null;
   const loadingStatus = useSelector((store) => store.ingredients.loadingStatus);
-
-  return (
+  return(
     <>
       {loadingStatus === 'loading' && 
-        <p>Загрузка...</p>
+        <div className={`${styles.ingredientWrapper}`}>
+          <p>Загрузка...</p>
+        </div>
       }
-      {loadingStatus === 'idle' && item &&
-        <>
-          <div className={styles.imageWrapper}>
-            <img width="480" height="240" src={item.image_large} alt={item.name} />
-          </div>
-          <h2 className={styles.title + " text text_type_main-medium mt-4 mb-8"}>{item.name}</h2>
-          <ul className={styles.ingredientInfo + " mb-15"}>
+      {
+        loadingStatus === 'idle' && item &&
+        <div className={`${styles.ingredientWrapper}`}>
+          <h2 className={`text text_type_main-large`}>Детали ингредиента</h2>
+          <img width="480" height="240" alt={item.name} src={item.image_large}/>
+          <h3 className={`text text_type_main-medium mt-4 mb-8`}>{item.name}</h3>
+          <ul className={styles.ingredientInfo}>
             <li className={styles.ingredientItem}>
               <p className="text text_type_main-default text_color_inactive mb-2">Калории,ккал</p>
               <p className="text text_type_digits-default text_color_inactive">{item.calories}</p>
@@ -36,11 +39,11 @@ function IngredientDetails() {
               <p className="text text_type_digits-default text_color_inactive">{item.carbohydrates}</p>
             </li>
           </ul>
-        </>
+        </div>
       }
-      {loadingStatus === 'idle' && item === null && <p>Ингредиент не найден!</p>}
+      {loadingStatus === 'idle' && item === null && <NotFound />}
     </>
   );
 }
 
-export default IngredientDetails;
+export default IngredientPage;

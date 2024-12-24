@@ -1,0 +1,11 @@
+.loginForm {
+  width: 480px;
+  min-height: 430px;
+  margin: 180px auto 0;
+  text-align: center;
+}
+
+.link {
+  text-decoration: none;
+  color: #4c4cff;
+}

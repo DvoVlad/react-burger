@@ -1,0 +1,10 @@
+.link {
+  display: block;
+  color: #f2f2f3;
+  text-decoration: none;
+  height: 64px;
+}
+
+.text {
+  color: #8585ad;
+}
