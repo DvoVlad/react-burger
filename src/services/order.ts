@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { sendOrderEndpoint } from '../utils/endpoints';
 import { request } from '../utils/helper';
+import { SerializedError } from '@reduxjs/toolkit';
 
 interface initialStateStore {
   data: any;
-  error: any;
+  error: SerializedError | null;
   loadingStatus: 'loading' | 'idle' | 'failed' | null;
 }
 

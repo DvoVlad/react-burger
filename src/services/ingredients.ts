@@ -2,10 +2,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ingredientsEndpoint } from '../utils/endpoints';
 import { request } from '../utils/helper';
 import { ingredientType } from '../utils/types';
+import { SerializedError } from '@reduxjs/toolkit';
 
 interface initialStateIngredients {
   items: ingredientType[];
-  error: any;
+  error: SerializedError | null;
   loadingStatus: 'loading' | 'idle' | 'failed' | null;
 }
 
