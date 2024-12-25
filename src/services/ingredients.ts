@@ -1,8 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ingredientsEndpoint } from '../utils/endpoints';
 import { request } from '../utils/helper';
+import { ingredientType } from '../utils/types';
 
-const initialState = {
+interface initialStateIngredients {
+  items: ingredientType[];
+  error: any;
+  loadingStatus: 'loading' | 'idle' | 'failed' | null;
+}
+
+const initialState: initialStateIngredients = {
   items: [],
   error: null,
   loadingStatus: null

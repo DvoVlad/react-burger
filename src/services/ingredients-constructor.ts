@@ -1,7 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
+import { ingredientTypeConstructor, ingredientType} from '../utils/types';
+import type { PayloadAction } from '@reduxjs/toolkit'
 
-const initialState = {
+interface initialStateStore {
+  bun: ingredientType | null;
+  items: ingredientTypeConstructor[];
+}
+
+const initialState: initialStateStore = {
   bun: null,
   items: []
 };
@@ -14,12 +21,12 @@ const ingredientsConstructorSlice = createSlice({
       state.bun = action.payload;
     },
     addMain: {
-      reducer: (state, action) => {
+      reducer: (state, action: PayloadAction<ingredientTypeConstructor>) => {
         const item = action.payload;
         state.items = [...state.items, item];
       },
-      prepare: (item) => {
-        const uuid = uuidv4();
+      prepare: (item: ingredientType) => {
+        const uuid: string = uuidv4();
         return { payload: { ...item, uuid } }
       },
     },

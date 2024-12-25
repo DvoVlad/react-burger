@@ -1,11 +1,17 @@
+import { FC } from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './main-item.module.css';
+import styles from './sauce-item.module.css';
 import { ingredientType } from '../../../utils/types';
 import { useDrag } from 'react-dnd';
-import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-function MainItem({ item, counter }) {
-  const [{isDragging}, dragMain] = useDrag(() => ({
+
+interface SauceItemProps {
+  item: ingredientType,
+  counter: number
+}
+
+const SauceItem: FC<SauceItemProps> = ({ item, counter }) => {
+  const [{isDragging}, dragSauce] = useDrag(() => ({
     type: 'main',
     item: {...item},
     collect: monitor => ({
@@ -13,9 +19,9 @@ function MainItem({ item, counter }) {
     }),
   }))
   const location = useLocation();
-
+  
   return (
-    <Link to={`/ingredients/${item._id}`} state={{ background: location }} className={`${styles.link}`} ref={dragMain}>
+    <Link to={`/ingredients/${item._id}`} state={{ background: location }} className={`${styles.link}`} ref={dragSauce}>
       <article className={`${styles.item} ${isDragging ? styles.isDragging : ''}`}>
         <img src={item.image} alt={item.name} className='ml-4 mr-4' />
         <p className={styles.price + ' text text_type_digits-default mt-1 mb-1'}><span className='mr-2'>{item.price}</span> <CurrencyIcon type="primary"/></p>
@@ -26,9 +32,4 @@ function MainItem({ item, counter }) {
   );
 }
 
-MainItem.propTypes = {
-  item: ingredientType.isRequired,
-  counter: PropTypes.number.isRequired
-}
-
-export default MainItem;
+export default SauceItem;

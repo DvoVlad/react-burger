@@ -1,31 +1,33 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, FC } from 'react';
 import styles from './burger-constructor.module.css';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from './order-details/order-details';
-import { useSelector, useDispatch } from 'react-redux';
+//import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { addBun, addMain, deleteMain, resetIgredients } from '../../services/ingredients-constructor';
 import ConstructorItem from './constructor-item/constructor-item';
 import { sendOrder } from '../../services/order';
 import { Navigate } from 'react-router-dom';
+import { ingredientTypeConstructor, ingredientType} from '../../utils/types';
+import { useAppDispatch, useAppSelector } from '../../services';
 
-function BurgerConstructor() {
+const BurgerConstructor: FC = () => {
   const [isError, setIsError] = useState(false);
-  const sendError = useSelector((store) => store.myOrder.error);
-  const userData = useSelector((store) => store.user.userData);
+  const sendError = useAppSelector((store) => store.myOrder.error);
+  const userData = useAppSelector((store) => store.user.userData);
   const [isRedirect , setIsRedirect] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const deleteMainItem = (uuid) => {
+  const deleteMainItem = (uuid: string) => {
     dispatch(deleteMain(uuid));
   }
 
   const [{ isOverMain }, dropMain] = useDrop(
     () => ({
       accept: 'main',
-      drop: (item) => {
+      drop: (item: ingredientType) => {
         dispatch(addMain(item));
       },
       collect: (monitor) => ({
@@ -36,7 +38,7 @@ function BurgerConstructor() {
   const [{ isOverTop }, dropBunTop] = useDrop(
     () => ({
       accept: 'bun',
-      drop: (item) => {
+      drop: (item: ingredientType) => {
         dispatch(addBun(item));
       },
       collect: (monitor) => ({
@@ -47,7 +49,7 @@ function BurgerConstructor() {
   const [{ isOverBottom }, dropBunBottom] = useDrop(
     () => ({
       accept: 'bun',
-      drop: (item) => {
+      drop: (item: ingredientType) => {
         dispatch(addBun(item));
       },
       collect: (monitor) => ({
@@ -56,10 +58,10 @@ function BurgerConstructor() {
     })
   )
 
-  const burger = useSelector((store) => store.ingredientsConstructor.bun);
-  const ingredients = useSelector((store) => store.ingredientsConstructor.items);
+  const burger = useAppSelector((store) => store.ingredientsConstructor.bun);
+  const ingredients = useAppSelector((store) => store.ingredientsConstructor.items);
   const total = useMemo(() => {
-    const ingredientsPrice = ingredients.reduce((acc, item) => acc + item.price, 0);
+    const ingredientsPrice = ingredients.reduce((acc: number, item: ingredientTypeConstructor) => acc + item.price, 0);
     return ingredientsPrice + (burger === null ? 0 : burger.price) * 2;
   }, [ingredients, burger]);
 
@@ -76,8 +78,8 @@ function BurgerConstructor() {
       setIsRedirect(true);
       return
     }
-    let result = [];
-    ingredients.forEach((item) => {
+    let result:string[] = [];
+    ingredients.forEach((item: ingredientTypeConstructor) => {
       result.push(item._id);
     })
     result = [burger._id, ...result, burger._id];
@@ -118,7 +120,7 @@ function BurgerConstructor() {
             </div>
           </li>
         }
-        {ingredients.map((item, index) => (
+        {ingredients.map((item: ingredientTypeConstructor, index: number) => (
           <li key={item.uuid}>
             <ConstructorItem item={item} handleClose={() => deleteMainItem(item.uuid)} index={index}/>
           </li>

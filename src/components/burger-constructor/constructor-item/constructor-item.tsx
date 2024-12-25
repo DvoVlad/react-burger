@@ -1,18 +1,27 @@
-import { useRef } from 'react';
+import { useRef, FC } from 'react';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientType } from '../../../utils/types';
-import PropTypes from 'prop-types';
+import { ingredientTypeConstructor } from '../../../utils/types';
 import styles from './constructor-item.module.css'
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { moveIngredient } from '../../../services/ingredients-constructor';
 
-function ConstructorItem({item, handleClose, index}) {
-  const ref = useRef(null);
+interface ConstructorItemProps {
+  item: ingredientTypeConstructor,
+  handleClose: () => void,
+  index: number
+}
+
+interface IItem {
+  index: number
+}
+
+const ConstructorItem: FC<ConstructorItemProps> = ({item, handleClose, index}) => {
+  const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const [, drop] = useDrop({
     accept: 'constructorMain',
-    hover(item, monitor) {
+    hover(item: IItem, monitor) {
         if (!ref.current) {
             return;
         }
@@ -24,6 +33,7 @@ function ConstructorItem({item, handleClose, index}) {
         const hoverBoundingRect = ref.current?.getBoundingClientRect();
         const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
         const clientOffset = monitor.getClientOffset();
+        if(clientOffset === null) return;
         const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
         if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -57,12 +67,6 @@ function ConstructorItem({item, handleClose, index}) {
       />
     </div>
   )
-}
-
-ConstructorItem.propTypes = {
-  item: ingredientType.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired
 }
 
 export default ConstructorItem;

@@ -2,7 +2,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { sendOrderEndpoint } from '../utils/endpoints';
 import { request } from '../utils/helper';
 
-const initialState = {
+interface initialStateStore {
+  data: any;
+  error: any;
+  loadingStatus: 'loading' | 'idle' | 'failed' | null;
+}
+
+const initialState: initialStateStore = {
   data: null,
   error: null,
   loadingStatus: null
@@ -10,7 +16,7 @@ const initialState = {
 
 export const sendOrder = createAsyncThunk(
   'order/sendOrder',
-  async (ingredientsList) => {
+  async (ingredientsList: string[]) => {
     const response = await request(sendOrderEndpoint, {
       method: "POST",
       body: JSON.stringify({ ingredients: ingredientsList }),
