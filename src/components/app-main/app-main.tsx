@@ -1,17 +1,16 @@
-import React from 'react';
+import React,{ FC, ReactNode } from 'react';
 import styles from './app-main.module.css';
-import PropTypes from 'prop-types';
 
-function AppMain({children}) {
+interface AppMainProps {
+  children: ReactNode
+}
+
+const AppMain: FC<AppMainProps> = ({children}) => {
   return (
     <main className={styles.main}>
       {children}
     </main>
   );
-}
-
-AppMain.propTypes = {
-  children: PropTypes.node
 }
 
 export default AppMain;
