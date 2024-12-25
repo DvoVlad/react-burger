@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './app-header.module.css';
 import AppHeaderLink from './app-header-link/app-header-link';
 import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components'
 
-function AppHeader() {
+const AppHeader: FC = () => {
   return (
     <header className={styles.header + " mt-10"}>
       <div className={styles.container + ' pt-4 pb-4'}>

@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { FC, ReactNode, ElementType } from 'react';
 import styles from './app-header-link.module.css';
-import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-function AppHeaderLink({children, className, icon, link}) {
-  let Icon = icon;
+
+interface AppHeaderLinkProps {
+  children: ReactNode,
+  className: string,
+  icon: ElementType,
+  link: string
+}
+
+const AppHeaderLink: FC<AppHeaderLinkProps> = ({children, className, icon, link}) => {
+  let Icon: ElementType = icon;
   
   return (
     <NavLink to={link} className={styles.link + ' ' + className}>
@@ -15,11 +22,5 @@ function AppHeaderLink({children, className, icon, link}) {
     </NavLink>
   );
 }
-
-AppHeaderLink.propTypes = {
-  children: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  icon: PropTypes.elementType.isRequired
-}; 
 
 export default AppHeaderLink;
