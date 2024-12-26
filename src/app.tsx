@@ -10,7 +10,6 @@ import LogoutPage from './pages/logout-page';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import AppHeader from './components/app-header/app-header';
 import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { getUserData, updateToken, setStatusIdle } from './services/user';
 import ProtectedRouteElement from './components/protected-route-element/protected-route-element';
 import { fetchIngredients } from './services/ingredients';
@@ -18,9 +17,9 @@ import IngredientPage from './pages/ingredient-page';
 import Modal from './components/modal/modal';
 import IngredientDetails from './components/burger-ingredients/ingredient-details/ingredient-details';
 import EditProfile from './components/edit-profile/edit-profile';
-
+import { useAppDispatch } from './services';
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   let isDispatched = useRef(false);
   const location = useLocation();
   const navigate = useNavigate();
