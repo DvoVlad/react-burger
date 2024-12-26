@@ -3,15 +3,15 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import { Link } from 'react-router-dom';
 import { request } from '../../utils/helper';
 import { passwordResetEndpoint } from '../../utils/endpoints';
-import { useState } from 'react';
+import { useState, FormEvent, FC } from 'react';
 import { Navigate } from 'react-router-dom';
 
-function ForgotPassword() {
+const ForgotPassword: FC = () => {
   const [email, setEmailValue] = useState('');
   const [message, setMessage] = useState('');
   const [isErrorEmail, setIsErrorEmail] = useState(false);
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     if(!email) {
@@ -40,6 +40,7 @@ function ForgotPassword() {
       {message && <p className='text text_type_main-default text_color_inactive mb-1'>{message}</p>}
       {localStorage.getItem("forgot-password") === 'Y' && <Navigate to="/reset-password" replace />}
       <h1 className='text text_type_main-medium'>Восстановление пароля</h1>
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         type={'email'}
         placeholder={'Укажите e-mail'}

@@ -3,16 +3,16 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import { Link } from 'react-router-dom';
 import { request } from '../../utils/helper';
 import { passwordResetStep2Endpoint } from '../../utils/endpoints';
-import { useState } from 'react';
+import { useState, FormEvent, FC } from 'react';
 import { Navigate } from 'react-router-dom';
 
-function ResetPassword() {
+const ResetPassword: FC = () => {
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
   const [message, setMessage] = useState('');
   const [isErrorPassword, setIsErrorPassword] = useState(false);
   const [isErrorToken, setIsErrorToken] = useState(false);
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     if(!password) {
@@ -46,6 +46,7 @@ function ResetPassword() {
       {localStorage.getItem("forgot-password") !== 'Y' && <Navigate to="/forgot-password" replace />}
       {message && <p className='text text_type_main-default text_color_inactive mb-1'>{message}</p>}
       <h1 className='text text_type_main-medium'>Восстановление пароля</h1>
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         icon={'ShowIcon'}
         type={'password'}
@@ -54,10 +55,11 @@ function ResetPassword() {
         value={password}
         name={'password'}
         error={isErrorPassword}
-        errorText={'Ошибка'}
+        errorText={'Ошибка пароль не может быть пустым'}
         size={'default'}
         extraClass="mt-6"
       />
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         type={'text'}
         placeholder={'Введите код из письма'}
@@ -65,7 +67,7 @@ function ResetPassword() {
         value={token}
         name={'token'}
         error={isErrorToken}
-        errorText={'Ошибка'}
+        errorText={'Ошибка код не может быть пустым'}
         size={'default'}
         extraClass="mt-6"
       />
