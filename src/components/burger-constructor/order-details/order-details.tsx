@@ -8,7 +8,7 @@ function OrderDetails() {
   return(
     <>
       {loadingStatus === 'loading' && <p className="text_type_main-medium m-5">Загрузка...</p>}
-      {orderData &&
+      {orderData && loadingStatus === 'idle' &&
         <>
           <p className={styles.orderNumber + " mt-30 text text_type_digits-large"}>{orderData.order.number}</p>
           <p className={styles.orderText + " mb-15 text text_type_main-medium"}>идентификатор заказа</p>
