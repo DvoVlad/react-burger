@@ -1,8 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { request } from "../utils/helper";
 import { registerEndpoint, authEndpoint, userDataEndpoint, updateTokenEndpoint, logoutEndpoint } from "../utils/endpoints";
+import { SerializedError } from '@reduxjs/toolkit';
 
-const initialState = {
+interface IUser {
+  email: string;
+  name: string;
+}
+
+interface initialStateStore {
+  userData: null | IUser;
+  errorRegister: SerializedError | null;
+  errorAuth: SerializedError | null;
+  getDataError: SerializedError | null;
+  loadingStatus: 'loading' | 'idle' | 'failed' | 'failed update' | null;
+  logoutError: SerializedError | null;
+}
+
+const initialState: initialStateStore = {
   userData: null,
   errorRegister: null,
   errorAuth: null,
