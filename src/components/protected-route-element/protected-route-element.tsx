@@ -1,10 +1,13 @@
-import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
-
-function ProtectedRouteElement({element, auth = false}) {
-  const userData = useSelector((store) => store.user.userData);
-  const loadingStatus = useSelector((store) => store.user.loadingStatus);
+import { FC, ReactElement } from "react";
+import { useAppSelector } from "../../services";
+interface ProtectedRouteElementProps {
+  element: ReactElement;
+  auth?: boolean;
+}
+const ProtectedRouteElement: FC<ProtectedRouteElementProps> = ({element, auth = false}) => {
+  const userData = useAppSelector((store) => store.user.userData);
+  const loadingStatus = useAppSelector((store) => store.user.loadingStatus);
   const location = useLocation();
 
   if(loadingStatus === 'idle' || loadingStatus === 'failed update') {
@@ -24,11 +27,6 @@ function ProtectedRouteElement({element, auth = false}) {
   } else {
     return null;
   }
-}
-
-ProtectedRouteElement.propTypes = {
-  element: PropTypes.element.isRequired,
-  auth: PropTypes.bool
 }
 
 export default ProtectedRouteElement;
