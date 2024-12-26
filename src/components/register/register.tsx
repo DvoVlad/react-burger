@@ -1,13 +1,14 @@
 import styles from './register.module.css';
-import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../services/user';
+import { useAppDispatch, useAppSelector } from '../../services';
+import { FC, FormEvent } from "react";
 
-function Register() {
-  const dispatch = useDispatch();
-  const isErrorRegister = useSelector((store) => store.user.errorRegister);
+const Register: FC = () => {
+  const dispatch = useAppDispatch();
+  const isErrorRegister = useAppSelector((store) => store.user.errorRegister);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,7 +16,7 @@ function Register() {
   const [isErrorEmail, setIsErrorEmail] = useState(false);
   const [isErrorPassword, setIsErrorPassword] = useState(false);
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if(!name) {
       setIsErrorName(true);
@@ -46,6 +47,7 @@ function Register() {
     <form className={`${styles.registerForm}`} onSubmit={onSubmit}>
       <h1 className='text text_type_main-medium'>Регистрация</h1>
       {isErrorRegister && <p className='text text_type_main-default'>Ошибка регистрации!</p>}
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         type={'text'}
         placeholder={'Имя'}
@@ -57,6 +59,7 @@ function Register() {
         size={'default'}
         extraClass="mt-6"
       />
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         type={'email'}
         onChange={e => setEmail(e.target.value)}
@@ -68,7 +71,8 @@ function Register() {
         size={'default'}
         extraClass="mt-6"
       />
-      <PasswordInput
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
+      <Input
         placeholder={'Пароль'}
         onChange={e => setPassword(e.target.value)}
         value={password}
@@ -77,6 +81,7 @@ function Register() {
         errorText={'Введите пароль'}
         size={'default'}
         extraClass="mt-6"
+        icon="ShowIcon"
       />
       <Button htmlType="submit" type="primary" size="medium" extraClass="mt-6">
         Зарегистрироваться

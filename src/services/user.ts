@@ -26,9 +26,15 @@ const initialState: initialStateStore = {
   logoutError: null
 };
 
+interface IUserRegister {
+  email: string;
+  password: string;
+  name: string;
+}
+
 export const registerUser = createAsyncThunk(
   'user/register',
-  async (user) => {
+  async (user: IUserRegister) => {
     const response = await request(registerEndpoint, {
       method: "POST",
       body: JSON.stringify(user),
