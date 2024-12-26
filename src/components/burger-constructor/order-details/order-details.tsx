@@ -1,7 +1,8 @@
 import styles from "./order-details.module.css"
 import markImage from "../../../images/order-done.png"
 import { useAppSelector } from "../../../services";
-function OrderDetails() {
+import { FC } from "react";
+const OrderDetails: FC = () => {
   const loadingStatus = useAppSelector((store) => store.myOrder.loadingStatus)
   const orderData = useAppSelector((store) => store.myOrder.data);
   const isError = useAppSelector((store) => store.myOrder.error);

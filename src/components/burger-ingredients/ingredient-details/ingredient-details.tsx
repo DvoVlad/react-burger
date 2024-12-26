@@ -1,7 +1,8 @@
 import styles from "./ingredient-details.module.css";
 import { useAppSelector } from "../../../services";
 import { useParams } from "react-router-dom";
-function IngredientDetails() {
+import { FC } from "react";
+const IngredientDetails: FC = () => {
   const { id } = useParams();
   const ingredientsItems = useAppSelector((store) => store.ingredients.items);
   const item = ingredientsItems.find((item) => item._id === id) || null;
