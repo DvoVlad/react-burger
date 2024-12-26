@@ -4,21 +4,21 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import BunItem from './bun-item/bun-item';
 import SauceItem from './sauce-item/sauce-item';
 import MainItem from './main-item/main-item';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../services';
 function BurgerIngredients() {
-  const data = useSelector((store) => store.ingredients.items);
+  const data = useAppSelector((store) => store.ingredients.items);
   const buns = data.filter((item) => item.type === 'bun');
   const sauce = data.filter((item) => item.type === 'sauce');
   const main = data.filter((item) => item.type === 'main');
 
-  const selectedItems = useSelector((store) => store.ingredientsConstructor.items);
-  const selectedBun = useSelector((store) => store.ingredientsConstructor.bun);
+  const selectedItems = useAppSelector((store) => store.ingredientsConstructor.items);
+  const selectedBun = useAppSelector((store) => store.ingredientsConstructor.bun);
 
-  const loadingStatus = useSelector((store) => store.ingredients.loadingStatus);
-  const isError = useSelector((store) => store.ingredients.error);
+  const loadingStatus = useAppSelector((store) => store.ingredients.loadingStatus);
+  const isError = useAppSelector((store) => store.ingredients.error);
 
   const ingredientsCounters = useMemo(()=> {
-    let result = {}
+    let result: Record<string, number> = {};
     selectedItems.forEach(item => {
       result[item._id] = result[item._id] ? result[item._id] + 1 : 1;
     });
@@ -29,25 +29,25 @@ function BurgerIngredients() {
   }, [selectedItems, selectedBun]);
 
   const [current, setCurrent] = useState('Булки')
-  const bunRef = useRef(null);
-  const sauceRef = useRef(null);
-  const mainRef = useRef(null);
+  const bunRef = useRef<HTMLHeadingElement>(null);
+  const sauceRef = useRef<HTMLHeadingElement>(null);
+  const mainRef = useRef<HTMLHeadingElement>(null);
   let isScroll = useRef(false);
-  const tabRef = useRef(null)
-  const tabClick = (value) => {
+  const tabRef = useRef<HTMLUListElement>(null)
+  const tabClick = (value: string) => {
     setCurrent(value);
     isScroll.current = true;
   }
   useEffect(() => {
     if(isScroll.current) {
       if(current === 'Булки'){
-        bunRef.current.scrollIntoView(true);
+        bunRef.current?.scrollIntoView(true);
       }
       if(current === 'Соусы'){
-        sauceRef.current.scrollIntoView(true);
+        sauceRef.current?.scrollIntoView(true);
       }
       if(current === 'Начинки'){
-        mainRef.current.scrollIntoView(true);
+        mainRef.current?.scrollIntoView(true);
       }
       isScroll.current = false;
     }
@@ -69,6 +69,7 @@ function BurgerIngredients() {
   ];
 
   const onScroll = () => {
+    if(bunRef.current === null || sauceRef.current === null || mainRef.current === null || tabRef.current === null) return;
     const bunY = Math.abs(bunRef.current.getBoundingClientRect().y - tabRef.current.getBoundingClientRect().y);
     const sauceY = Math.abs(sauceRef.current.getBoundingClientRect().y - tabRef.current.getBoundingClientRect().y);
     const mainY = Math.abs(mainRef.current.getBoundingClientRect().y - tabRef.current.getBoundingClientRect().y);
@@ -127,7 +128,7 @@ function BurgerIngredients() {
         loadingStatus === 'loading' && <div className={`${styles.loadingMessage} text text_type_main-default mt-10 mb-10 p-5`}>Загрузка</div>
       }
       {
-        loadingStatus === 'failed' && <div className={`${styles.errorMessage} text text_type_main-default mt-10 mb-10 p-5`}>Случилась ошибка получения данных! Перезагрузите сайт!{isError.message}</div>
+        loadingStatus === 'failed' && <div className={`${styles.errorMessage} text text_type_main-default mt-10 mb-10 p-5`}>Случилась ошибка получения данных! Перезагрузите сайт!{isError?.message}</div>
       }
     </>
   );
