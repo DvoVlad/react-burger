@@ -1,18 +1,19 @@
 import styles from './login.module.css';
-import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { authUser } from '../../services/user';
+import { FC, FormEvent } from "react";
+import { useAppSelector, useAppDispatch } from '../../services';
 
-function Login() {
-  const dispatch = useDispatch();
-  const isErrorAuth = useSelector((store) => store.user.errorAuth);
+const Login: FC = () => {
+  const dispatch = useAppDispatch();
+  const isErrorAuth = useAppSelector((store) => store.user.errorAuth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isErrorEmail, setIsErrorEmail] = useState(false);
   const [isErrorPassword, setIsErrorPassword] = useState(false);
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if(!email) {
       setIsErrorEmail(true);
@@ -34,6 +35,7 @@ function Login() {
     <form className={`${styles.loginForm}`} onSubmit={onSubmit}>
       <h1 className='text text_type_main-medium'>Вход</h1>
       {isErrorAuth && <p>Неверный логин или пароль!</p>}
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         type={'email'}
         placeholder={'E-mail'}
@@ -45,7 +47,8 @@ function Login() {
         size={'default'}
         extraClass="mt-6"
       />
-      <PasswordInput
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
+      <Input
         placeholder={'Пароль'}
         onChange={e => setPassword(e.target.value)}
         value={password}
@@ -54,6 +57,7 @@ function Login() {
         errorText={'Введите пароль'}
         size={'default'}
         extraClass="mt-6"
+        icon="ShowIcon"
       />
       <Button htmlType="submit" type="primary" size="medium" extraClass="mt-6">
         Войти

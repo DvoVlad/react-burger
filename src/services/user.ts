@@ -39,9 +39,14 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+interface IUserAuth {
+  email: string;
+  password: string;
+}
+
 export const authUser = createAsyncThunk(
   'user/auto',
-  async (user) => {
+  async (user: IUserAuth) => {
     const response = await request(authEndpoint, {
       method: "POST",
       body: JSON.stringify(user),
