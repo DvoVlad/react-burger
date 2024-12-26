@@ -13,7 +13,7 @@ interface IOptions {
   headers?: Record<string, string>
 }
 
-const request = (url: string, options?: IOptions) => {
+const request = (url: string, options?: IOptions): Promise<Response> => {
   // принимает два аргумента: урл и объект опций, как и `fetch`
   return fetch(`${BASE_URL}${url}`, options).then(checkResponse)
 }
