@@ -2,9 +2,30 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { sendOrderEndpoint } from '../utils/endpoints';
 import { request } from '../utils/helper';
 import { SerializedError } from '@reduxjs/toolkit';
+import { ingredientType } from '../utils/types';
+interface IOrder {
+  success: boolean;
+  name: string;
+  order: {
+    _id: string;
+    ingredients: ingredientType;
+    status: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    number: number;
+    price:number;
+    owner: {
+      name: string;
+      email: string;
+      createdAt: string;
+      updatedAt: string;
+    }
+  }
+}
 
 interface initialStateStore {
-  data: any;
+  data: IOrder | null;
   error: SerializedError | null;
   loadingStatus: 'loading' | 'idle' | 'failed' | null;
 }
