@@ -1,11 +1,11 @@
 import styles from "./ingredient-details.module.css";
-import { useSelector } from 'react-redux';
+import { useAppSelector } from "../../../services";
 import { useParams } from "react-router-dom";
 function IngredientDetails() {
   const { id } = useParams();
-  const ingredientsItems = useSelector((store) => store.ingredients.items);
+  const ingredientsItems = useAppSelector((store) => store.ingredients.items);
   const item = ingredientsItems.find((item) => item._id === id) || null;
-  const loadingStatus = useSelector((store) => store.ingredients.loadingStatus);
+  const loadingStatus = useAppSelector((store) => store.ingredients.loadingStatus);
 
   return (
     <>
