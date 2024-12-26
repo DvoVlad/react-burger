@@ -78,9 +78,15 @@ export const getUserData = createAsyncThunk(
   }
 );
 
+interface IUserData {
+  name: string;
+  email: string;
+  password?: string;
+}
+
 export const updateUserData = createAsyncThunk(
   'user/data/update',
-  async (user) => {
+  async (user: IUserData) => {
     const response = await request(userDataEndpoint, {
       method: "PATCH",
       body: JSON.stringify(user),

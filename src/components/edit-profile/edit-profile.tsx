@@ -1,12 +1,12 @@
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 import styles from './edit-profile.module.css'
 import { updateUserData, updateToken, clearUserData } from '../../services/user';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../services';
 
 function EditProfile() {
-  const dispatch = useDispatch();
-  const userData = useSelector((store) => store.user.userData);
+  const dispatch = useAppDispatch();
+  const userData = useAppSelector((store) => store.user.userData);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,26 +15,28 @@ function EditProfile() {
   const [isErrorEmail, setIsErrorEmail] = useState(false);
 
   useEffect(() => {
-    setName(userData?.name);
-    setEmail(userData?.email)
+    const name = userData?.name || '';
+    const email = userData?.email || '';
+    setName(name);
+    setEmail(email)
   }, [userData])
 
-  const changeName = (e) => {
+  const changeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
     setIsEdit(true);
   }
 
-  const changeEmail = (e) => {
+  const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setIsEdit(true);
   }
 
-  const changePassword = (e) => {
+  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setIsEdit(true);
   }
 
-  const onReset = (e) => {
+  const onReset = (e: FormEvent) => {
     e.preventDefault();
     setName(userData?.name || '');
     setEmail(userData?.email || '');
@@ -42,7 +44,7 @@ function EditProfile() {
     setIsEdit(false);
   }
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if(!name) {
       setIsErrorName(true);
@@ -87,6 +89,7 @@ function EditProfile() {
 
   return(
     <form onSubmit={onSubmit} onReset={onReset}>
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         icon={'EditIcon'}
         type={'text'}
@@ -99,6 +102,7 @@ function EditProfile() {
         size={'default'}
         extraClass="mt-6"
       />
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         icon={'EditIcon'}
         type={'email'}
@@ -117,7 +121,6 @@ function EditProfile() {
         onChange={changePassword}
         value={password}
         name={'password'}
-        error={false}
         errorText={''}
         size={'default'}
         extraClass="mt-6"
