@@ -18,7 +18,8 @@ import Modal from './components/modal/modal';
 import IngredientDetails from './components/burger-ingredients/ingredient-details/ingredient-details';
 import EditProfile from './components/edit-profile/edit-profile';
 import { useAppDispatch } from './services';
-function App() {
+import { FC } from 'react';
+const App: FC = () => {
   const dispatch = useAppDispatch();
   let isDispatched = useRef(false);
   const location = useLocation();
