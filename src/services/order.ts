@@ -3,12 +3,13 @@ import { sendOrderEndpoint } from '../utils/endpoints';
 import { request } from '../utils/helper';
 import { SerializedError } from '@reduxjs/toolkit';
 import { ingredientType } from '../utils/types';
+import type { PayloadAction } from '@reduxjs/toolkit'
 interface IOrder {
   success: boolean;
   name: string;
   order: {
     _id: string;
-    ingredients: ingredientType;
+    ingredients: ingredientType[];
     status: string;
     name: string;
     createdAt: string;
@@ -47,7 +48,7 @@ export const sendOrder = createAsyncThunk(
         "authorization" : "Bearer " + localStorage.getItem("accessToken")
       }
     });
-    const result = await response.json();
+    const result: IOrder = await response.json();
     return result;
   }
 );
@@ -66,7 +67,7 @@ const orderSlice = createSlice({
         state.error = null;
       })
       // Вызывается, если запрос успешно выполнился
-      .addCase(sendOrder.fulfilled, (state, action) => {
+      .addCase(sendOrder.fulfilled, (state, action: PayloadAction<IOrder>) => {
         state.data = action.payload;
         state.loadingStatus = 'idle';
         state.error = null;
