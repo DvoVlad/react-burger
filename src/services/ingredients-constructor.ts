@@ -8,6 +8,11 @@ interface initialStateStore {
   items: ingredientTypeConstructor[];
 }
 
+interface IMoveAction {
+  dragIndex: number;
+  hoverIndex: number;
+}
+
 const initialState: initialStateStore = {
   bun: null,
   items: []
@@ -17,7 +22,7 @@ const ingredientsConstructorSlice = createSlice({
   name: 'ingredientsConstructor',
   initialState,
   reducers: {
-    addBun: (state, action) => {
+    addBun: (state, action: PayloadAction<ingredientType>) => {
       state.bun = action.payload;
     },
     addMain: {
@@ -30,10 +35,10 @@ const ingredientsConstructorSlice = createSlice({
         return { payload: { ...item, uuid } }
       },
     },
-    deleteMain: (state, action) => {
+    deleteMain: (state, action: PayloadAction<string>) => {
       state.items = [...state.items].filter(item => item.uuid !== action.payload);
     },
-    moveIngredient: (state, action) => {
+    moveIngredient: (state, action: PayloadAction<IMoveAction>) => {
       const ingredients = [...state.items];
       const toIndex = action.payload.dragIndex;
       const fromIndex = action.payload.hoverIndex;
