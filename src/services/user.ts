@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { request } from "../utils/helper";
 import { registerEndpoint, authEndpoint, userDataEndpoint, updateTokenEndpoint, logoutEndpoint } from "../utils/endpoints";
 import { SerializedError } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 interface IUser {
   email: string;
@@ -128,6 +129,24 @@ export const logout = createAsyncThunk(
   }
 )
 
+interface ILoginOrRegisterResponse {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+  user: IUser;
+}
+
+interface IUpdateTokenResponse {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+}
+
+interface IGetOrUpdateResponse {
+  success: boolean;
+  user: IUser;
+}
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -149,7 +168,7 @@ const userSlice = createSlice({
         state.errorRegister = null;
       })
       // Вызывается, если запрос успешно выполнился
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state, action: PayloadAction<ILoginOrRegisterResponse>) => {
         state.userData = action.payload.user;
         state.errorRegister = null;
         localStorage.setItem('accessToken', action.payload.accessToken.split('Bearer ')[1]);
@@ -166,7 +185,7 @@ const userSlice = createSlice({
         state.errorAuth = null;
       })
       // Вызывается, если запрос успешно выполнился
-      .addCase(authUser.fulfilled, (state, action) => {
+      .addCase(authUser.fulfilled, (state, action: PayloadAction<ILoginOrRegisterResponse>) => {
         state.userData = action.payload.user;
         state.errorAuth = null;
         localStorage.setItem('accessToken', action.payload.accessToken.split('Bearer ')[1]);
@@ -184,7 +203,7 @@ const userSlice = createSlice({
         state.getDataError = null;
       })
       // Вызывается, если запрос успешно выполнился
-      .addCase(getUserData.fulfilled, (state, action) => {
+      .addCase(getUserData.fulfilled, (state, action: PayloadAction<IGetOrUpdateResponse>) => {
         state.userData = action.payload.user;
         state.loadingStatus = 'idle';
         state.getDataError = null;
@@ -197,7 +216,7 @@ const userSlice = createSlice({
       })
       //Обновление токена
       // Вызывается, если запрос успешно выполнился
-      .addCase(updateToken.fulfilled, (state, action) => {
+      .addCase(updateToken.fulfilled, (state, action: PayloadAction<IUpdateTokenResponse>) => {
         localStorage.setItem('accessToken', action.payload.accessToken.split('Bearer ')[1]);
         localStorage.setItem('refreshToken', action.payload.refreshToken);
       })
@@ -207,7 +226,7 @@ const userSlice = createSlice({
         console.log("FAILED UPDATE TOKEN");
       })
       //UPDATE USER DATA
-      .addCase(updateUserData.fulfilled, (state, action) => {
+      .addCase(updateUserData.fulfilled, (state, action: PayloadAction<IGetOrUpdateResponse>) => {
         state.userData = action.payload.user;
       })
       // Вызывается в случае ошибки
