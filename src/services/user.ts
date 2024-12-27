@@ -33,6 +33,31 @@ interface IUserRegister {
   name: string;
 }
 
+/* Типы ответов*/
+interface ILoginOrRegisterResponse {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+  user: IUser;
+}
+
+interface IUpdateTokenResponse {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+}
+
+interface IGetOrUpdateResponse {
+  success: boolean;
+  user: IUser;
+}
+
+interface ILogoutResponse {
+  success: boolean
+  message: string
+}
+/* Типы ответов конец */ 
+
 export const registerUser = createAsyncThunk(
   'user/register',
   async (user: IUserRegister) => {
@@ -41,7 +66,7 @@ export const registerUser = createAsyncThunk(
       body: JSON.stringify(user),
       headers: { "Content-Type": "application/json;charset=utf-8" }
     });
-    const result = await response.json();
+    const result: ILoginOrRegisterResponse = await response.json();
     return result;
   }
 );
@@ -59,7 +84,7 @@ export const authUser = createAsyncThunk(
       body: JSON.stringify(user),
       headers: { "Content-Type": "application/json;charset=utf-8" }
     });
-    const result = await response.json();
+    const result: ILoginOrRegisterResponse = await response.json();
     return result;
   }
 );
@@ -74,7 +99,7 @@ export const getUserData = createAsyncThunk(
         "authorization": "Bearer " + localStorage.getItem('accessToken')
       }
     });
-    const result = await response.json();
+    const result: IGetOrUpdateResponse = await response.json();
     return result;
   }
 );
@@ -96,7 +121,7 @@ export const updateUserData = createAsyncThunk(
         "authorization": "Bearer " + localStorage.getItem('accessToken')
       }
     });
-    const result = await response.json();
+    const result: IGetOrUpdateResponse = await response.json();
     return result;
   }
 );
@@ -111,7 +136,7 @@ export const updateToken = createAsyncThunk(
         "Content-Type": "application/json;charset=utf-8"
       }
     });
-    const result = await response.json();
+    const result: IUpdateTokenResponse = await response.json();
     return result;
   }
 );
@@ -124,28 +149,10 @@ export const logout = createAsyncThunk(
       body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
       headers: { "Content-Type": "application/json;charset=utf-8" }
     });
-    const result = await response.json();
+    const result: ILogoutResponse = await response.json();
     return result;
   }
 )
-
-interface ILoginOrRegisterResponse {
-  success: boolean;
-  accessToken: string;
-  refreshToken: string;
-  user: IUser;
-}
-
-interface IUpdateTokenResponse {
-  success: boolean;
-  accessToken: string;
-  refreshToken: string;
-}
-
-interface IGetOrUpdateResponse {
-  success: boolean;
-  user: IUser;
-}
 
 const userSlice = createSlice({
   name: 'user',
@@ -234,7 +241,7 @@ const userSlice = createSlice({
         console.log("FAILED UPDATE USER");
       })
       //logout
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(logout.fulfilled, (state, action: PayloadAction<ILogoutResponse>) => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         state.userData = null;
