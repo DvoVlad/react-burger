@@ -1,6 +1,7 @@
 import Register from "../components/register/register";
+import { FC } from 'react';
 
-function RegisterPage() {
+const RegisterPage: FC = () => {
   return (
     <>
       <Register />

@@ -1,6 +1,7 @@
 import Login from "../components/login/login";
+import { FC } from 'react'
 
-function LoginPage() {
+const LoginPage: FC = () => {
   return(
     <>
       <Login />

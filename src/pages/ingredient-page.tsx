@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import styles from './ingredient-page.module.css'
 import NotFound from "./not-found";
-
-function IngredientPage() {
+import { FC } from 'react'
+import { useAppSelector } from "../services";
+const IngredientPage: FC = () => {
   const { id } = useParams();
-  const ingredientsItems = useSelector((store) => store.ingredients.items);
+  const ingredientsItems = useAppSelector((store) => store.ingredients.items);
   const item = ingredientsItems.find((item) => item._id === id) || null;
-  const loadingStatus = useSelector((store) => store.ingredients.loadingStatus);
+  const loadingStatus = useAppSelector((store) => store.ingredients.loadingStatus);
   return(
     <>
       {loadingStatus === 'loading' && 

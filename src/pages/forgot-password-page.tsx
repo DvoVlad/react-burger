@@ -1,6 +1,7 @@
 import ForgotPassword from "../components/forgot-password/forgot-password";
+import { FC } from 'react'
 
-function ForgotPasswordPage() {
+const ForgotPasswordPage: FC = () => {
   return(
     <>
       <ForgotPassword />

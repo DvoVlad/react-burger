@@ -1,8 +1,11 @@
 import styles from './profile-page.module.css'
 import AppMainProfile from "../components/app-main-profile/app-main-profile";
-import { NavLink, useHref, Outlet } from 'react-router-dom';
-function ProfilePage() {
-  const currentUrl = useHref();
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { FC } from 'react';
+
+const ProfilePage: FC = () => {
+  const location = useLocation()
+  const currentUrl = location.pathname;
   return(
     <AppMainProfile>
       <div>

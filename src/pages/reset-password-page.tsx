@@ -1,6 +1,7 @@
 import ResetPassword from "../components/reset-password/reset-password";
+import { FC } from 'react';
 
-function ResetPasswordPage() {
+const ResetPasswordPage: FC = () => {
   return(
     <>
       <ResetPassword />
