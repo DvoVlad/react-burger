@@ -49,6 +49,7 @@ const Login: FC = () => {
       />
       {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
+        type={'password'}
         placeholder={'Пароль'}
         onChange={e => setPassword(e.target.value)}
         value={password}

@@ -74,6 +74,7 @@ const Register: FC = () => {
       {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         placeholder={'Пароль'}
+        type={'password'}
         onChange={e => setPassword(e.target.value)}
         value={password}
         name={'password'}
