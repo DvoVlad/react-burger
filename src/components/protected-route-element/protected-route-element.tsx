@@ -19,7 +19,7 @@ const ProtectedRouteElement: FC<ProtectedRouteElementProps> = ({element, auth = 
       return(userData ? element : <Navigate to={`/login`} replace/>);
     } else {
       const paramRedirect: string = new URLSearchParams(location.search).get('redirect') ?? '';
-      const urlRedirect: string = paramRedirect ? paramRedirect : '/';
+      const urlRedirect: string = paramRedirect !== '' ? paramRedirect : '/';
       return(!userData ? element : <Navigate to={urlRedirect} replace/>);
     }
   } else {
