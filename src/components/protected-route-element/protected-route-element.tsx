@@ -12,14 +12,14 @@ const ProtectedRouteElement: FC<ProtectedRouteElementProps> = ({element, auth = 
 
   if(loadingStatus === 'idle' || loadingStatus === 'failed update') {
     if(auth) {
-      const paramRedirect = location.pathname !== '/logout' ? location.pathname : '';
+      const paramRedirect: string = location.pathname !== '/logout' ? location.pathname : '';
       if(paramRedirect) {
         return(userData ? element : <Navigate to={`/login?redirect=${paramRedirect}`} replace/>);
       }
       return(userData ? element : <Navigate to={`/login`} replace/>);
     } else {
-      const paramRedirect = new URLSearchParams(location.search).get('redirect');
-      const urlRedirect = paramRedirect ? paramRedirect : '/';
+      const paramRedirect: string = new URLSearchParams(location.search).get('redirect') ?? '';
+      const urlRedirect: string = paramRedirect ? paramRedirect : '/';
       return(!userData ? element : <Navigate to={urlRedirect} replace/>);
     }
   } else {
