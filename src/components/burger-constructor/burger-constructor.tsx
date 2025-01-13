@@ -3,7 +3,6 @@ import styles from './burger-constructor.module.css';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from './order-details/order-details';
-//import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { addBun, addMain, deleteMain, resetIgredients } from '../../services/ingredients-constructor';
 import ConstructorItem from './constructor-item/constructor-item';
