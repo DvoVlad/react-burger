@@ -7,12 +7,12 @@ import { useAppDispatch, useAppSelector } from '../../services';
 function EditProfile() {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((store) => store.user.userData);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isEdit, setIsEdit] = useState(false);
-  const [isErrorName, setIsErrorName] = useState(false);
-  const [isErrorEmail, setIsErrorEmail] = useState(false);
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isErrorName, setIsErrorName] = useState<boolean>(false);
+  const [isErrorEmail, setIsErrorEmail] = useState<boolean>(false);
 
   useEffect(() => {
     const name = userData?.name || '';
@@ -57,7 +57,7 @@ function EditProfile() {
       setIsErrorEmail(false);
     }
 
-    if(!name || !email) return;
+    if(!name || !email || (password.length > 0 && password.length < 6)) return;
 
     let sendData;
     if(password !== '') {
@@ -121,7 +121,6 @@ function EditProfile() {
         onChange={changePassword}
         value={password}
         name={'password'}
-        errorText={''}
         size={'default'}
         extraClass="mt-6"
       />

@@ -7,11 +7,11 @@ import { useState, FormEvent, FC } from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ResetPassword: FC = () => {
-  const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
-  const [message, setMessage] = useState('');
-  const [isErrorPassword, setIsErrorPassword] = useState(false);
-  const [isErrorToken, setIsErrorToken] = useState(false);
+  const [password, setPassword] = useState<string>('');
+  const [token, setToken] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [isErrorPassword, setIsErrorPassword] = useState<boolean>(false);
+  const [isErrorToken, setIsErrorToken] = useState<boolean>(false);
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 

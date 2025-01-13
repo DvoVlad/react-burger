@@ -28,7 +28,7 @@ const BurgerIngredients: FC = () => {
     return result;
   }, [selectedItems, selectedBun]);
 
-  const [current, setCurrent] = useState('Булки')
+  const [current, setCurrent] = useState<string>('Булки')
   const bunRef = useRef<HTMLHeadingElement>(null);
   const sauceRef = useRef<HTMLHeadingElement>(null);
   const mainRef = useRef<HTMLHeadingElement>(null);

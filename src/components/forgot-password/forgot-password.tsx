@@ -7,9 +7,9 @@ import { useState, FormEvent, FC } from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ForgotPassword: FC = () => {
-  const [email, setEmailValue] = useState('');
-  const [message, setMessage] = useState('');
-  const [isErrorEmail, setIsErrorEmail] = useState(false);
+  const [email, setEmailValue] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [isErrorEmail, setIsErrorEmail] = useState<boolean>(false);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();

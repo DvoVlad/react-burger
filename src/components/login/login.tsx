@@ -9,10 +9,10 @@ import { useAppSelector, useAppDispatch } from '../../services';
 const Login: FC = () => {
   const dispatch = useAppDispatch();
   const isErrorAuth = useAppSelector((store) => store.user.errorAuth);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isErrorEmail, setIsErrorEmail] = useState(false);
-  const [isErrorPassword, setIsErrorPassword] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isErrorEmail, setIsErrorEmail] = useState<boolean>(false);
+  const [isErrorPassword, setIsErrorPassword] = useState<boolean>(false);
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if(!email) {
