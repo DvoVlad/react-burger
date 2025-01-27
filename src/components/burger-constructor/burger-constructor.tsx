@@ -12,10 +12,10 @@ import { ingredientTypeConstructor, ingredientType} from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../services';
 
 const BurgerConstructor: FC = () => {
-  const [isError, setIsError] = useState<boolean>(false);
+  const [isError, setIsError] = useState(false);
   const sendError = useAppSelector((store) => store.myOrder.error);
   const userData = useAppSelector((store) => store.user.userData);
-  const [isRedirect , setIsRedirect] = useState<boolean>(false);
+  const [isRedirect , setIsRedirect] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -64,7 +64,7 @@ const BurgerConstructor: FC = () => {
     return ingredientsPrice + (burger === null ? 0 : burger.price) * 2;
   }, [ingredients, burger]);
 
-  const [isOrderModalOpen, setIsOrderModalOpen] = useState<boolean>(false);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
   const onOpenOrder = () => {
     if(!burger || ingredients.length === 0) {

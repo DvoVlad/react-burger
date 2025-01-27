@@ -3,7 +3,7 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import { ingredientTypeConstructor } from '../../../utils/types';
 import styles from './constructor-item.module.css'
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../services';
 import { moveIngredient } from '../../../services/ingredients-constructor';
 
 interface ConstructorItemProps {
@@ -18,7 +18,7 @@ interface IItem {
 
 const ConstructorItem: FC<ConstructorItemProps> = ({item, handleClose, index}) => {
   const ref = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [, drop] = useDrop({
     accept: 'constructorMain',
     hover(item: IItem, monitor) {

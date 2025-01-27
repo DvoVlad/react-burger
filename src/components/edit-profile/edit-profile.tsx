@@ -7,12 +7,12 @@ import { useAppDispatch, useAppSelector } from '../../services';
 function EditProfile() {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((store) => store.user.userData);
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [isErrorName, setIsErrorName] = useState<boolean>(false);
-  const [isErrorEmail, setIsErrorEmail] = useState<boolean>(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
+  const [isErrorName, setIsErrorName] = useState(false);
+  const [isErrorEmail, setIsErrorEmail] = useState(false);
 
   useEffect(() => {
     const name = userData?.name || '';

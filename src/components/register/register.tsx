@@ -9,12 +9,12 @@ import { FC, FormEvent } from "react";
 const Register: FC = () => {
   const dispatch = useAppDispatch();
   const isErrorRegister = useAppSelector((store) => store.user.errorRegister);
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [isErrorName, setIsErrorName] = useState<boolean>(false);
-  const [isErrorEmail, setIsErrorEmail] = useState<boolean>(false);
-  const [isErrorPassword, setIsErrorPassword] = useState<boolean>(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isErrorName, setIsErrorName] = useState(false);
+  const [isErrorEmail, setIsErrorEmail] = useState(false);
+  const [isErrorPassword, setIsErrorPassword] = useState(false);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();

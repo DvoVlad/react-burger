@@ -1,11 +1,8 @@
-import React,{ FC, ReactNode } from 'react';
+import React,{ FC } from 'react';
+import type { PropsWithChildren } from "react";
 import styles from './app-main-profile.module.css';
 
-interface AppMainProfileProps {
-  children: ReactNode
-}
-
-const AppMainProfile: FC<AppMainProfileProps> = ({children}) => {
+const AppMainProfile: FC<PropsWithChildren> = ({children}) => {
   return (
     <main className={styles.main}>
       {children}

@@ -1,15 +1,15 @@
-import React, { FC, ReactNode, ElementType } from 'react';
+import React, { FC, ElementType } from 'react';
+import type { PropsWithChildren } from "react";
 import styles from './app-header-link.module.css';
 import { NavLink } from 'react-router-dom';
 
 interface AppHeaderLinkProps {
-  children: ReactNode,
   className: string,
   icon: ElementType,
   link: string
 }
 
-const AppHeaderLink: FC<AppHeaderLinkProps> = ({children, className, icon, link}) => {
+const AppHeaderLink: FC<PropsWithChildren<AppHeaderLinkProps>> = ({children, className, icon, link}) => {
   let Icon: ElementType = icon;
   
   return (
