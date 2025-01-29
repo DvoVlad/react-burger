@@ -1,0 +1,47 @@
+.title {
+  width: 1256px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feedCollumn {
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 812px;
+  max-height: 60vh;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.totalWrapper {
+  display: grid;
+  grid-template-columns: 206px 206px;
+  gap: 60px 36px;
+}
+
+.collumnDoneList, .collumnWorkList {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  height: 154px;
+  overflow: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 8px;  
+}
+
+.doneItem {
+  color: #00CCCC;
+}
+
+.totalDoneWrapper {
+  grid-column: 1 / -1;
+}
+
+.result {
+  text-shadow: 32px 0 20px rgba(51, 51, 255, 0.5);
+}

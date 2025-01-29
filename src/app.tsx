@@ -6,6 +6,7 @@ import ForgotPasswordPage from './pages/forgot-password-page';
 import ResetPasswordPage from './pages/reset-password-page';
 import ProfilePage from './pages/profile-page';
 import History from './components/history/history';
+import FeedPage from './pages/feed-page';
 import LogoutPage from './pages/logout-page';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import AppHeader from './components/app-header/app-header';
@@ -68,6 +69,7 @@ const App: FC = () => {
         </Route>
         <Route path="/logout" element={<ProtectedRouteElement auth element={<LogoutPage />} />} />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
+        <Route path="/feed" element={<FeedPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {location.state?.background ? (
