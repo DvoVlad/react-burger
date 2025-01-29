@@ -18,7 +18,7 @@ const FeedOrderItem: FC<FeedOrderItemProps> = ({ orderId, date, name, ingregient
     }
     return acc;
   }, 0);
-  const imagesUrls = ingregients.map((id) => {
+  const imagesUrls = ingregients.slice(0, 6).map((id) => {
     let item = ingredientsItems.find((item) => item._id === id);
     return item?.image_mobile;
   })
@@ -30,13 +30,16 @@ const FeedOrderItem: FC<FeedOrderItemProps> = ({ orderId, date, name, ingregient
       </div>
       <h2 className={`text text_type_main-medium mb-6`}>{name}</h2>
       <div className={`${styles.groupIgredients}`}>
-        <ul className={`${styles.ingredientList}`}>
-          {imagesUrls.map((url) => (
-            <li>
-              <img className={`${styles.image}`} src={url} height="64" width="64" alt="Ингредиенты" />
-            </li>
-          ))}
-        </ul>
+        <div className={`${styles.ingredientListWrapper}`}>
+          <ul className={`${styles.ingredientList}`}>
+            {imagesUrls.map((url) => (
+              <li>
+                <img className={`${styles.image}`} src={url} height="64" width="64" alt="Ингредиенты" />
+              </li>
+            ))}
+          </ul>
+          {ingregients.length > 6 && <span className={`text text_type_digits-default ${styles.counter}`}>+ {ingregients.length - 6}</span>}
+        </div>
         <p className={styles.price + ` text text_type_digits-default`}>
           <span className={`mr-2`}>{price}</span><CurrencyIcon type="primary" />
         </p>

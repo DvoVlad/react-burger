@@ -24,6 +24,18 @@
   display: flex;
 }
 
+.ingredientListWrapper {
+  position: relative;
+}
+
+.counter {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 7;
+}
+
 .image {
   border: 2px solid #801AB3;
   border-radius: 50%;
