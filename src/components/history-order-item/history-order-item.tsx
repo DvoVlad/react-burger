@@ -1,16 +1,17 @@
 import { FC } from 'react';
-import styles from './feed-order-item.module.css';
+import styles from './history-order-item.module.css';
 import { FormattedDate, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAppSelector } from '../../services';
 
-interface FeedOrderItemProps {
+interface HistoryOrderItemProps {
   orderId: number;
   date: string;
   name: string;
   ingregients: string[];
+  status: string;
 }
 
-const FeedOrderItem: FC<FeedOrderItemProps> = ({ orderId, date, name, ingregients }) => {
+const HistoryOrderItem: FC<HistoryOrderItemProps> = ({ orderId, date, name, ingregients, status }) => {
   const ingredientsItems = useAppSelector((store) => store.ingredients.items);
   const price = ingredientsItems.reduce((acc, item) => {
     if(ingregients.includes(item._id)) {
@@ -21,14 +22,20 @@ const FeedOrderItem: FC<FeedOrderItemProps> = ({ orderId, date, name, ingregient
   const imagesUrls = ingregients.slice(0, 6).map((id) => {
     let item = ingredientsItems.find((item) => item._id === id);
     return item?.image_mobile;
-  })
+  });
+  const statuses: Record<string, string> = {
+    created: 'Создан',
+    pending: 'Готовится',
+    done: 'Выполнен'
+  }
   return (
-    <div className={`${styles.feedItem} p-6`}>
-      <div className={`${styles.feedData} mb-6`}>
+    <div className={`${styles.historyItem} p-6`}>
+      <div className={`${styles.historyData} mb-6`}>
         <span className='text text_type_digits-default'>#{orderId}</span>
         <span><FormattedDate date={new Date(date)} /></span>
       </div>
-      <h2 className={`text text_type_main-medium mb-6`}>{name}</h2>
+      <h2 className={`text text_type_main-medium mb-2`}>{name}</h2>
+      <p className={`${status === 'done' ? styles.statusDone : ''} text mb-6`}>{statuses[status]}</p>
       <div className={`${styles.groupIgredients}`}>
         <div className={`${styles.ingredientListWrapper}`}>
           <ul className={`${styles.ingredientList}`}>
@@ -48,4 +55,4 @@ const FeedOrderItem: FC<FeedOrderItemProps> = ({ orderId, date, name, ingregient
   );
 }
 
-export default FeedOrderItem;
+export default HistoryOrderItem;

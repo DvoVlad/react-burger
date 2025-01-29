@@ -1,0 +1,11 @@
+.historyCollumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 812px;
+  max-height: 60vh;
+  overflow: scroll;
+}

@@ -14,8 +14,8 @@ const FeedPage: FC = () => {
       <h1 className={`${styles.title} text text_type_main-large mb-5 mt-10`}>Лента заказов</h1>
       <AppFeed>
         <ul className={`${styles.feedCollumn}`}>
-          <li><FeedOrderItem orderId="#034535" name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingregients={testIngredients} /></li>
-          <li><FeedOrderItem orderId="#034535" name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingregients={testIngredients} /></li>
+          <li><FeedOrderItem orderId={34535} name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingregients={testIngredients} /></li>
+          <li><FeedOrderItem orderId={34535} name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingregients={testIngredients} /></li>
         </ul>
         <div className={`${styles.totalWrapper}`}>
           <div>
