@@ -26,7 +26,7 @@ const FeedOrderItem: FC<FeedOrderItemProps> = ({ orderId, date, name, ingregient
     <div className={`${styles.feedItem} p-6`}>
       <div className={`${styles.feedData} mb-6`}>
         <span className='text text_type_digits-default'>#{orderId}</span>
-        <span><FormattedDate date={new Date(date)} /></span>
+        <span><FormattedDate className="text_color_inactive" date={new Date(date)} /></span>
       </div>
       <h2 className={`text text_type_main-medium mb-6`}>{name}</h2>
       <div className={`${styles.groupIgredients}`}>

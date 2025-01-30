@@ -8,6 +8,7 @@ import ProfilePage from './pages/profile-page';
 import History from './components/history/history';
 import FeedPage from './pages/feed-page';
 import LogoutPage from './pages/logout-page';
+import OrderDetailPage from './pages/order-detail-page';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import AppHeader from './components/app-header/app-header';
 import { useEffect, useRef } from 'react';
@@ -67,6 +68,7 @@ const App: FC = () => {
            <Route index element={<EditProfile />} />
            <Route path="orders" element={<History />} />
         </Route>
+        <Route path="/profile/orders/:id" element={<ProtectedRouteElement auth element={<OrderDetailPage />} />}/>
         <Route path="/logout" element={<ProtectedRouteElement auth element={<LogoutPage />} />} />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
         <Route path="/feed" element={<FeedPage />} />

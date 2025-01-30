@@ -5,8 +5,8 @@ import FeedOrderItem from '../components/feed-order-item/feed-order-item';
 
 const FeedPage: FC = () => {
   const testIngredients: string[] = ['643d69a5c3f7b9001cfa093d', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa093d'];
-  const doneOrderNumbers = ['034533', '034532', '034530', '034527', '034525'];
-  const workOrderNumbers = ['034538', '034541', '034542'];
+  const doneOrderNumbers = [34533, 34532, 34530, 34527, 34525];
+  const workOrderNumbers = [34538, 34541, 34542];
   const total = 28752;
   const totalToday = 138;
   return(

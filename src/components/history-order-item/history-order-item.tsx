@@ -32,7 +32,7 @@ const HistoryOrderItem: FC<HistoryOrderItemProps> = ({ orderId, date, name, ingr
     <div className={`${styles.historyItem} p-6`}>
       <div className={`${styles.historyData} mb-6`}>
         <span className='text text_type_digits-default'>#{orderId}</span>
-        <span><FormattedDate date={new Date(date)} /></span>
+        <span><FormattedDate className="text_color_inactive" date={new Date(date)} /></span>
       </div>
       <h2 className={`text text_type_main-medium mb-2`}>{name}</h2>
       <p className={`${status === 'done' ? styles.statusDone : ''} text mb-6`}>{statuses[status]}</p>
