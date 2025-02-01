@@ -21,7 +21,7 @@ const History: FC = ()  => {
     <ul className={`${styles.historyCollumn}`}>
       {orders.map((item) => (
         <li key={item._id}>
-          <HistoryOrderItem status={item.status} orderId={item.number} name={item.name} date={item.createdAt} ingredients={item.ingredients} />
+          <HistoryOrderItem isHistory status={item.status} orderId={item.number} name={item.name} date={item.createdAt} ingredients={item.ingredients} />
         </li>
       ))}
     </ul>

@@ -1,7 +1,7 @@
 import styles from './feed-page.module.css'
 import AppFeed from '../components/app-feed/app-feed';
 import { FC } from 'react';
-import FeedOrderItem from '../components/feed-order-item/feed-order-item';
+import HistoryOrderItem from '../components/history-order-item/history-order-item';
 
 const FeedPage: FC = () => {
   const testIngredients: string[] = ['643d69a5c3f7b9001cfa093d', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa093d'];
@@ -14,8 +14,8 @@ const FeedPage: FC = () => {
       <h1 className={`${styles.title} text text_type_main-large mb-5 mt-10`}>Лента заказов</h1>
       <AppFeed>
         <ul className={`${styles.feedCollumn}`}>
-          <li><FeedOrderItem orderId={34535} name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingredients={testIngredients} /></li>
-          <li><FeedOrderItem orderId={34535} name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingredients={testIngredients} /></li>
+          <li><HistoryOrderItem orderId={34535} name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingredients={testIngredients} /></li>
+          <li><HistoryOrderItem orderId={34535} name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingredients={testIngredients} /></li>
         </ul>
         <div className={`${styles.totalWrapper}`}>
           <div>

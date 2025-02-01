@@ -71,6 +71,7 @@ const App: FC = () => {
         <Route path="/profile/orders/:id" element={<ProtectedRouteElement auth element={<OrderDetailPage />} />}/>
         <Route path="/logout" element={<ProtectedRouteElement auth element={<LogoutPage />} />} />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
+        <Route path="/feed/:id" element={<IngredientPage />} />
         <Route path="/feed" element={<FeedPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -86,6 +87,16 @@ const App: FC = () => {
           />
           <Route
             path="/profile/orders/:id"
+            element={
+              <ProtectedRouteElement auth element={
+                <Modal onClose={() => navigate(-1)}>
+                  <OrderDetailPage isModal />
+                </Modal>
+              }/>
+            }
+          />
+          <Route
+            path="/feed/:id"
             element={
               <ProtectedRouteElement auth element={
                 <Modal onClose={() => navigate(-1)}>
