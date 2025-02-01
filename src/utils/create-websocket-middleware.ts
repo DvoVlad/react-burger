@@ -3,7 +3,6 @@ import { AppDispatch, RootState } from '../services';
 import { updateToken } from '../services/user';
 
 type WebSocketMiddlewareOptions = {
-  url: string;
   actions: {
     connect: string;
     disconnect: string;
@@ -33,9 +32,9 @@ function createWebSocketMiddleware (options: WebSocketMiddlewareOptions, updateT
         }
 
         if(auth) {
-          socket = new WebSocket(`${options.url}?token=${localStorage.getItem('accessToken')}`);
+          socket = new WebSocket(`${action.payload}?token=${localStorage.getItem('accessToken')}`);
         } else {
-          socket = new WebSocket(`${options.url}`);
+          socket = new WebSocket(`${action.payload}`);
         }
 
         socket.onopen = (event) => {

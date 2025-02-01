@@ -79,7 +79,10 @@ const OrderDetailPage: FC<OrderDetailPageProps> = ({isModal}) => {
     mapIngredient[item._id] = item;
   });
   if(orderFromServer) {
-    ingredientsList = orderFromServer.ingredients.map((id) => {
+    const serverIgredients = orderFromServer.ingredients.filter((item) => {
+      return item !== null || item !== false || item !== undefined;
+    })
+    ingredientsList = serverIgredients.map((id) => {
       let item = mapIngredient[id];
       return item;
     });

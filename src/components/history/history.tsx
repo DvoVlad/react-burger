@@ -3,13 +3,15 @@ import styles from './history.module.css'
 import HistoryOrderItem from '../history-order-item/history-order-item';
 import { useAppDispatch, useAppSelector } from '../../services';
 import { useEffect, useRef } from 'react';
+import { webSockedHistoryEndpoint } from '../../utils/endpoints';
 
 const History: FC = ()  => {
   const orders = useAppSelector((store) => store.historyWebsocket.orders);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch({
-      type: 'history-websocket/connect'
+      type: 'history-websocket/connect',
+      payload: webSockedHistoryEndpoint
     });
     return () => {
       dispatch({

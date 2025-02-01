@@ -23,10 +23,13 @@ const HistoryOrderItem: FC<HistoryOrderItemProps> = ({ orderId, date, name, ingr
     mapPriceItems[item._id] = item.price;
     mapImagesItems[item._id] = item.image_mobile;
   })
-  const price = ingredients.reduce((acc, id) => {
+  const serverIgredients = ingredients.filter((item) => {
+    return item !== null || item !== false || item !== undefined;
+  })
+  const price = serverIgredients.reduce((acc, id) => {
     return acc + mapPriceItems[id];
   }, 0);
-  const imagesUrls = ingredients.slice(0, 6).map((id) => {
+  const imagesUrls = serverIgredients.slice(0, 6).map((id) => {
     return mapImagesItems[id];
   });
   const statuses: Record<string, string> = {

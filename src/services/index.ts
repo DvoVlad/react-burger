@@ -8,7 +8,6 @@ import historyWebsocketReducer from './history-websocket';
 import createWebSocketMiddleware from '../utils/create-websocket-middleware';
 
 const websocketMiddlewareHistory = createWebSocketMiddleware({
-  url: `wss://norma.nomoreparties.space/orders`,
   //url: `wss://norma.nomoreparties.space/orders/all`,
   actions: {
     connect: 'history-websocket/connect',
