@@ -74,9 +74,13 @@ const OrderDetailPage: FC<OrderDetailPageProps> = ({isModal}) => {
   }, [dispatch, loaddingStatus, orderLoaded, findInWebsocketOrder]);
 
   let ingredientsList: ingredientType[] = [];
+  const mapIngredient:Record<string, ingredientType> = {};
+  ingredientsItems.forEach((item) => {
+    mapIngredient[item._id] = item;
+  });
   if(orderFromServer) {
     ingredientsList = orderFromServer.ingredients.map((id) => {
-      let item = ingredientsItems.find((item) => item._id === id) as ingredientType;
+      let item = mapIngredient[id];
       return item;
     });
   }
