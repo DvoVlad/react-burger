@@ -98,11 +98,9 @@ const App: FC = () => {
           <Route
             path="/feed/:id"
             element={
-              <ProtectedRouteElement auth element={
-                <Modal onClose={() => navigate(-1)}>
-                  <OrderDetailPage isModal />
-                </Modal>
-              }/>
+              <Modal onClose={() => navigate(-1)}>
+                <OrderDetailPage isModal />
+              </Modal>
             }
           />
         </Routes>
