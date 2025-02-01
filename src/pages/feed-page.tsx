@@ -2,16 +2,22 @@ import styles from './feed-page.module.css'
 import AppFeed from '../components/app-feed/app-feed';
 import { FC, useEffect } from 'react';
 import HistoryOrderItem from '../components/history-order-item/history-order-item';
-import { useAppDispatch } from '../services';
+import { useAppDispatch, useAppSelector } from '../services';
 import { webSockedAllEndpoint } from '../utils/endpoints';
 import { connectWebsockedAllAction, disconnectWebsockedAllAction } from '../services/all-websocket';
 
 const FeedPage: FC = () => {
-  const testIngredients: string[] = ['643d69a5c3f7b9001cfa093d', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa093d'];
-  const doneOrderNumbers = [34533, 34532, 34530, 34527, 34525];
-  const workOrderNumbers = [34538, 34541, 34542];
-  const total = 28752;
-  const totalToday = 138;
+  const allOrders = useAppSelector((store) => store.allWebsoket.orders);
+  const doneOrders = allOrders.filter((item) => item.status === 'done');
+  const doneOrderNumbers = doneOrders.slice(0, 10).map((item) => {
+    return item.number;
+  });
+  const pendingOrders = allOrders.filter((item) => item.status === 'pending');
+  const workOrderNumbers = pendingOrders.slice(0, 10).map((item) => {
+    return item.number;
+  });;
+  const total = useAppSelector((store) => store.allWebsoket.total);
+  const totalToday = useAppSelector((store) => store.allWebsoket.totalToday);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch({
@@ -29,8 +35,11 @@ const FeedPage: FC = () => {
       <h1 className={`${styles.title} text text_type_main-large mb-5 mt-10`}>Лента заказов</h1>
       <AppFeed>
         <ul className={`${styles.feedCollumn}`}>
-          <li><HistoryOrderItem orderId={34535} name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingredients={testIngredients} /></li>
-          <li><HistoryOrderItem orderId={34535} name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingredients={testIngredients} /></li>
+          {allOrders.map((item) => (
+            <li key={item._id}>
+              <HistoryOrderItem orderId={item.number} name={item.name} date={item.createdAt} ingredients={item.ingredients} />
+            </li>
+          ))}
         </ul>
         <div className={`${styles.totalWrapper}`}>
           <div>

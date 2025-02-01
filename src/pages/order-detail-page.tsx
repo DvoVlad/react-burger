@@ -20,6 +20,7 @@ const OrderDetailPage: FC<OrderDetailPageProps> = ({isModal}) => {
   const loaddingStatus = useAppSelector((store) => store.myOrder.loadingStatusDetail);
   
   const websockedHistoryOrders = useAppSelector((store) => store.historyWebsocket.orders);
+  const websockedAllOrders = useAppSelector((store) => store.allWebsoket.orders);
 
   const { id } = useParams();
   const [isError, setIsError] = useState(false);
@@ -34,7 +35,13 @@ const OrderDetailPage: FC<OrderDetailPageProps> = ({isModal}) => {
       return order.number === +id;
     }
     return false;
-  }) || null;
+  }) ||
+    websockedAllOrders.find((order) => {
+      if(id){
+        return order.number === +id;
+      }
+      return false;
+    }) || null;
   useEffect(() => {
     if(typeof id === 'string' && !findInWebsocketOrder) {
       dispatch(getOrder(id));
