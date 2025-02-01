@@ -16,15 +16,16 @@ interface HistoryOrderItemProps {
 const HistoryOrderItem: FC<HistoryOrderItemProps> = ({ orderId, date, name, ingredients, status }) => {
   const ingredientsItems = useAppSelector((store) => store.ingredients.items);
   const mapPriceItems:Record<string, number> = {};
+  const mapImagesItems:Record<string, string> = {};
   ingredientsItems.forEach((item) => {
     mapPriceItems[item._id] = item.price;
+    mapImagesItems[item._id] = item.image_mobile;
   })
   const price = ingredients.reduce((acc, id) => {
     return acc + mapPriceItems[id];
   }, 0);
   const imagesUrls = ingredients.slice(0, 6).map((id) => {
-    let item = ingredientsItems.find((item) => item._id === id);
-    return item?.image_mobile;
+    return mapImagesItems[id];
   });
   const statuses: Record<string, string> = {
     created: 'Создан',

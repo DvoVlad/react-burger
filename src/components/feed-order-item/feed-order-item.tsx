@@ -7,21 +7,23 @@ interface FeedOrderItemProps {
   orderId: number;
   date: string;
   name: string;
-  ingregients: string[];
+  ingredients: string[];
 }
 
-const FeedOrderItem: FC<FeedOrderItemProps> = ({ orderId, date, name, ingregients }) => {
+const FeedOrderItem: FC<FeedOrderItemProps> = ({ orderId, date, name, ingredients }) => {
   const ingredientsItems = useAppSelector((store) => store.ingredients.items);
-  const price = ingredientsItems.reduce((acc, item) => {
-    if(ingregients.includes(item._id)) {
-      return acc + item.price;
-    }
-    return acc;
-  }, 0);
-  const imagesUrls = ingregients.slice(0, 6).map((id) => {
-    let item = ingredientsItems.find((item) => item._id === id);
-    return item?.image_mobile;
+  const mapPriceItems:Record<string, number> = {};
+  const mapImagesItems:Record<string, string> = {};
+  ingredientsItems.forEach((item) => {
+    mapPriceItems[item._id] = item.price;
+    mapImagesItems[item._id] = item.image_mobile;
   })
+  const price = ingredients.reduce((acc, id) => {
+    return acc + mapPriceItems[id];
+  }, 0);
+  const imagesUrls = ingredients.slice(0, 6).map((id) => {
+    return mapImagesItems[id];
+  });
   return (
     <div className={`${styles.feedItem} p-6`}>
       <div className={`${styles.feedData} mb-6`}>
@@ -38,7 +40,7 @@ const FeedOrderItem: FC<FeedOrderItemProps> = ({ orderId, date, name, ingregient
               </li>
             ))}
           </ul>
-          {ingregients.length > 6 && <span className={`text text_type_digits-default ${styles.counter}`}>+ {ingregients.length - 6}</span>}
+          {ingredients.length > 6 && <span className={`text text_type_digits-default ${styles.counter}`}>+ {ingredients.length - 6}</span>}
         </div>
         <p className={styles.price + ` text text_type_digits-default`}>
           <span className={`mr-2`}>{price}</span><CurrencyIcon type="primary" />
