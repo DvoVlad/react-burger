@@ -1,13 +1,29 @@
 import { FC } from 'react';
 import styles from './history.module.css'
 import HistoryOrderItem from '../history-order-item/history-order-item';
+import { useAppDispatch, useAppSelector } from '../../services';
+import { useEffect, useRef } from 'react';
 
 const History: FC = ()  => {
-  const testIngredients: string[] = ['643d69a5c3f7b9001cfa093d', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa093d'];
+  const orders = useAppSelector((store) => store.historyWebsocket.orders);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch({
+      type: 'history-websocket/connect'
+    });
+    return () => {
+      dispatch({
+        type: 'history-websocket/disconnect'
+      });
+    }
+  },[dispatch]);
   return(
     <ul className={`${styles.historyCollumn}`}>
-      <li><HistoryOrderItem status="done" orderId={34535} name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingregients={testIngredients} /></li>
-      <li><HistoryOrderItem status="pending" orderId={34535} name="Death Star Starship Main бургер" date="2021-06-23T14:43:22.587Z" ingregients={testIngredients} /></li>
+      {orders.map((item) => (
+        <li key={item._id}>
+          <HistoryOrderItem status={item.status} orderId={item.number} name={item.name} date={item.createdAt} ingredients={item.ingredients} />
+        </li>
+      ))}
     </ul>
   )
 }

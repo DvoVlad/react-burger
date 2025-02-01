@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { sendOrderEndpoint, getDetailOrderEndpoint } from '../utils/endpoints';
+import { sendOrderEndpoint } from '../utils/endpoints';
 import { request } from '../utils/helper';
 import { SerializedError } from '@reduxjs/toolkit';
 import { ingredientType } from '../utils/types';
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { getDetailOrderEndpoint } from '../utils/endpoints';
 interface IOrder {
   success: boolean;
   name: string;
@@ -34,7 +35,7 @@ export interface IOrderDetail {
   updatedAt: string;
   number: number;
   price:number;
-  owner: string
+  owner?: string;
 }
 
 export interface IOrderDetailResponse {
@@ -46,16 +47,18 @@ interface initialStateStore {
   data: IOrder | null;
   error: SerializedError | null;
   loadingStatus: 'loading' | 'idle' | 'failed' | null;
-  //detailOrderLoadingStatus: 'loading' | 'idle' | 'failed' | null;
-  //detailOrderData: null | IOrderDetail;
+  loadingStatusDetail: 'loading' | 'idle' | 'failed' | null;
+  detailOrder: null | IOrderDetail;
+  detailError: SerializedError | null;
 }
 
 const initialState: initialStateStore = {
   data: null,
   error: null,
   loadingStatus: null,
-  //detailOrderLoadingStatus: null,
-  //detailOrderData: null
+  detailOrder: null,
+  loadingStatusDetail: null,
+  detailError: null,
 };
 
 export const sendOrder = createAsyncThunk(
@@ -74,7 +77,7 @@ export const sendOrder = createAsyncThunk(
   }
 );
 
-/*export const getDetailOrder = createAsyncThunk(
+export const getOrder = createAsyncThunk(
   'order/getOrder',
   async (id: string) => {
     const response = await request(`${getDetailOrderEndpoint}${id}`, {
@@ -83,16 +86,20 @@ export const sendOrder = createAsyncThunk(
         "Content-Type": "application/json;charset=utf-8"
       }
     });
-    const result = await response.json();
-    return result;
+    const result: IOrderDetailResponse = await response.json();
+    return result.orders[0];
   }
-);*/
+);
 
 const orderSlice = createSlice({
   name: 'orderSlice',
   initialState,
   // Редьюсеры в слайсах меняют состояние и ничего не возвращают
   reducers: {
+    resetDetail: (state) => {
+      state.detailOrder = null;
+      state.loadingStatusDetail = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -114,23 +121,23 @@ const orderSlice = createSlice({
         state.data = null;
       })
       // Вызывается прямо перед выполнением запроса
-      /*.addCase(getDetailOrder.pending, (state) => {
-        state.detailOrderLoadingStatus = 'loading';
-        state.error = null;
+      .addCase(getOrder.pending, (state) => {
+        state.loadingStatusDetail = 'loading';
+        state.detailError = null;
       })
       // Вызывается, если запрос успешно выполнился
-      .addCase(getDetailOrder.fulfilled, (state, action: PayloadAction<IOrderDetail>) => {
-        state.detailOrderData = action.payload;
-        state.detailOrderLoadingStatus = 'idle';
-        state.error = null;
+      .addCase(getOrder.fulfilled, (state, action: PayloadAction<IOrderDetail>) => {
+        state.detailOrder = action.payload;
+        state.loadingStatusDetail = 'idle';
+        state.detailError = null;
       })
       // Вызывается в случае ошибки
-      .addCase(getDetailOrder.rejected, (state, action) => {
-        state.detailOrderLoadingStatus = 'failed';
-        state.error = action.error;
-        state.data = null;
-      });*/
+      .addCase(getOrder.rejected, (state, action) => {
+        state.loadingStatusDetail = 'failed';
+        state.detailError = action.error;
+        state.detailOrder = null;
+      });
   },
 });
-
+export const { resetDetail } = orderSlice.actions
 export default orderSlice.reducer;

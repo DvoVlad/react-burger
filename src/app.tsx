@@ -84,6 +84,16 @@ const App: FC = () => {
               </Modal>
             }
           />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <ProtectedRouteElement auth element={
+                <Modal onClose={() => navigate(-1)}>
+                  <OrderDetailPage isModal />
+                </Modal>
+              }/>
+            }
+          />
         </Routes>
       ) : null}
     </>
