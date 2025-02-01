@@ -1,7 +1,10 @@
 import styles from './feed-page.module.css'
 import AppFeed from '../components/app-feed/app-feed';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import HistoryOrderItem from '../components/history-order-item/history-order-item';
+import { useAppDispatch } from '../services';
+import { webSockedAllEndpoint } from '../utils/endpoints';
+import { connectWebsockedAllAction, disconnectWebsockedAllAction } from '../services/all-websocket';
 
 const FeedPage: FC = () => {
   const testIngredients: string[] = ['643d69a5c3f7b9001cfa093d', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa093d'];
@@ -9,6 +12,18 @@ const FeedPage: FC = () => {
   const workOrderNumbers = [34538, 34541, 34542];
   const total = 28752;
   const totalToday = 138;
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch({
+      type: connectWebsockedAllAction,
+      payload: webSockedAllEndpoint
+    });
+    return () => {
+      dispatch({
+        type: disconnectWebsockedAllAction
+      })
+    }
+  }, [dispatch])
   return(
     <>
       <h1 className={`${styles.title} text text_type_main-large mb-5 mt-10`}>Лента заказов</h1>
@@ -22,7 +37,7 @@ const FeedPage: FC = () => {
             <p className='text text_type_main-medium mb-6'>Готовы:</p>
             <ul className={`${styles.collumnDoneList}`}>
               {doneOrderNumbers.map((number) => (
-                <li className={`${styles.doneItem} text text_type_digits-default`}>{number}</li>
+                <li key={number} className={`${styles.doneItem} text text_type_digits-default`}>{number}</li>
               ))}
             </ul>
           </div>
@@ -30,7 +45,7 @@ const FeedPage: FC = () => {
             <p className='text text_type_main-medium mb-6'>В работе:</p>
             <ul className={`${styles.collumnWorkList}`}>
               {workOrderNumbers.map((number) => (
-                <li className={`text text_type_digits-default`}>{number}</li>
+                <li key={number} className={`text text_type_digits-default`}>{number}</li>
               ))}
             </ul>
           </div>

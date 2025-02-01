@@ -4,18 +4,19 @@ import HistoryOrderItem from '../history-order-item/history-order-item';
 import { useAppDispatch, useAppSelector } from '../../services';
 import { useEffect, useRef } from 'react';
 import { webSockedHistoryEndpoint } from '../../utils/endpoints';
+import { connectWebsockedHistoryAction, disconnectWebsockedHistoryAction } from '../../services/history-websocket';
 
 const History: FC = ()  => {
   const orders = useAppSelector((store) => store.historyWebsocket.orders);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch({
-      type: 'history-websocket/connect',
+      type: connectWebsockedHistoryAction,
       payload: webSockedHistoryEndpoint
     });
     return () => {
       dispatch({
-        type: 'history-websocket/disconnect'
+        type: disconnectWebsockedHistoryAction
       });
     }
   },[dispatch]);

@@ -5,16 +5,20 @@ interface initialStateProps {
   connect: boolean;
   orders: IOrderDetail[];
   error: boolean;
+  total: number;
+  totalToday: number
 }
 
 const initialState: initialStateProps = {
   connect: false,
   orders: [],
-  error: false
+  error: false,
+  total: 0,
+  totalToday: 0
 }
 
-const historyWebsocketSlice = createSlice({
-  name: 'history-websocket',
+const allWebsocketSlice = createSlice({
+  name: 'all-websocket',
   initialState,
   reducers: {
     connected: (state, action) => {
@@ -27,6 +31,8 @@ const historyWebsocketSlice = createSlice({
     messageReceived: (state, action) => {
       const data = JSON.parse(action.payload);
       state.orders = data.orders;
+      state.total = data.total;
+      state.totalToday = data.totalToday;
     },
     error: (state, action) => {
       state.error = true
@@ -34,7 +40,7 @@ const historyWebsocketSlice = createSlice({
   }
 });
 
-export const connectWebsockedHistoryAction = 'history-websocket/connect';
-export const disconnectWebsockedHistoryAction = 'history-websocket/disconnect';
+export const connectWebsockedAllAction = 'all-websocket/connect';
+export const disconnectWebsockedAllAction = 'all-websocket/disconnect';
 
-export default historyWebsocketSlice.reducer;
+export default allWebsocketSlice.reducer;

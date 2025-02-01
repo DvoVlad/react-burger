@@ -97,7 +97,7 @@ function createWebSocketMiddleware (options: WebSocketMiddlewareOptions, updateT
         break;
     }
 
-    next(action);
+    return next(action);
   }) as Middleware;
 };
 
