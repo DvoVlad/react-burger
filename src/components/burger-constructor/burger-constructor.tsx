@@ -10,7 +10,7 @@ import { sendOrder } from '../../services/order';
 import { Navigate } from 'react-router-dom';
 import { ingredientTypeConstructor, ingredientType} from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../services';
-import { updateToken } from '../../services/user';
+import { updateToken, clearUserData } from '../../services/user';
 
 const BurgerConstructor: FC = () => {
   const [isError, setIsError] = useState(false);
@@ -93,6 +93,7 @@ const BurgerConstructor: FC = () => {
         } else {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
+          dispatch(clearUserData());
           return;
         }
       }
