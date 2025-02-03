@@ -9,6 +9,8 @@ import allWebsocketReducer from './all-websocket';
 import createWebSocketMiddleware from '../utils/create-websocket-middleware';
 import { connectWebsockedAllAction, disconnectWebsockedAllAction } from './all-websocket';
 import { connectWebsockedHistoryAction, disconnectWebsockedHistoryAction } from './history-websocket';
+import { updateToken } from './user';
+import { webSockedHistoryEndpoint } from '../utils/endpoints';
 
 const websocketMiddlewareHistory = createWebSocketMiddleware({
   actions: {
@@ -20,6 +22,16 @@ const websocketMiddlewareHistory = createWebSocketMiddleware({
     onMessageReceived: 'history-websocket/messageReceived',
     onError: 'history-websocket/error',
   },
+  onAuthReconnect: async (dispatch) => {
+    const reloadConnect = async () => {
+      await dispatch({
+        type: disconnectWebsockedHistoryAction
+      });
+      await dispatch(updateToken());
+      dispatch({type: connectWebsockedHistoryAction, payload: webSockedHistoryEndpoint});
+    }
+    await reloadConnect();
+  }
 }, true, true);
 
 const websocketMiddlewareAll = createWebSocketMiddleware({

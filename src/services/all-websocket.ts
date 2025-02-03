@@ -29,7 +29,7 @@ const allWebsocketSlice = createSlice({
       state.connect = false;
     },
     messageReceived: (state, action) => {
-      const data = JSON.parse(action.payload);
+      const data = action.payload;
       state.orders = data.orders;
       state.total = data.total;
       state.totalToday = data.totalToday;

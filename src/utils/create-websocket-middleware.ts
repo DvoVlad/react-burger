@@ -1,6 +1,5 @@
 import { Middleware, MiddlewareAPI, Dispatch, AnyAction } from '@reduxjs/toolkit';
 import { AppDispatch, RootState } from '../services';
-import { updateToken } from '../services/user';
 
 type WebSocketMiddlewareOptions = {
   actions: {
@@ -16,6 +15,7 @@ type WebSocketMiddlewareOptions = {
   onClose?: (event: CloseEvent) => void;
   onMessage?: (event: MessageEvent) => void;
   onError?: (event: Event) => void;
+  onAuthReconnect?: (dispatch: Dispatch<any>) => void;
 }
 
 function createWebSocketMiddleware (options: WebSocketMiddlewareOptions, updateTokenOnError:boolean = false, auth = false): Middleware {
@@ -45,24 +45,16 @@ function createWebSocketMiddleware (options: WebSocketMiddlewareOptions, updateT
         socket.onclose = (event) => {
           options.onClose?.(event);
           store.dispatch({ type: actions.onDisconnected, payload: event.type });
-          socket = null;
         };
 
         socket.onmessage = (event) => {
           options.onMessage?.(event);
           const data = JSON.parse(event.data);
           if(updateTokenOnError && data.message === 'Invalid or missing token' ) {
-            const reloadConnect = async () => {
-              await store.dispatch({
-                type: actions.disconnect
-              });
-              await store.dispatch(updateToken());
-              store.dispatch({type: actions.connect});
-            }
-            //reloadConnect();
+            options.onAuthReconnect?.(store.dispatch);
             return;
           }
-          store.dispatch({ type: actions.onMessageReceived, payload: event.data });
+          store.dispatch({ type: actions.onMessageReceived, payload: data });
         };
 
         socket.onerror = (event) => {
