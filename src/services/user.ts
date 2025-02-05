@@ -41,7 +41,7 @@ interface ILoginOrRegisterResponse {
   user: IUser;
 }
 
-interface IUpdateTokenResponse {
+export interface IUpdateTokenResponse {
   success: boolean;
   accessToken: string;
   refreshToken: string;
@@ -229,7 +229,10 @@ const userSlice = createSlice({
       })
       // Вызывается в случае ошибки
       .addCase(updateToken.rejected, (state, action) => {
-        state.loadingStatus = 'failed update';
+        state.loadingStatus = 'idle';
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        state.userData = null;
         console.log("FAILED UPDATE TOKEN");
       })
       //UPDATE USER DATA

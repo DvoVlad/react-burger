@@ -10,7 +10,7 @@ import { sendOrder } from '../../services/order';
 import { Navigate } from 'react-router-dom';
 import { ingredientTypeConstructor, ingredientType} from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../services';
-import { updateToken, clearUserData } from '../../services/user';
+import { updateToken } from '../../services/user';
 
 const BurgerConstructor: FC = () => {
   const [isError, setIsError] = useState(false);
@@ -91,16 +91,13 @@ const BurgerConstructor: FC = () => {
         if(!updateToken.rejected.match(updateTokenResult)) {
           dispatch(sendOrder(result));
         } else {
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
-          dispatch(clearUserData());
-          return;
+          return
         }
       }
-      dispatch(resetIgredients());
-      setIsOrderModalOpen(true);
     }
     createOrder();
+    setIsOrderModalOpen(true);
+    dispatch(resetIgredients());
   }
 
   const closeModal = useCallback(() => {

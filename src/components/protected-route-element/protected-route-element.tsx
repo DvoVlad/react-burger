@@ -10,7 +10,7 @@ const ProtectedRouteElement: FC<ProtectedRouteElementProps> = ({element, auth = 
   const loadingStatus = useAppSelector((store) => store.user.loadingStatus);
   const location = useLocation();
 
-  if(loadingStatus === 'idle' || loadingStatus === 'failed update') {
+  if(loadingStatus === 'idle') {
     if(auth) {
       const paramRedirect: string = location.pathname !== '/logout' ? location.pathname : '';
       if(paramRedirect) {

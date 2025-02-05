@@ -39,9 +39,6 @@ const App: FC = () => {
           const updateTokenResult = await dispatch(updateToken());
           if(!updateToken.rejected.match(updateTokenResult)) {
             dispatch(getUserData());
-          } else {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
           }
         }
       } else {
