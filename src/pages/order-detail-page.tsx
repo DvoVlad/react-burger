@@ -1,7 +1,7 @@
 import styles from './order-detail-page.module.css';
 import { FC } from 'react';
 import { useParams } from 'react-router';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import {  IOrderDetail } from '../services/order';
 import { useAppSelector, useAppDispatch } from '../services';
 import { ingredientType } from '../utils/types';
@@ -60,21 +60,6 @@ const OrderDetailPage: FC<OrderDetailPageProps> = ({isModal}) => {
       if(loaddingStatus === 'failed') {
         setIsError(true);
       }
-      /*request(`${getDetailOrderEndpoint}${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8"
-        }
-      })
-      .then((res) => {
-        return res.json(); 
-      })
-      .then((data: IOrderDetailResponse) => {
-        setOrderFromServer(data.orders[0]);
-      })
-      .catch(() => {
-        setIsError(true);
-      });*/
     } else {
       setOrderFromServer(findInWebsocketOrder);
     }
@@ -87,7 +72,7 @@ const OrderDetailPage: FC<OrderDetailPageProps> = ({isModal}) => {
   });
   if(orderFromServer) {
     const serverIgredients = orderFromServer.ingredients.filter((item) => {
-      return item !== null || item !== false || item !== undefined;
+      return item !== null && item !== undefined;
     })
     ingredientsList = serverIgredients.map((id) => {
       let item = mapIngredient[id];

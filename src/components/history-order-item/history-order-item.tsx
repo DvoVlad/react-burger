@@ -24,7 +24,7 @@ const HistoryOrderItem: FC<HistoryOrderItemProps> = ({ orderId, date, name, ingr
     mapImagesItems[item._id] = item.image_mobile;
   })
   const serverIgredients = ingredients.filter((item) => {
-    return item !== null || item !== false || item !== undefined;
+    return item !== null && item !== undefined;
   })
   const price = serverIgredients.reduce((acc, id) => {
     return acc + mapPriceItems[id];
