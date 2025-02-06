@@ -1,7 +1,7 @@
 import styles from './feed-page.module.css'
 import AppFeed from '../components/app-feed/app-feed';
 import { FC, useEffect } from 'react';
-import HistoryOrderItem from '../components/history-order-item/history-order-item';
+import HistoryOrdersList from '../components/history-orders-list/history-orders-list';
 import { useAppDispatch, useAppSelector } from '../services';
 import { webSockedAllEndpoint } from '../utils/endpoints';
 import { connect, disconnect } from '../services/all-websocket';
@@ -29,13 +29,7 @@ const FeedPage: FC = () => {
     <>
       <h1 className={`${styles.title} text text_type_main-large mb-5 mt-10`}>Лента заказов</h1>
       <AppFeed>
-        <ul className={`${styles.feedCollumn}`}>
-          {allOrders.map((item) => (
-            <li key={item._id}>
-              <HistoryOrderItem orderId={item.number} name={item.name} date={item.createdAt} ingredients={item.ingredients} />
-            </li>
-          ))}
-        </ul>
+        <HistoryOrdersList orders={allOrders}/>
         <div className={`${styles.totalWrapper}`}>
           <div>
             <p className='text text_type_main-medium mb-6'>Готовы:</p>

@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import styles from './history.module.css'
-import HistoryOrderItem from '../history-order-item/history-order-item';
+import HistoryOrdersList from '../history-orders-list/history-orders-list';
 import { useAppDispatch, useAppSelector } from '../../services';
 import { useEffect } from 'react';
 import { webSockedHistoryEndpoint } from '../../utils/endpoints';
@@ -16,13 +15,7 @@ const History: FC = ()  => {
     }
   },[dispatch]);
   return(
-    <ul className={`${styles.historyCollumn}`}>
-      {orders.map((item) => (
-        <li key={item._id}>
-          <HistoryOrderItem isHistory status={item.status} orderId={item.number} name={item.name} date={item.createdAt} ingredients={item.ingredients} />
-        </li>
-      ))}
-    </ul>
+    <HistoryOrdersList orders={orders} isHistory/>
   )
 }
 

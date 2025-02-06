@@ -4,18 +4,6 @@
   margin-right: auto;
 }
 
-.feedCollumn {
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  height: 812px;
-  max-height: 60vh;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
 .totalWrapper {
   display: grid;
   grid-template-columns: 206px 206px;
