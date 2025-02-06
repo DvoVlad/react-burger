@@ -4,7 +4,7 @@ import { FC, useEffect } from 'react';
 import HistoryOrderItem from '../components/history-order-item/history-order-item';
 import { useAppDispatch, useAppSelector } from '../services';
 import { webSockedAllEndpoint } from '../utils/endpoints';
-import { connectWebsockedAllAction, disconnectWebsockedAllAction } from '../services/all-websocket';
+import { connect, disconnect } from '../services/all-websocket';
 
 const FeedPage: FC = () => {
   const allOrders = useAppSelector((store) => store.allWebsoket.orders);
@@ -20,14 +20,9 @@ const FeedPage: FC = () => {
   const totalToday = useAppSelector((store) => store.allWebsoket.totalToday);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch({
-      type: connectWebsockedAllAction,
-      payload: webSockedAllEndpoint
-    });
+    dispatch(connect(webSockedAllEndpoint));
     return () => {
-      dispatch({
-        type: disconnectWebsockedAllAction
-      })
+      dispatch(disconnect())
     }
   }, [dispatch])
   return(

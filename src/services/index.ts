@@ -1,62 +1,69 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import ingredientsReducer from './ingredients';
 import ingredientsConstructorReducer from './ingredients-constructor';
 import orderReducer from './order';
 import userReducer from './user';
 import historyWebsocketReducer from './history-websocket';
+import * as historyActions from './history-websocket';
 import allWebsocketReducer from './all-websocket';
-import createWebSocketMiddleware from '../utils/create-websocket-middleware';
-import { connectWebsockedAllAction, disconnectWebsockedAllAction } from './all-websocket';
-import { connectWebsockedHistoryAction, disconnectWebsockedHistoryAction } from './history-websocket';
+import * as allActions from './all-websocket';
+import {createWebSocketMiddleware} from '../utils/create-websocket-middleware';
 import { updateToken } from './user';
 import { webSockedHistoryEndpoint } from '../utils/endpoints';
+import { TMessageFromSocket } from '../utils/types';
+import { UnknownAction } from '@reduxjs/toolkit';
 
-const websocketMiddlewareHistory = createWebSocketMiddleware({
-  actions: {
-    connect: connectWebsockedHistoryAction,
-    disconnect: disconnectWebsockedHistoryAction,
-    sendMessage: 'history-websocket/sendMessage',
-    onConnected: 'history-websocket/connected',
-    onDisconnected: 'history-websocket/disconnected',
-    onMessageReceived: 'history-websocket/messageReceived',
-    onError: 'history-websocket/error',
-  },
-  onAuthReconnect: async (dispatch) => {
-    const reloadConnect = async () => {
-      await dispatch({
-        type: disconnectWebsockedHistoryAction
-      });
-      await dispatch(updateToken());
-      dispatch({type: connectWebsockedHistoryAction, payload: webSockedHistoryEndpoint});
-    }
-    await reloadConnect();
+const websocketMiddlewareHistory = createWebSocketMiddleware<TMessageFromSocket, any>(
+{
+    connect: historyActions.connect,
+    disconnect: historyActions.disconnect,
+    sendMessage: historyActions.sendMessage,
+    onConnected: historyActions.connected,
+    onDisconnected: historyActions.disconnected,
+    onMessageReceived: historyActions.messageReceived,
+    onError: historyActions.error
+},
+{ 
+  withTokenRefresh: true,
+},
+true,
+(dispatch) => {
+  const reloadAuthConnect = async () => {
+    await dispatch(historyActions.disconnect());
+    await dispatch(updateToken() as unknown as UnknownAction);
+    dispatch(historyActions.connect(webSockedHistoryEndpoint));
   }
-}, true, true);
+  reloadAuthConnect();
+}
+);
 
-const websocketMiddlewareAll = createWebSocketMiddleware({
-  actions: {
-    connect: connectWebsockedAllAction,
-    disconnect: disconnectWebsockedAllAction,
-    sendMessage: 'all-websocket/sendMessage',
-    onConnected: 'all-websocket/connected',
-    onDisconnected: 'all-websocket/disconnected',
-    onMessageReceived: 'all-websocket/messageReceived',
-    onError: 'all-websocket/error',
-  },
-}, false, false);
+const websocketMiddlewareAll = createWebSocketMiddleware<TMessageFromSocket, any>(
+{
+    connect: allActions.connect,
+    disconnect: allActions.disconnect,
+    sendMessage: allActions.sendMessage,
+    onConnected: allActions.connected,
+    onDisconnected: allActions.disconnected,
+    onMessageReceived: allActions.messageReceived,
+    onError: allActions.error
+}, { withTokenRefresh: false }, false);
+
+const rootReducer = combineReducers({
+  ingredients: ingredientsReducer,
+  ingredientsConstructor: ingredientsConstructorReducer,
+  myOrder: orderReducer,
+  user: userReducer,
+  allWebsoket: allWebsocketReducer,
+  historyWebsocket: historyWebsocketReducer
+});
 
 const store = configureStore({
-  reducer: {
-    ingredients: ingredientsReducer,
-    ingredientsConstructor: ingredientsConstructorReducer,
-    myOrder: orderReducer,
-    user: userReducer,
-    allWebsoket: allWebsocketReducer,
-    historyWebsocket: historyWebsocketReducer
-  },
+  reducer: rootReducer,
   devTools: true,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([websocketMiddlewareHistory, websocketMiddlewareAll])
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false
+  }).concat([websocketMiddlewareHistory, websocketMiddlewareAll])
 });
 
 export type RootState = ReturnType<typeof store.getState>;

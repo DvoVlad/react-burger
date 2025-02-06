@@ -1,40 +1,49 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IOrderDetail } from "./order";
-
+import { PayloadAction } from "@reduxjs/toolkit";
+import { TMessageFromSocket } from "../utils/types";
 interface initialStateProps {
-  connect: boolean;
+  status: 'connecting' | 'disconnecting' | 'connected' | 'disconnected' | null;
   orders: IOrderDetail[];
-  error: boolean;
+  error: Event | null;
 }
 
 const initialState: initialStateProps = {
-  connect: false,
+  status: null,
   orders: [],
-  error: false
+  error: null
 }
 
 const historyWebsocketSlice = createSlice({
   name: 'history-websocket',
   initialState,
   reducers: {
-    connected: (state, action) => {
-      state.connect = true;
-      state.error = false;
+    connect: (state, payload: PayloadAction<string>) => {
+      state.status = 'connecting';
     },
-    disconnected: (state, action) => {
-      state.connect = false;
+    disconnect: (state) => {
+      state.status = 'disconnecting';
     },
-    messageReceived: (state, action) => {
+    sendMessage: (state, action) => {
+
+    },
+    connected: (state, action: PayloadAction<Event>) => {
+      state.status = 'connected';
+      state.error = null;
+    },
+    disconnected: (state, action: PayloadAction<CloseEvent>) => {
+      state.status = 'disconnected';
+    },
+    messageReceived: (state, action: PayloadAction<TMessageFromSocket>) => {
       const data = action.payload;
       state.orders = data.orders;
     },
-    error: (state, action) => {
-      state.error = true
+    error: (state, action: PayloadAction<Event>) => {
+      state.error = action.payload;
     }
   }
 });
 
-export const connectWebsockedHistoryAction = 'history-websocket/connect';
-export const disconnectWebsockedHistoryAction = 'history-websocket/disconnect';
+export const { connect, disconnect, sendMessage, connected, disconnected, messageReceived, error } = historyWebsocketSlice.actions
 
 export default historyWebsocketSlice.reducer;

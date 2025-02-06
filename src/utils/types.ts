@@ -1,3 +1,4 @@
+import { IOrderDetail } from "../services/order";
 export interface ingredientType {
   _id: string,
   name: string,
@@ -15,4 +16,11 @@ export interface ingredientType {
 
 export interface ingredientTypeConstructor extends ingredientType {
   uuid: string
+}
+
+export type TMessageFromSocket = {
+  success: boolean;
+  orders: IOrderDetail[],
+  total: number,
+  totalToday: number
 }

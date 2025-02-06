@@ -1,96 +1,112 @@
-import { Middleware, MiddlewareAPI, Dispatch, AnyAction } from '@reduxjs/toolkit';
-import { AppDispatch, RootState } from '../services';
+import {
+  type ActionCreatorWithoutPayload,
+  type ActionCreatorWithPayload,
+  type Dispatch,
+  type Middleware,
+  type MiddlewareAPI,
+  type UnknownAction,
+} from '@reduxjs/toolkit';
+import { RootState } from '../services';
+type WebSocketActions<TMessage, TMessageSend> = {
+  connect: ActionCreatorWithPayload<string>;
+  disconnect: ActionCreatorWithoutPayload;
+  sendMessage: ActionCreatorWithPayload<TMessageSend>;
+  onConnected: ActionCreatorWithPayload<Event>;
+  onDisconnected: ActionCreatorWithPayload<CloseEvent>;
+  onMessageReceived: ActionCreatorWithPayload<TMessage>;
+  onError: ActionCreatorWithPayload<Event>;
+};
 
-type WebSocketMiddlewareOptions = {
-  actions: {
-    connect: string;
-    disconnect: string;
-    sendMessage: string;
-    onConnected: string;
-    onDisconnected: string;
-    onMessageReceived: string;
-    onError: string;
-  };
-  onOpen?: (event: Event) => void;
-  onClose?: (event: CloseEvent) => void;
-  onMessage?: (event: MessageEvent) => void;
-  onError?: (event: Event) => void;
-  onAuthReconnect?: (dispatch: Dispatch<any>) => void;
-}
+type WebSocketOptions = {
+  withTokenRefresh: boolean;
+};
 
-function createWebSocketMiddleware (options: WebSocketMiddlewareOptions, updateTokenOnError:boolean = false, auth = false): Middleware {
+export function createWebSocketMiddleware<TMessage, TMessageSend>(
+  {
+    connect,
+    disconnect,
+    sendMessage,
+    onConnected,
+    onDisconnected,
+    onMessageReceived,
+    onError,
+  }: WebSocketActions<TMessage, TMessageSend>,
+  { withTokenRefresh }: WebSocketOptions,
+  auth: boolean,
+  onReconnect?: (
+    dispatch: Dispatch<UnknownAction>
+  ) => void
+): Middleware {
   let socket: WebSocket | null = null;
+  let isConnected = false;
+  let reconnectTimer = 0;
+  let url: string;
 
-  return ((store: MiddlewareAPI<AppDispatch, RootState>) => (next: Dispatch) => (action: AnyAction) => {
-    const { actions } = options;
-
-    switch (action.type) {
-      case actions.connect: {
+  return ((store: MiddlewareAPI<Dispatch<UnknownAction>, RootState>) =>
+    (next: Dispatch<UnknownAction>) =>
+    (action: UnknownAction) => {
+      if (connect.match(action)) {
         if (socket !== null) {
           console.warn('WebSocket is already connected.');
           return;
         }
 
         if(auth) {
-          socket = new WebSocket(`${action.payload}?token=${localStorage.getItem('accessToken')}`);
+          url = `${action.payload}?token=${localStorage.getItem('accessToken')}`;
         } else {
-          socket = new WebSocket(`${action.payload}`);
+          url = `${action.payload}`;
         }
+        socket = new WebSocket(url);
+        isConnected = true;
 
-        socket.onopen = (event) => {
-          options.onOpen?.(event);
-          store.dispatch({ type: actions.onConnected });
+        socket.onopen = event => {
+          store.dispatch(onConnected(event));
         };
 
-        socket.onclose = (event) => {
-          options.onClose?.(event);
-          store.dispatch({ type: actions.onDisconnected, payload: event.type });
+        socket.onclose = event => {
+          store.dispatch(onDisconnected(event));
+          socket = null;
+          if (isConnected) {
+            reconnectTimer = window.setTimeout(() => {
+              store.dispatch(connect(url));
+            }, 3000);
+          }
         };
 
-        socket.onmessage = (event) => {
-          options.onMessage?.(event);
+        socket.onmessage = event => {
           const data = JSON.parse(event.data);
-          if(updateTokenOnError && data.message === 'Invalid or missing token' ) {
-            options.onAuthReconnect?.(store.dispatch);
+
+          if(withTokenRefresh && data.message === 'Invalid or missing token') {
+            onReconnect?.(store.dispatch);
             return;
           }
-          store.dispatch({ type: actions.onMessageReceived, payload: data });
+          store.dispatch(onMessageReceived(data));
         };
 
-        socket.onerror = (event) => {
-          options.onError?.(event);
-          store.dispatch({ type: actions.onError, payload: event.type });
+        socket.onerror = event => {
+          store.dispatch(onError(event));
         };
-
-        break;
       }
 
-      case actions.disconnect: {
-        console.log('SOCKET DISCONNECT');
-        console.log(socket);
+      if (disconnect.match(action)) {
         if (socket !== null) {
-          console.log('SOCKET CLOSE!');
           socket.close();
         }
+
+        clearTimeout(reconnectTimer);
+        isConnected = false;
+        reconnectTimer = 0;
         socket = null;
-        break;
       }
 
-      case actions.sendMessage: {
+      if (sendMessage.match(action)) {
         if (socket !== null && socket.readyState === WebSocket.OPEN) {
-          socket.send(action.payload);
+          socket.send(JSON.stringify(action.payload));
         } else {
           console.warn('WebSocket is not open. Cannot send message.');
         }
-        break;
       }
 
-      default:
-        break;
-    }
-
-    return next(action);
-  }) as Middleware;
-};
-
-export default createWebSocketMiddleware;
+      return next(action);
+    }) as Middleware;
+}
