@@ -1,7 +1,6 @@
 import { initialState } from "./ingredients";
 import { ingredientsSlice } from "./ingredients";
 import { fetchIngredients } from "./ingredients";
-import { SerializedError } from "@reduxjs/toolkit";
 
 describe('ingredients reducer', () => {
   it('initializes correctly', () => {
