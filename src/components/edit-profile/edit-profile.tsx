@@ -88,7 +88,7 @@ function EditProfile() {
   }
 
   return(
-    <form onSubmit={onSubmit} onReset={onReset}>
+    <form className={`${styles.form}`} onSubmit={onSubmit} onReset={onReset}>
       {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         icon={'EditIcon'}

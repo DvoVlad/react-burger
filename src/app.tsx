@@ -6,7 +6,9 @@ import ForgotPasswordPage from './pages/forgot-password-page';
 import ResetPasswordPage from './pages/reset-password-page';
 import ProfilePage from './pages/profile-page';
 import History from './components/history/history';
+import FeedPage from './pages/feed-page';
 import LogoutPage from './pages/logout-page';
+import OrderDetailPage from './pages/order-detail-page';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import AppHeader from './components/app-header/app-header';
 import { useEffect, useRef } from 'react';
@@ -37,9 +39,6 @@ const App: FC = () => {
           const updateTokenResult = await dispatch(updateToken());
           if(!updateToken.rejected.match(updateTokenResult)) {
             dispatch(getUserData());
-          } else {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
           }
         }
       } else {
@@ -66,8 +65,11 @@ const App: FC = () => {
            <Route index element={<EditProfile />} />
            <Route path="orders" element={<History />} />
         </Route>
+        <Route path="/profile/orders/:id" element={<ProtectedRouteElement auth element={<OrderDetailPage />} />}/>
         <Route path="/logout" element={<ProtectedRouteElement auth element={<LogoutPage />} />} />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
+        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:id" element={<OrderDetailPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {location.state?.background ? (
@@ -77,6 +79,24 @@ const App: FC = () => {
             element={
               <Modal onClose={() => navigate(-1)} title="Детали ингредиента">
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <ProtectedRouteElement auth element={
+                <Modal onClose={() => navigate(-1)}>
+                  <OrderDetailPage isModal />
+                </Modal>
+              }/>
+            }
+          />
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal onClose={() => navigate(-1)}>
+                <OrderDetailPage isModal />
               </Modal>
             }
           />

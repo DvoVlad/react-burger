@@ -1,0 +1,51 @@
+.orderDataWrapper {
+  width: 620px;
+  margin: 122px auto 0;
+}
+
+.orderDataWrapperModal{
+  width: 620px;
+  margin: 40px auto;
+}
+
+.number {
+  text-align: center;
+}
+
+.statusDone {
+  color: #00CCCC;
+}
+
+.ingredientsList {
+  margin-top: 0;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 312px;
+  overflow-y: scroll;
+}
+
+.image {
+  object-fit: cover;
+  border: 2px solid #801AB3;
+  border-radius: 50%;
+  background-color: #131316;
+}
+
+.ingredientItem {
+  display: grid;
+  grid-template-columns: 60px 414px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.totalWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemPrice {
+  display: flex;
+  justify-content: space-between;
+}
