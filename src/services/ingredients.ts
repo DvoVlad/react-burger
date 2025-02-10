@@ -11,7 +11,7 @@ interface initialStateIngredients {
   loadingStatus: 'loading' | 'idle' | 'failed' | null;
 }
 
-const initialState: initialStateIngredients = {
+export const initialState: initialStateIngredients = {
   items: [],
   error: null,
   loadingStatus: null
@@ -31,7 +31,7 @@ export const fetchIngredients = createAsyncThunk(
   }
 );
 
-const ingredientsSlice = createSlice({
+export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {},
@@ -51,7 +51,7 @@ const ingredientsSlice = createSlice({
       // Вызывается в случае ошибки
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.loadingStatus = 'failed';
-        state.error = action.error;
+        state.error = action.error || true;
         state.items = [];
       });
   },
