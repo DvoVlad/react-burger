@@ -52,7 +52,7 @@ interface initialStateStore {
   detailError: SerializedError | null;
 }
 
-const initialState: initialStateStore = {
+export const initialState: initialStateStore = {
   data: null,
   error: null,
   loadingStatus: null,
@@ -91,7 +91,7 @@ export const getOrder = createAsyncThunk(
   }
 );
 
-const orderSlice = createSlice({
+export const orderSlice = createSlice({
   name: 'orderSlice',
   initialState,
   // Редьюсеры в слайсах меняют состояние и ничего не возвращают
