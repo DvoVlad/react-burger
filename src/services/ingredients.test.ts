@@ -40,5 +40,5 @@ describe('ingredients async actions', () => {
   it('rejected', () => {
     const state = ingredientsSlice.reducer(initialState, {type: fetchIngredients.rejected.type});
     expect(state).toEqual({...initialState, loadingStatus: 'failed', items: [], error: true});
-  })
+  });
 });
