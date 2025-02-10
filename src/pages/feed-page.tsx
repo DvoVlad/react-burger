@@ -3,7 +3,7 @@ import AppFeed from '../components/app-feed/app-feed';
 import { FC, useEffect } from 'react';
 import HistoryOrdersList from '../components/history-orders-list/history-orders-list';
 import { useAppDispatch, useAppSelector } from '../services';
-import { webSockedAllEndpoint } from '../utils/endpoints';
+import { webSocketAllEndpoint } from '../utils/endpoints';
 import { connect, disconnect } from '../services/all-websocket';
 
 const FeedPage: FC = () => {
@@ -20,7 +20,7 @@ const FeedPage: FC = () => {
   const totalToday = useAppSelector((store) => store.allWebsoket.totalToday);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(connect(webSockedAllEndpoint));
+    dispatch(connect(webSocketAllEndpoint));
     return () => {
       dispatch(disconnect())
     }

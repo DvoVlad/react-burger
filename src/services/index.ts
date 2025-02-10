@@ -10,7 +10,7 @@ import allWebsocketReducer from './all-websocket';
 import * as allActions from './all-websocket';
 import {createWebSocketMiddleware} from '../utils/create-websocket-middleware';
 import { updateToken } from './user';
-import { webSockedHistoryEndpoint } from '../utils/endpoints';
+import { webSocketHistoryEndpoint } from '../utils/endpoints';
 import { TMessageFromSocket } from '../utils/types';
 import { UnknownAction } from '@reduxjs/toolkit';
 
@@ -32,7 +32,7 @@ true,
   const reloadAuthConnect = async () => {
     await dispatch(historyActions.disconnect());
     await dispatch(updateToken() as unknown as UnknownAction);
-    dispatch(historyActions.connect(webSockedHistoryEndpoint));
+    dispatch(historyActions.connect(webSocketHistoryEndpoint));
   }
   reloadAuthConnect();
 }

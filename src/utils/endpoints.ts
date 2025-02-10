@@ -9,7 +9,7 @@ const userDataEndpoint: string = '/auth/user';
 const updateTokenEndpoint: string = '/auth/token'
 const logoutEndpoint: string = '/auth/logout';
 const getDetailOrderEndpoint: string = '/orders/';
-const webSockedHistoryEndpoint: string = `${SOCKED_URL}/orders`;
-const webSockedAllEndpoint: string = `${SOCKED_URL}/orders/all`;
+const webSocketHistoryEndpoint: string = `${SOCKED_URL}/orders`;
+const webSocketAllEndpoint: string = `${SOCKED_URL}/orders/all`;
 
-export { webSockedAllEndpoint, webSockedHistoryEndpoint, getDetailOrderEndpoint, ingredientsEndpoint, sendOrderEndpoint, passwordResetEndpoint, passwordResetStep2Endpoint, registerEndpoint, authEndpoint, userDataEndpoint, updateTokenEndpoint, logoutEndpoint };
+export { webSocketAllEndpoint, webSocketHistoryEndpoint, getDetailOrderEndpoint, ingredientsEndpoint, sendOrderEndpoint, passwordResetEndpoint, passwordResetStep2Endpoint, registerEndpoint, authEndpoint, userDataEndpoint, updateTokenEndpoint, logoutEndpoint };
