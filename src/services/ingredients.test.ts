@@ -1,6 +1,7 @@
 import { initialState } from "./ingredients";
 import { ingredientsSlice } from "./ingredients";
 import { fetchIngredients } from "./ingredients";
+import { SerializedError } from "@reduxjs/toolkit";
 
 describe('ingredients reducer', () => {
   it('initializes correctly', () => {
@@ -39,6 +40,6 @@ describe('ingredients async actions', () => {
   });
   it('rejected', () => {
     const state = ingredientsSlice.reducer(initialState, {type: fetchIngredients.rejected.type});
-    expect(state).toEqual({...initialState, loadingStatus: 'failed', items: [], error: true});
+    expect(state).toEqual({...initialState, loadingStatus: 'failed', items: [], error: undefined});
   });
 });

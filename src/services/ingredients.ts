@@ -51,7 +51,7 @@ export const ingredientsSlice = createSlice({
       // Вызывается в случае ошибки
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.loadingStatus = 'failed';
-        state.error = action.error || true;
+        state.error = action.error;
         state.items = [];
       });
   },
