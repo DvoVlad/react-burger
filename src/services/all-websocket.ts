@@ -10,7 +10,7 @@ interface initialStateProps {
   totalToday: number
 }
 
-const initialState: initialStateProps = {
+export const initialState: initialStateProps = {
   status: null,
   orders: [],
   error: null,
@@ -18,7 +18,7 @@ const initialState: initialStateProps = {
   totalToday: 0
 }
 
-const allWebsocketSlice = createSlice({
+export const allWebsocketSlice = createSlice({
   name: 'all-websocket',
   initialState,
   reducers: {
