@@ -34,7 +34,6 @@ export interface IOrderDetail {
   createdAt: string;
   updatedAt: string;
   number: number;
-  price:number;
   owner?: string;
 }
 
