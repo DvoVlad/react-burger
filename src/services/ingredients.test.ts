@@ -10,7 +10,7 @@ describe('ingredients reducer', () => {
 });
 
 describe('ingredients async actions', () => {
-  it('fullfield', () => {
+  it('fulfield', () => {
     const addedItem = {
       _id: "643d69a5c3f7b9001cfa093c",
       name: "Краторная булка N-200i",
