@@ -1,6 +1,6 @@
 import { initialState } from "./order";
 import { orderSlice } from "./order";
-import { sendOrder } from "./order";
+import { sendOrder, getOrder, resetDetail } from "./order";
 
 describe('order reducer', () => {
   it('initializes correctly', () => {
@@ -9,8 +9,8 @@ describe('order reducer', () => {
   });
 });
 
-describe('orderSend async action', () => {
-  it('fullfield', () => {
+describe('sendOrder async action', () => {
+  it('fulfield', () => {
       const createdOrder = {
         success:true,
         name:"Краторный spicy бургер",
@@ -73,14 +73,67 @@ describe('orderSend async action', () => {
         }
       };
       const state = orderSlice.reducer(initialState, {type: sendOrder.fulfilled.type, payload: createdOrder});
-      expect(state).toEqual({...initialState, data: createdOrder, loadingStatus: 'idle'});
+      expect(state).toEqual({...initialState, data: createdOrder, loadingStatus: 'idle', error: null});
     });
     it('pending', () => {
       const state = orderSlice.reducer(initialState, {type: sendOrder.pending.type});
-      expect(state).toEqual({...initialState, loadingStatus: 'loading'});
+      expect(state).toEqual({...initialState, loadingStatus: 'loading', error: null});
     });
     it('rejected', () => {
       const state = orderSlice.reducer(initialState, {type: sendOrder.rejected.type});
       expect(state).toEqual({...initialState, loadingStatus: 'failed', data: null, error: undefined});
     });
+});
+describe('getOrder async action', () => {
+  it('fulfield', () => {
+    const order = {
+      _id: "679b6221133acd001be4d777",
+      ingredients: [
+        "643d69a5c3f7b9001cfa093d",
+        "643d69a5c3f7b9001cfa0945",
+        "643d69a5c3f7b9001cfa0941",
+        "643d69a5c3f7b9001cfa093d"
+      ],
+      owner: "675c4672750864001d371042",
+      status: "done",
+      name: "Флюоресцентный био-марсианский антарианский бургер",
+      createdAt: "2025-01-30T11:27:29.926Z",
+      updatedAt: "2025-01-30T11:27:30.602Z",
+      number: 67209,
+      __v: 0
+    };
+    const state = orderSlice.reducer(initialState, {type: getOrder.fulfilled.type, payload: order});
+    expect(state).toEqual({...initialState, detailOrder: order, loadingStatusDetail: 'idle', detailError: null});
+  });
+  it('pending', () => {
+    const state = orderSlice.reducer(initialState, {type: getOrder.pending.type});
+    expect(state).toEqual({...initialState, loadingStatusDetail: 'loading', detailError: null});
+  })
+  it('rejected', () => {
+    const state = orderSlice.reducer(initialState, {type: getOrder.rejected.type});
+    expect(state).toEqual({...initialState, loadingStatusDetail: 'failed', detailOrder: null, detailError: undefined});
+  });
+});
+
+describe('reset detail order', () => {
+  const order = {
+    _id: "679b6221133acd001be4d777",
+    ingredients: [
+      "643d69a5c3f7b9001cfa093d",
+      "643d69a5c3f7b9001cfa0945",
+      "643d69a5c3f7b9001cfa0941",
+      "643d69a5c3f7b9001cfa093d"
+    ],
+    owner: "675c4672750864001d371042",
+    status: "done",
+    name: "Флюоресцентный био-марсианский антарианский бургер",
+    createdAt: "2025-01-30T11:27:29.926Z",
+    updatedAt: "2025-01-30T11:27:30.602Z",
+    number: 67209,
+    __v: 0
+  };
+  initialState.loadingStatusDetail = 'idle';
+  initialState.detailOrder = order;
+  const state = orderSlice.reducer(initialState, {type: resetDetail.type});
+  expect(state).toEqual({...initialState, loadingStatusDetail: null, detailOrder: null});
 });
