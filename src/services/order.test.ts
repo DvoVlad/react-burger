@@ -10,7 +10,7 @@ describe('order reducer', () => {
 });
 
 describe('sendOrder async action', () => {
-  it('fulfield', () => {
+  it('fulfilled', () => {
       const createdOrder = {
         success:true,
         name:"Краторный spicy бургер",
@@ -85,7 +85,7 @@ describe('sendOrder async action', () => {
     });
 });
 describe('getOrder async action', () => {
-  it('fulfield', () => {
+  it('fulfilled', () => {
     const order = {
       _id: "679b6221133acd001be4d777",
       ingredients: [
