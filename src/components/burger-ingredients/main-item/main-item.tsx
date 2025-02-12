@@ -21,7 +21,7 @@ const MainItem: FC<MainItemProps> = ({ item, counter }) => {
   const location = useLocation();
 
   return (
-    <Link to={`/ingredients/${item._id}`} state={{ background: location }} className={`${styles.link}`} ref={dragMain}>
+    <Link data-test="main" to={`/ingredients/${item._id}`} state={{ background: location }} className={`${styles.link}`} ref={dragMain}>
       <article className={`${styles.item} ${isDragging ? styles.isDragging : ''}`}>
         <img src={item.image} alt={item.name} className='ml-4 mr-4' />
         <p className={styles.price + ' text text_type_digits-default mt-1 mb-1'}><span className='mr-2'>{item.price}</span> <CurrencyIcon type="primary"/></p>

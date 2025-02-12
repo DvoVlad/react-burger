@@ -30,8 +30,8 @@ const Modal: FC<PropsWithChildren<ModalProps>> = ({children, onClose, title}) =>
     createPortal(
       <>
         <ModalOverlay onClick={onClose}/>
-        <div className={styles.modal}>
-          <button className={styles.closeButton} onClick={onClose} type="button"><CloseIcon type="primary" /></button>
+        <div data-test="modal" className={styles.modal}>
+          <button data-test="modal-close-button" className={styles.closeButton} onClick={onClose} type="button"><CloseIcon type="primary" /></button>
           {title && <p className={styles.mainTitle + " text text_type_main-large mt-10 pl-10 pr-10"}>{title}</p>}
           {children}
         </div>

@@ -110,7 +110,7 @@ const BurgerConstructor: FC = () => {
       {isError && <p className={`${styles.errorMessage} text text_type_main-default mb-5 ml-10 p-5`}>Вы не выбрали бургер или начинку!</p>}
       {sendError && <p className={`${styles.errorMessage} text text_type_main-default mb-5 ml-10 p-5`}>Ваш заказ не отправился! Попробуйте ещё раз!</p>}
       {burger ? 
-      <div ref={dropBunTop}>
+      <div data-test="bun-constructor-added" ref={dropBunTop}>
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -120,11 +120,11 @@ const BurgerConstructor: FC = () => {
           extraClass={`ml-8 ${isOverTop ? styles.burgerDragFieldOver : ''}`}
         />
       </div> :
-      <div className={`${styles.burgerDragField} ml-8 constructor-element constructor-element_pos_top ${isOverTop ? styles.burgerDragFieldOver : ''}`} ref={dropBunTop}>
+      <div data-test="bun-constructor" className={`${styles.burgerDragField} ml-8 constructor-element constructor-element_pos_top ${isOverTop ? styles.burgerDragFieldOver : ''}`} ref={dropBunTop}>
         Перетащите бургер сюда
       </div>
       }
-      <ul className={`${styles.ingredientsList} ${isOverMain ? styles.burgerDragFieldOver : ''} ${ingredients.length === 0 ? styles.shortList : ''} mt-4 mb-4`} ref={dropMain}>
+      <ul data-test="main-constructor" className={`${styles.ingredientsList} ${isOverMain ? styles.burgerDragFieldOver : ''} ${ingredients.length === 0 ? styles.shortList : ''} mt-4 mb-4`} ref={dropMain}>
         {
           ingredients.length === 0 && <li key="empty">
             <div className={`${styles.burgerDragField} ml-8 constructor-element`}>
@@ -133,7 +133,7 @@ const BurgerConstructor: FC = () => {
           </li>
         }
         {ingredients.map((item: ingredientTypeConstructor, index: number) => (
-          <li key={item.uuid}>
+          <li data-test="main-constructor-item" key={item.uuid}>
             <ConstructorItem item={item} handleClose={() => deleteMainItem(item.uuid)} index={index}/>
           </li>
         ))}
