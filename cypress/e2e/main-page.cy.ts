@@ -1,5 +1,5 @@
 describe('template spec', () => {
-  it('passes', () => {
+  it('Test modal', () => {
     cy.viewport(1920, 1000);
     cy.visit('http://localhost:3000/');
     /* Тест модалки ингредиента */
@@ -8,11 +8,25 @@ describe('template spec', () => {
     cy.get('[data-test="modal-ingredient-name"]').contains('Краторная булка N-200i');
     cy.get('[data-test="modal-close-button"]').click();
     cy.get('[data-test="modal"]').should('not.exist');
+
+    cy.get('[data-test="bun"]').eq(1).click();
+    cy.get('[data-test="modal"]').should('exist');
+    cy.get('[data-test="modal-ingredient-name"]').contains('Флюоресцентная булка R2-D3');
+    cy.get('[data-test="modal-close-button"]').click();
+    cy.get('[data-test="modal"]').should('not.exist');
     /* Тест модалки ингредиента конец */
+  });
+  it('Drag and drop and delete', () => {
+    cy.viewport(1920, 1000);
+    cy.visit('http://localhost:3000/');
     /* Тест проверка перетаскивания булки */ 
     cy.get('[data-test="bun"]').eq(0).trigger('dragstart');
     cy.get('[data-test="bun-constructor"]').trigger('drop');
     cy.get('[data-test="bun-constructor-added"]').contains('Краторная булка N-200i');
+    
+    cy.get('[data-test="bun"]').eq(1).trigger('dragstart');
+    cy.get('[data-test="bun-constructor-added"]').trigger('drop');
+    cy.get('[data-test="bun-constructor-added"]').contains('Флюоресцентная булка R2-D3');
     /* Тест проверка перетаскивания конец */
     /* Тест проверка перетаскивания ингредиенты */
     cy.get('[data-test="sauce"]').eq(0).trigger('dragstart');
@@ -29,6 +43,12 @@ describe('template spec', () => {
     cy.get('[data-test="main"]').eq(0).trigger('dragstart');
     cy.get('[data-test="main-constructor"]').trigger('drop');
     cy.get('[data-test="main-constructor-item"]').eq(3).should('exist').contains('Биокотлета из марсианской Магнолии');
+    cy.get('[data-test="main-constructor-item"]').eq(3).find('.constructor-element__action').click();
+    cy.get('[data-test="main-constructor-item"]').eq(3).should('not.exist');
+    cy.get('[data-test="main-constructor-item"]').eq(2).find('.constructor-element__action').click();
+    cy.get('[data-test="main-constructor-item"]').eq(2).should('not.exist');
+    cy.get('[data-test="main-constructor-item"]').eq(0).should('exist');
+    cy.get('[data-test="main-constructor-item"]').eq(1).should('exist');
     /* Тест проверка перетаскивания начинки конец */
   })
 })
