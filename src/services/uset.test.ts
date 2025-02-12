@@ -62,8 +62,9 @@ describe('registerUser async action', () => {
     expect(state).toEqual({...initialState, loadingStatus: 'loading'});
   });
   it('rejected', () => {
-    const state = userSlice.reducer(initialState, {type: registerUser.rejected.type});
-    expect(state).toEqual({...initialState, errorRegister: undefined, userData: null, loadingStatus: 'idle'});
+    const testErrpr = new Error('testError');
+    const state = userSlice.reducer(initialState, {type: registerUser.rejected.type, error: testErrpr});
+    expect(state).toEqual({...initialState, errorRegister: testErrpr, userData: null, loadingStatus: 'idle'});
   })
 });
 describe('authUser async action', () => {
@@ -90,8 +91,9 @@ describe('authUser async action', () => {
     expect(state).toEqual({...initialState, loadingStatus: 'loading'});
   });
   it('rejected', () => {
-    const state = userSlice.reducer(initialState, {type: authUser.rejected.type});
-    expect(state).toEqual({...initialState, errorAuth: undefined, userData: null, loadingStatus: 'idle'});
+    const testErrpr = new Error('testError');
+    const state = userSlice.reducer(initialState, {type: authUser.rejected.type, error: testErrpr});
+    expect(state).toEqual({...initialState, errorAuth: testErrpr, userData: null, loadingStatus: 'idle'});
   })
 })
 
@@ -115,8 +117,9 @@ describe('getUserData async action', () => {
     expect(state).toEqual({...initialState, loadingStatus: 'loading', getDataError: null});
   });
   it('rejected', () => {
-    const state = userSlice.reducer(initialState, {type: getUserData.rejected.type});
-    expect(state).toEqual({...initialState, loadingStatus: 'failed', getDataError: undefined, userData: null});
+    const testErrpr = new Error('testError');
+    const state = userSlice.reducer(initialState, {type: getUserData.rejected.type, error: testErrpr});
+    expect(state).toEqual({...initialState, loadingStatus: 'failed', getDataError: testErrpr, userData: null});
   })
 })
 
@@ -192,7 +195,8 @@ describe('logout async action', () => {
     expect(localStorage.getItem('refreshToken')).toBe(null);
   })
   it('rejected', () => {
-    const state = userSlice.reducer(initialState, {type: logout.rejected.type});
-    expect(state).toEqual({...initialState, logoutError: undefined});
+    const testErrpr = new Error('testError');
+    const state = userSlice.reducer(initialState, {type: logout.rejected.type, error: testErrpr});
+    expect(state).toEqual({...initialState, logoutError: testErrpr});
   })
 });

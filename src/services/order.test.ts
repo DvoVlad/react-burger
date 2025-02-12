@@ -80,8 +80,9 @@ describe('sendOrder async action', () => {
       expect(state).toEqual({...initialState, loadingStatus: 'loading', error: null});
     });
     it('rejected', () => {
-      const state = orderSlice.reducer(initialState, {type: sendOrder.rejected.type});
-      expect(state).toEqual({...initialState, loadingStatus: 'failed', data: null, error: undefined});
+      const testErrpr = new Error('testError');
+      const state = orderSlice.reducer(initialState, {type: sendOrder.rejected.type, error: testErrpr});
+      expect(state).toEqual({...initialState, loadingStatus: 'failed', data: null, error: testErrpr});
     });
 });
 describe('getOrder async action', () => {
@@ -110,8 +111,9 @@ describe('getOrder async action', () => {
     expect(state).toEqual({...initialState, loadingStatusDetail: 'loading', detailError: null});
   })
   it('rejected', () => {
-    const state = orderSlice.reducer(initialState, {type: getOrder.rejected.type});
-    expect(state).toEqual({...initialState, loadingStatusDetail: 'failed', detailOrder: null, detailError: undefined});
+    const testErrpr = new Error('testError');
+    const state = orderSlice.reducer(initialState, {type: getOrder.rejected.type, error: testErrpr});
+    expect(state).toEqual({...initialState, loadingStatusDetail: 'failed', detailOrder: null, detailError: testErrpr});
   });
 });
 

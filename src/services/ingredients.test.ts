@@ -38,7 +38,8 @@ describe('ingredients async actions', () => {
     expect(state).toEqual({...initialState, loadingStatus: 'loading'});
   });
   it('rejected', () => {
-    const state = ingredientsSlice.reducer(initialState, {type: fetchIngredients.rejected.type});
-    expect(state).toEqual({...initialState, loadingStatus: 'failed', items: [], error: undefined});
+    const testErrpr = new Error('testError');
+    const state = ingredientsSlice.reducer(initialState, {type: fetchIngredients.rejected.type, error: testErrpr});
+    expect(state).toEqual({...initialState, loadingStatus: 'failed', items: [], error: testErrpr});
   });
 });
