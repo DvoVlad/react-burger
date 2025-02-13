@@ -1,7 +1,12 @@
 describe('template spec', () => {
-  it('Test modal', () => {
+  beforeEach(() => {
+    window.localStorage.setItem('accessToken', 'testtoken');
+    cy.intercept('GET', 'https://norma.nomoreparties.space/api/auth/user', { fixture: 'user.json' })
+    cy.intercept('GET', 'https://norma.nomoreparties.space/api/ingredients', { fixture: 'ingredients.json' })
     cy.viewport(1920, 1000);
     cy.visit('http://localhost:3000/');
+  })
+  it('Test modal', () => {
     /* Тест модалки ингредиента */
     cy.get('[data-test="bun"]').eq(0).click();
     cy.get('[data-test="modal"]').should('exist');
@@ -17,8 +22,6 @@ describe('template spec', () => {
     /* Тест модалки ингредиента конец */
   });
   it('Drag and drop and delete', () => {
-    cy.viewport(1920, 1000);
-    cy.visit('http://localhost:3000/');
     /* Тест проверка перетаскивания булки */ 
     cy.get('[data-test="bun"]').eq(0).trigger('dragstart');
     cy.get('[data-test="bun-constructor"]').trigger('drop');
@@ -50,5 +53,27 @@ describe('template spec', () => {
     cy.get('[data-test="main-constructor-item"]').eq(0).should('exist');
     cy.get('[data-test="main-constructor-item"]').eq(1).should('exist');
     /* Тест проверка перетаскивания начинки конец */
+  });
+  it('Test order', () => {
+    cy.get('[data-test="bun"]').eq(0).trigger('dragstart');
+    cy.get('[data-test="bun-constructor"]').trigger('drop');
+
+    cy.get('[data-test="sauce"]').eq(0).trigger('dragstart');
+    cy.get('[data-test="main-constructor"]').trigger('drop');
+    cy.get('[data-test="sauce"]').eq(0).trigger('dragstart');
+    cy.get('[data-test="main-constructor"]').trigger('drop');
+    cy.get('[data-test="sauce"]').eq(0).trigger('dragstart');
+    cy.get('[data-test="main-constructor"]').trigger('drop');
+
+    cy.intercept('POST', 'https://norma.nomoreparties.space/api/orders', { fixture: 'order.json' })
+    cy.get('[data-test="submit"]').click();
+    cy.get('[data-test="modal"]').should('exist');
+    cy.get('[data-test="order-number"]').contains("68333");
+    cy.get('[data-test="modal-close-button"]').click();
+    cy.get('[data-test="modal"]').should('not.exist');
+  })
+  after(() => {
+    window.localStorage.removeItem('accessToken');
+    window.localStorage.removeItem('refreshToken');
   })
 })

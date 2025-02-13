@@ -11,7 +11,7 @@ const OrderDetails: FC = () => {
       {loadingStatus === 'loading' && <p className="text_type_main-medium m-5">Загрузка...</p>}
       {orderData && loadingStatus === 'idle' &&
         <>
-          <p className={styles.orderNumber + " mt-30 text text_type_digits-large"}>{orderData.order.number}</p>
+          <p data-test="order-number" className={styles.orderNumber + " mt-30 text text_type_digits-large"}>{orderData.order.number}</p>
           <p className={styles.orderText + " mb-15 text text_type_main-medium"}>идентификатор заказа</p>
           <div className={styles.imageWrapper + " mb-15"}>
             <img width="107" height="102" src={markImage} alt="Заказ оформлен" />
