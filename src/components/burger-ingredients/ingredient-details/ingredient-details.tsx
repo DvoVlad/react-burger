@@ -22,19 +22,19 @@ const IngredientDetails: FC = () => {
           <ul className={styles.ingredientInfo + " mb-15"}>
             <li className={styles.ingredientItem}>
               <p className="text text_type_main-default text_color_inactive mb-2">Калории,ккал</p>
-              <p className="text text_type_digits-default text_color_inactive">{item.calories}</p>
+              <p data-test="modal-calories" className="text text_type_digits-default text_color_inactive">{item.calories}</p>
             </li>
             <li className={styles.ingredientItem}>
               <p className="text text_type_main-default text_color_inactive mb-2">Белки, г</p>
-              <p className="text text_type_digits-default text_color_inactive">{item.proteins}</p>
+              <p data-test="modal-proteins" className="text text_type_digits-default text_color_inactive">{item.proteins}</p>
             </li>
             <li className={styles.ingredientItem}>
               <p className="text text_type_main-default text_color_inactive mb-2">Жиры, г</p>
-              <p className="text text_type_digits-default text_color_inactive">{item.fat}</p>
+              <p data-test="modal-fat" className="text text_type_digits-default text_color_inactive">{item.fat}</p>
             </li>
             <li className={styles.ingredientItem}>
               <p className="text text_type_main-default text_color_inactive mb-2">Углеводы, г</p>
-              <p className="text text_type_digits-default text_color_inactive">{item.carbohydrates}</p>
+              <p data-test="modal-carbohydrates" className="text text_type_digits-default text_color_inactive">{item.carbohydrates}</p>
             </li>
           </ul>
         </>

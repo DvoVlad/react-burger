@@ -11,12 +11,20 @@ describe('template spec', () => {
     cy.get('[data-test="bun"]').eq(0).click();
     cy.get('[data-test="modal"]').should('exist');
     cy.get('[data-test="modal-ingredient-name"]').contains('Краторная булка N-200i');
+    cy.get('[data-test="modal-calories"]').contains("420");
+    cy.get('[data-test="modal-proteins"]').contains("80");
+    cy.get('[data-test="modal-fat"]').contains("24");
+    cy.get('[data-test="modal-carbohydrates"]').contains("53");
     cy.get('[data-test="modal-close-button"]').click();
     cy.get('[data-test="modal"]').should('not.exist');
 
     cy.get('[data-test="bun"]').eq(1).click();
     cy.get('[data-test="modal"]').should('exist');
     cy.get('[data-test="modal-ingredient-name"]').contains('Флюоресцентная булка R2-D3');
+    cy.get('[data-test="modal-calories"]').contains("643");
+    cy.get('[data-test="modal-proteins"]').contains("44");
+    cy.get('[data-test="modal-fat"]').contains("26");
+    cy.get('[data-test="modal-carbohydrates"]').contains("85");
     cy.get('[data-test="modal-close-button"]').click();
     cy.get('[data-test="modal"]').should('not.exist');
     /* Тест модалки ингредиента конец */
