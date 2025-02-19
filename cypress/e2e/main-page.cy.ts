@@ -1,4 +1,3 @@
-import { mainModule } from "process";
 import { TEST_URL } from "../const-urls/urls";
 
 const testObjects = {
