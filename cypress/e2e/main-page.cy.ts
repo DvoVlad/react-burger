@@ -27,6 +27,7 @@ describe('template spec', () => {
     cy.get(testObjects.bun).as('bun');
     cy.get(testObjects.sauce).as('sauce');
     cy.get(testObjects.main).as('main');
+    cy.get(testObjects.mainConstructor).as("main-constructor");
   })
   it('Test modal', () => {
     /* Тест модалки ингредиента */
@@ -65,7 +66,6 @@ describe('template spec', () => {
     cy.get('@bun-constructor-added').contains('Флюоресцентная булка R2-D3');
     /* Тест проверка перетаскивания конец */
     /* Тест проверка перетаскивания ингредиенты */
-    cy.get(testObjects.mainConstructor).as("main-constructor");
     cy.get('@sauce').eq(0).trigger('dragstart');
     cy.get('@main-constructor').trigger('drop');
     cy.get('@sauce').eq(0).trigger('dragstart');
@@ -93,7 +93,6 @@ describe('template spec', () => {
     cy.get('@bun').eq(0).trigger('dragstart');
     cy.get(testObjects.bunConstructor).trigger('drop');
 
-    cy.get(testObjects.mainConstructor).as("main-constructor");
     cy.get('@sauce').eq(0).trigger('dragstart');
     cy.get('@main-constructor').trigger('drop');
     cy.get('@sauce').eq(0).trigger('dragstart');
