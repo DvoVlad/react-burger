@@ -50,7 +50,7 @@ describe('template spec', () => {
     cy.get('[data-test="main-constructor-item"]').eq(1).should('exist').contains('Соус Spicy-X');
     cy.get('[data-test="main-constructor-item"]').eq(2).should('exist').contains('Соус Spicy-X');
     /* Тест проверка перетаскивания ингредиенты конец*/
-    /* Тест проверка перетаскивания начинки */
+    /* Тест проверка перетаскивания начинки и проверка удаления*/
     cy.get('[data-test="main"]').eq(0).trigger('dragstart');
     cy.get('[data-test="main-constructor"]').trigger('drop');
     cy.get('[data-test="main-constructor-item"]').eq(3).should('exist').contains('Биокотлета из марсианской Магнолии');
