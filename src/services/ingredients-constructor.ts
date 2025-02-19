@@ -13,12 +13,12 @@ interface IMoveAction {
   hoverIndex: number;
 }
 
-const initialState: initialStateStore = {
+export const initialState: initialStateStore = {
   bun: null,
   items: []
 };
 
-const ingredientsConstructorSlice = createSlice({
+export const ingredientsConstructorSlice = createSlice({
   name: 'ingredientsConstructor',
   initialState,
   reducers: {

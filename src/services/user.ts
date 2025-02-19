@@ -14,11 +14,11 @@ interface initialStateStore {
   errorRegister: SerializedError | null;
   errorAuth: SerializedError | null;
   getDataError: SerializedError | null;
-  loadingStatus: 'loading' | 'idle' | 'failed' | 'failed update' | null;
+  loadingStatus: 'loading' | 'idle' | 'failed' | null;
   logoutError: SerializedError | null;
 }
 
-const initialState: initialStateStore = {
+export const initialState: initialStateStore = {
   userData: null,
   errorRegister: null,
   errorAuth: null,
@@ -154,7 +154,7 @@ export const logout = createAsyncThunk(
   }
 )
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -173,6 +173,7 @@ const userSlice = createSlice({
       // Вызывается прямо перед выполнением запроса
       .addCase(registerUser.pending, (state) => {
         state.errorRegister = null;
+        state.loadingStatus = 'loading';
       })
       // Вызывается, если запрос успешно выполнился
       .addCase(registerUser.fulfilled, (state, action: PayloadAction<ILoginOrRegisterResponse>) => {
@@ -180,6 +181,7 @@ const userSlice = createSlice({
         state.errorRegister = null;
         localStorage.setItem('accessToken', action.payload.accessToken.split('Bearer ')[1]);
         localStorage.setItem('refreshToken', action.payload.refreshToken);
+        state.loadingStatus = 'idle';
       })
       // Вызывается в случае ошибки
       .addCase(registerUser.rejected, (state, action) => {
@@ -190,6 +192,7 @@ const userSlice = createSlice({
       // Вызывается прямо перед выполнением запроса
       .addCase(authUser.pending, (state) => {
         state.errorAuth = null;
+        state.loadingStatus = 'loading';
       })
       // Вызывается, если запрос успешно выполнился
       .addCase(authUser.fulfilled, (state, action: PayloadAction<ILoginOrRegisterResponse>) => {
@@ -203,6 +206,7 @@ const userSlice = createSlice({
       .addCase(authUser.rejected, (state, action) => {
         state.errorAuth = action.error;
         state.userData = null;
+        state.loadingStatus = 'idle';
       })
       // Вызывается прямо перед выполнением запроса
       .addCase(getUserData.pending, (state) => {
@@ -233,7 +237,6 @@ const userSlice = createSlice({
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         state.userData = null;
-        console.log("FAILED UPDATE TOKEN");
       })
       //UPDATE USER DATA
       .addCase(updateUserData.fulfilled, (state, action: PayloadAction<IGetOrUpdateResponse>) => {
@@ -241,7 +244,6 @@ const userSlice = createSlice({
       })
       // Вызывается в случае ошибки
       .addCase(updateUserData.rejected, (state, action) => {
-        console.log("FAILED UPDATE USER");
       })
       //logout
       .addCase(logout.fulfilled, (state, action: PayloadAction<ILogoutResponse>) => {
@@ -253,7 +255,6 @@ const userSlice = createSlice({
       .addCase(logout.rejected, (state, action) => {
         state.logoutError = action.error;
       });
-
   }
 });
 

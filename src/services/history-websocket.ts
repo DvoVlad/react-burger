@@ -8,13 +8,13 @@ interface initialStateProps {
   error: Event | null;
 }
 
-const initialState: initialStateProps = {
+export const initialState: initialStateProps = {
   status: null,
   orders: [],
   error: null
 }
 
-const historyWebsocketSlice = createSlice({
+export const historyWebsocketSlice = createSlice({
   name: 'history-websocket',
   initialState,
   reducers: {
