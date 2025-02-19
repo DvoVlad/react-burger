@@ -34,28 +34,21 @@ describe('template spec', () => {
     cy.get(testObjects.modal).as('modal');
     cy.get(testObjects.modalClose).as('modal-close-button');
     cy.get('@modal').should('exist');
-
-    cy.get(testObjects.modalIngredientName).as('modal-ingredient-name');
-    cy.get(testObjects.modalCalories).as('modal-calories');
-    cy.get(testObjects.modalProteins).as('modal-proteins');
-    cy.get(testObjects.modalFat).as('modal-fat');
-    cy.get(testObjects.modalCarbohydrates).as('modal-carbohydrates');
-
-    cy.get('@modal-ingredient-name').contains('Краторная булка N-200i');
-    cy.get('@modal-calories').contains("420");
-    cy.get('@modal-proteins').contains("80");
-    cy.get('@modal-fat').contains("24");
-    cy.get('@modal-carbohydrates').contains("53");
+    cy.get(testObjects.modalIngredientName).contains('Краторная булка N-200i');
+    cy.get(testObjects.modalCalories).contains("420");
+    cy.get(testObjects.modalProteins).contains("80");
+    cy.get(testObjects.modalFat).contains("24");
+    cy.get(testObjects.modalCarbohydrates).contains("53");
     cy.get('@modal-close-button').click();
     cy.get('@modal').should('not.exist');
 
     cy.get('@bun').eq(1).click();
     cy.get('@modal').should('exist');
-    cy.get('@modal-ingredient-name').contains('Флюоресцентная булка R2-D3');
-    cy.get('@modal-calories').contains("643");
-    cy.get('@modal-proteins').contains("44");
-    cy.get('@modal-fat').contains("26");
-    cy.get('@modal-carbohydrates').contains("85");
+    cy.get(testObjects.modalIngredientName).contains('Флюоресцентная булка R2-D3');
+    cy.get(testObjects.modalCalories).contains("643");
+    cy.get(testObjects.modalProteins).contains("44");
+    cy.get(testObjects.modalFat).contains("26");
+    cy.get(testObjects.modalCarbohydrates).contains("85");
     cy.get('@modal-close-button').click();
     cy.get('@modal').should('not.exist');
     /* Тест модалки ингредиента конец */
