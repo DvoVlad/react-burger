@@ -144,10 +144,11 @@ describe('reset detail order', () => {
     number: 67209,
     __v: 0
   };
-  initialState.loadingStatusDetail = 'idle';
-  initialState.detailOrder = order;
+  const copyInitialState = {...initialState};
+  copyInitialState.loadingStatusDetail = 'idle';
+  copyInitialState.detailOrder = order;
 
-  const state = orderSlice.reducer(initialState, {type: resetDetail.type});
+  const state = orderSlice.reducer(copyInitialState, {type: resetDetail.type});
   
-  expect(state).toEqual({...initialState, loadingStatusDetail: null, detailOrder: null});
+  expect(state).toEqual({...copyInitialState, loadingStatusDetail: null, detailOrder: null});
 });
