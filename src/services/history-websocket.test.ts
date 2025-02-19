@@ -11,18 +11,23 @@ describe('history websocket reducer', () => {
 describe('history websocket actions', () => {
   it('connect', () => {
     const state = historyWebsocketSlice.reducer(initialState, {type: connect.type});
+
     expect(state).toEqual({...initialState, status: 'connecting'});
   });
   it('disconnect', () => {
     const state = historyWebsocketSlice.reducer(initialState, {type: disconnect.type});
+
     expect(state).toEqual({...initialState, status: 'disconnecting'});
   });
   it('connected', () => {
     const state = historyWebsocketSlice.reducer(initialState, {type: connected.type});
+
     expect(state).toEqual({...initialState, status: 'connected'});
   });
   it('disconnected', () => {
     const state = historyWebsocketSlice.reducer(initialState, {type: disconnected.type});
+
+
     expect(state).toEqual({...initialState, status: 'disconnected'});
   });
   it('messageReceived', () => {
@@ -46,7 +51,9 @@ describe('history websocket actions', () => {
       total:67790,
       totalToday:50
     }
+
     const state = historyWebsocketSlice.reducer(initialState, {type: messageReceived.type, payload: testMessageResponse});
+
     expect(state).toEqual({...initialState, orders: [
       {
         _id: "67ab4c2a133acd001be50376",
@@ -65,7 +72,9 @@ describe('history websocket actions', () => {
   })
   it('error', () => {
     const testError = new Event('error');
+    
     const state = historyWebsocketSlice.reducer(initialState, {type: error.type, payload: testError});
+
     expect(state).toEqual({...initialState, error: testError});
   });
 });

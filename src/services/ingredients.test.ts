@@ -5,6 +5,7 @@ import { fetchIngredients } from "./ingredients";
 describe('ingredients reducer', () => {
   it('initializes correctly', () => {
     const state = ingredientsSlice.reducer(undefined, {type: ""});
+
     expect(state).toEqual(initialState);
   });
 });
@@ -30,16 +31,21 @@ describe('ingredients async actions', () => {
         addedItem
       ]
     }
+
     const state = ingredientsSlice.reducer(initialState, {type: fetchIngredients.fulfilled.type, payload: testData});
+
     expect(state).toEqual({...initialState, items:[addedItem], loadingStatus: 'idle'});
   });
   it('pending', () => {
     const state = ingredientsSlice.reducer(initialState, {type: fetchIngredients.pending.type});
+
     expect(state).toEqual({...initialState, loadingStatus: 'loading'});
   });
   it('rejected', () => {
     const testErrpr = new Error('testError');
+
     const state = ingredientsSlice.reducer(initialState, {type: fetchIngredients.rejected.type, error: testErrpr});
+    
     expect(state).toEqual({...initialState, loadingStatus: 'failed', items: [], error: testErrpr});
   });
 });

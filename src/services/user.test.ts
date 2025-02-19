@@ -5,6 +5,7 @@ import { setUserData, clearUserData, setStatusIdle, registerUser, authUser, getU
 describe('user reducer', () => {
   it('initializes correctly', () => {
     const state = userSlice.reducer(undefined, {type: ""});
+    
     expect(state).toEqual(initialState);
   });
 });
@@ -15,7 +16,9 @@ describe('user actions', () => {
       name: 'testname',
       email: 'test@mail.ru'
     }
+
     const state = userSlice.reducer(initialState, {type: setUserData.type, payload: userObj});
+
     expect(state).toEqual({...initialState, userData: userObj});
   });
   it('clearUserData', () => {
@@ -30,11 +33,14 @@ describe('user actions', () => {
       loadingStatus: null,
       logoutError: null
     }
+
     const state = userSlice.reducer(initialState, {type: clearUserData.type});
+
     expect(state).toEqual({...initialState, userData: null});
   });
   it('setStatusIdle', () => {
     const state = userSlice.reducer(initialState, {type: setStatusIdle.type});
+
     expect(state).toEqual({...initialState, loadingStatus: 'idle'});
   })
 });
@@ -49,7 +55,9 @@ describe('registerUser async action', () => {
       accessToken: "Bearer fsjfhhrgtrhypjituabsaxzc",
       refreshToken: "asdasfdgsdgfsdfsdfsdfsfsdfsfsf"
     };
+
     const state = userSlice.reducer(initialState, {type: registerUser.fulfilled.type, payload: registeredUserResponse});
+
     expect(state).toEqual({...initialState, userData: {
       email: "test@mail.ru",
       name: "test"
@@ -59,11 +67,14 @@ describe('registerUser async action', () => {
   });
   it('pending', () => {
     const state = userSlice.reducer(initialState, {type: registerUser.pending.type});
+
     expect(state).toEqual({...initialState, loadingStatus: 'loading'});
   });
   it('rejected', () => {
     const testErrpr = new Error('testError');
+
     const state = userSlice.reducer(initialState, {type: registerUser.rejected.type, error: testErrpr});
+
     expect(state).toEqual({...initialState, errorRegister: testErrpr, userData: null, loadingStatus: 'idle'});
   })
 });
@@ -78,7 +89,9 @@ describe('authUser async action', () => {
       accessToken: "Bearer fsjfhhrgtrhypjituabsaxzc",
       refreshToken: "asdasfdgsdgfsdfsdfsdfsfsdfsfsf"
     };
+
     const state = userSlice.reducer(initialState, {type: authUser.fulfilled.type, payload: authUserResponse});
+
     expect(state).toEqual({...initialState, userData: {
       email: "test@mail.ru",
       name: "test"
@@ -88,11 +101,14 @@ describe('authUser async action', () => {
   });
   it('pending', () => {
     const state = userSlice.reducer(initialState, {type: authUser.pending.type});
+
     expect(state).toEqual({...initialState, loadingStatus: 'loading'});
   });
   it('rejected', () => {
     const testErrpr = new Error('testError');
+
     const state = userSlice.reducer(initialState, {type: authUser.rejected.type, error: testErrpr});
+
     expect(state).toEqual({...initialState, errorAuth: testErrpr, userData: null, loadingStatus: 'idle'});
   })
 })
@@ -106,7 +122,9 @@ describe('getUserData async action', () => {
         name: "test"
       }
     }
+
     const state = userSlice.reducer(initialState, {type: getUserData.fulfilled.type, payload: userResponse});
+
     expect(state).toEqual({...initialState, userData: {
       email: "test@mail.ru",
       name: "test"
@@ -114,11 +132,14 @@ describe('getUserData async action', () => {
   });
   it('pending', () => {
     const state = userSlice.reducer(initialState, {type: getUserData.pending.type});
+
     expect(state).toEqual({...initialState, loadingStatus: 'loading', getDataError: null});
   });
   it('rejected', () => {
     const testErrpr = new Error('testError');
+
     const state = userSlice.reducer(initialState, {type: getUserData.rejected.type, error: testErrpr});
+
     expect(state).toEqual({...initialState, loadingStatus: 'failed', getDataError: testErrpr, userData: null});
   })
 })
@@ -130,14 +151,18 @@ describe('updateToken async action', () => {
       accessToken: "Bearer fsjfhhrgtrhypjituabsaxzcnew",
       refreshToken: "asdasfdgsdgfsdfsdfsdfsfsdfsfsfnew"
     }
+
     userSlice.reducer(initialState, {type: updateToken.fulfilled.type, payload: tokenResponse});
+
     expect(localStorage.getItem('accessToken')).toBe('fsjfhhrgtrhypjituabsaxzcnew');
     expect(localStorage.getItem('refreshToken')).toBe('asdasfdgsdgfsdfsdfsdfsfsdfsfsfnew'); 
   });
   it('rejected', () => {
     localStorage.setItem('accessToken', 'fsjfhhrgtrhypjituabsaxzc');
     localStorage.setItem('refreshToken', 'asdasfdgsdgfsdfsdfsdfsfsdfsfsfnew');
+
     const state = userSlice.reducer(initialState, {type: updateToken.rejected.type});
+
     expect(state).toEqual({...initialState, loadingStatus: 'idle', userData: null});
     expect(localStorage.getItem('accessToken')).toBe(null);
     expect(localStorage.getItem('refreshToken')).toBe(null);
@@ -163,7 +188,9 @@ describe('updateUserData async action', () => {
       loadingStatus: null,
       logoutError: null
     }
+
     const state = userSlice.reducer(initialState, {type: updateUserData.fulfilled.type, payload: updateResponse});
+
     expect(state).toEqual({...initialState, userData: {
       email: "new@mail.ru",
       name: "new name"
@@ -171,6 +198,7 @@ describe('updateUserData async action', () => {
   });
   it('rejected', () => {
     const state = userSlice.reducer(initialState, {type: updateUserData.rejected.type});
+
     expect(state).toEqual(initialState);
   });
 });
@@ -189,14 +217,18 @@ describe('logout async action', () => {
     }
     localStorage.setItem('accessToken', 'fsjfhhrgtrhypjituabsaxzc');
     localStorage.setItem('refreshToken', 'asdasfdgsdgfsdfsdfsdfsfsdfsfsfnew');
+
     const state = userSlice.reducer(initialState, {type: logout.fulfilled.type});
+
     expect(state).toEqual({...initialState, userData: null});
     expect(localStorage.getItem('accessToken')).toBe(null);
     expect(localStorage.getItem('refreshToken')).toBe(null);
   })
   it('rejected', () => {
     const testErrpr = new Error('testError');
+
     const state = userSlice.reducer(initialState, {type: logout.rejected.type, error: testErrpr});
+
     expect(state).toEqual({...initialState, logoutError: testErrpr});
   })
 });

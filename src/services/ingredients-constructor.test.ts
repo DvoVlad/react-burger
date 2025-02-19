@@ -5,6 +5,7 @@ import { addBun, addMain, deleteMain, moveIngredient, resetIgredients } from "./
 describe('ingredients constructor reducer', () => {
   it('initializes correctly', () => {
     const state = ingredientsConstructorSlice.reducer(undefined, {type: ""});
+
     expect(state).toEqual(initialState);
   });
 });
@@ -25,7 +26,9 @@ describe('ingredients constructor actions', () => {
       image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
       __v: 0
     }
+
     const state = ingredientsConstructorSlice.reducer(initialState, {type: addBun.type, payload: addedItem});
+
     expect(state).toEqual({...initialState, bun: addedItem});
   });
   it('addMain', () => {
@@ -43,7 +46,9 @@ describe('ingredients constructor actions', () => {
       image_large: "https://code.s3.yandex.net/react/code/sauce-04-large.png",
       __v: 0
     }
+
     const state = ingredientsConstructorSlice.reducer(initialState, {type: addMain.type, payload: addedMain});
+
     expect(state).toEqual({...initialState, items: [addedMain]});
   });
   it('deleteMain', () => {
@@ -81,7 +86,9 @@ describe('ingredients constructor actions', () => {
       bun: null,
       items: [addedMain1, addedMain2]
     };
+
     const state = ingredientsConstructorSlice.reducer(initialState, {type: deleteMain.type, payload: addedMain2.uuid});
+
     expect(state).toEqual({...initialState, items: [addedMain1]});
   });
   it('moveIngredient', () => {
@@ -123,7 +130,9 @@ describe('ingredients constructor actions', () => {
       dragIndex: 0,
       hoverIndex: 1
     }
+
     const state = ingredientsConstructorSlice.reducer(initialState, {type: moveIngredient.type, payload: moveObj});
+
     expect(state).toEqual({...initialState, items: [addedMain2, addedMain1]});
   });
   it('resetIgredients', () => {
@@ -175,7 +184,9 @@ describe('ingredients constructor actions', () => {
       bun: addedBun,
       items: [addedMain1, addedMain2]
     };
+
     const state = ingredientsConstructorSlice.reducer(initialState, {type: resetIgredients.type});
+    
     expect(state).toEqual({...initialState, items: [], bun: null});
   });
 });
